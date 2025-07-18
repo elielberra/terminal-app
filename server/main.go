@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io"
 	"log"
 	"net/http"
 	"os/exec"
@@ -9,6 +8,7 @@ import (
 	"fmt"
 
 	"github.com/gorilla/websocket"
+	"github.com/creack/pty"
 )
 
 var upgrader = websocket.Upgrader{
@@ -40,27 +40,33 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 
 	cmd := exec.Command("/bin/bash")
-	stdin, _ := cmd.StdinPipe()
-	stdout, _ := cmd.StdoutPipe()
-	stderr, _ := cmd.StderrPipe()
-
-	if err := cmd.Start(); err != nil {
-		log.Println("Error starting shell:", err)
+	ptmx, err := pty.Start(cmd)
+	if err != nil {
+		log.Println("Error starting PTY:", err)
 		return
 	}
+	defer func() {
+		_ = ptmx.Close()
+		_ = cmd.Process.Kill()
+	}()
 
-	stdin.Write([]byte("echo Welcome\n"))
-	stdin.Write([]byte("pwd\n"))
-
-	go io.Copy(websocketWriter{conn}, stdout)
-	go io.Copy(websocketWriter{conn}, stderr)
+	go func() {
+		buf := make([]byte, 1024)
+		for {
+			n, err := ptmx.Read(buf)
+			if err != nil {
+				break
+			}
+			conn.WriteMessage(websocket.TextMessage, buf[:n])
+		}
+	}()
 
 	for {
 		_, msg, err := conn.ReadMessage()
 		if err != nil {
 			break
 		}
-		stdin.Write(msg)
+		ptmx.Write(msg)
 	}
 }
 
