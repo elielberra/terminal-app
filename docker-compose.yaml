@@ -1,5 +1,12 @@
 services:
   server:
-    build: ./server
+    container_name: server
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./server:/app
+    env_file:
+      - ./server/.env
     ports:
       - "8080:8080"
