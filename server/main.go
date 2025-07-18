@@ -27,10 +27,6 @@ var upgrader = websocket.Upgrader{
 		return origin == expectedOrigin },
 }
 
-type websocketWriter struct {
-	conn *websocket.Conn
-}
-
 func wsHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -68,11 +64,6 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		ptmx.Write(msg)
 	}
-}
-
-func (w websocketWriter) Write(p []byte) (int, error) {
-	err := w.conn.WriteMessage(websocket.TextMessage, p)
-	return len(p), err
 }
 
 func main() {
