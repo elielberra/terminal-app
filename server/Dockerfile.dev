@@ -1,13 +1,31 @@
 FROM golang:1.23-bookworm
 
-RUN go install github.com/air-verse/air@v1.61.7
+# Install sudo and bash
+RUN apt-get update && \
+    apt-get install -y sudo
+
+# Create web-user and www-data
+RUN useradd -m web-user
+
+# Fix missing home dir for www-data
+RUN mkdir -p /var/www && chown www-data:www-data /var/www
+
+# Allow www-data to run sudo without a password for /bin/bash
+RUN echo "www-data ALL=(web-user) NOPASSWD: /bin/bash" >> /etc/sudoers
+
+# Switch to www-data and set up working dir
+USER www-data
+
+RUN mkdir -p /tmp/air-tmp && chown www-data:www-data /tmp/air-tmp
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+# Install Air tool for hot reloading
+RUN go install github.com/air-verse/air@v1.61.7
 
+# Copy project files and prepare Go modules
+COPY --chown=www-data:www-data go.mod go.sum ./
 RUN go mod download
 
-COPY . .
-
+# Run the server using Air
 CMD ["air"]

@@ -35,7 +35,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer conn.Close()
 
-	cmd := exec.Command("/bin/bash")
+	cmd := exec.Command("sudo", "-u", "web-user", "/bin/bash")
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
