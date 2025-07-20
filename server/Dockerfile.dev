@@ -11,12 +11,11 @@ RUN useradd -m web-user
 RUN mkdir -p /var/www && chown www-data:www-data /var/www
 
 # Allow www-data to run sudo without a password for /bin/bash
-RUN echo "www-data ALL=(web-user) NOPASSWD: /bin/bash" >> /etc/sudoers
+RUN echo "www-data ALL=(web-user) NOPASSWD: /bin/rbash" >> /etc/sudoers
 
 # Switch to www-data and set up working dir
 USER www-data
 
-RUN mkdir -p /tmp/air-tmp && chown www-data:www-data /tmp/air-tmp
 
 WORKDIR /app
 
