@@ -1,15 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Web Terminal</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
-  <!-- <link rel="stylesheet" href="style.css" /> -->
   <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit/lib/xterm-addon-fit.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #terminal {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
 </head>
+
 <body>
   <div id="terminal"></div>
-  <script src="main.js"></script>
+  <script defer>
+
+    console.log("Loading script") 
+    const terminal = new Terminal({ cursorBlink: true });
+    terminal.open(document.getElementById('terminal'));
+
+    const fitAddon = new FitAddon.FitAddon();
+    terminal.loadAddon(fitAddon);
+    fitAddon.fit();
+
+    const socket = new WebSocket("ws://" + location.host + "/ws");
+    socket.onmessage = function (event) {
+      terminal.write(event.data);
+    };
+    terminal.onData(data => {
+      socket.send(data);
+    });
+  </script>
 </body>
 </html>
