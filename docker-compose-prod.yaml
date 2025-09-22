@@ -1,0 +1,11 @@
+services:
+  server:
+    container_name: terminal-app-prod
+    build:
+      context: ./server
+      dockerfile: Dockerfile.prod
+    env_file:
+      - ./server/.env.prod
+    ports:
+      - "8080:8080"
+    read_only: true

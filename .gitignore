@@ -1,1 +1,5 @@
+# air tmp build
 server/tmp
+# env files
+.env.dev
+.env.prod

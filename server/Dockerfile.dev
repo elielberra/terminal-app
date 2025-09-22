@@ -3,19 +3,17 @@ FROM golang:1.23-bookworm
 RUN apt-get update && \
     apt-get install -y sudo apparmor apparmor-utils apparmor-profiles
 
-RUN useradd -m web-user
+RUN useradd -m -u 10000 -s /bin/rbash web-user
 
-RUN mkdir -p /var/www && chown www-data:www-data /var/www
+RUN mkdir -p /var/www && chown web-user:web-user /var/www
 
-RUN echo "www-data ALL=(web-user) NOPASSWD: /bin/rbash" >> /etc/sudoers
-
-USER www-data
+USER web-user
 
 WORKDIR /app
 
 RUN go install github.com/air-verse/air@v1.61.7
 
-COPY --chown=www-data:www-data go.mod go.sum ./
+COPY --chown=web-user:web-user go.mod go.sum ./
 
 RUN go mod download
 
