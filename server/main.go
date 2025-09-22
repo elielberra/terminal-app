@@ -35,7 +35,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer conn.Close()
 
-	cmd := exec.Command("sudo", "-u", "web-user", "/bin/rbash")
+	cmd := exec.Command("/bin/rbash")
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
@@ -70,7 +70,7 @@ func main() {
 	http.HandleFunc("/ws", wsHandler)
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fs)
-	
+
 	log.Println("Listening on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

@@ -11,9 +11,9 @@ services:
     ports:
       - "8080:8080"
 
-    # security_opt:
+    security_opt:
       # - apparmor:server-profile
-      # - no-new-privileges:true
+      - no-new-privileges:true
       # - seccomp:./seccomp-deny-connect.json
 
     # cap_drop:
