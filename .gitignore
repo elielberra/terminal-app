@@ -1,5 +1,8 @@
 # air tmp build
 server/tmp
+
 # env files
-.env.dev
 .env.prod
+
+# compiled app
+terminal-app/terminal-app

@@ -1,0 +1,16 @@
+# Dockerfile.dev
+FROM golang:1.23-bookworm
+
+# non-root user
+RUN useradd -m -u 1001 -s /bin/rbash web-user
+RUN mkdir -p /var/www && chown web-user:web-user /var/www
+
+USER web-user
+WORKDIR /app
+
+# cache deps
+COPY --chown=web-user:web-user go.mod go.sum ./
+RUN go mod download
+
+# run the app (no hot reload)
+CMD ["go", "run", "."]
