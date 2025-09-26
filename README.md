@@ -1,0 +1,14 @@
+sudo ln -sf "$HOME/repos/terminal-app/terminal-app" /etc/apparmor.d/terminal-app
+sudo ln -s /home/eliel/repos/terminal-app/apparmor/terminal-app-compiled /etc/apparmor.d/terminal-app-compiled
+
+sudo apparmor_parser -r -W /etc/apparmor.d/terminal-app
+sudo apparmor_parser -r -W /etc/apparmor.d/terminal-app-compiled
+
+__________
+install go
+# download file from https://go.dev/dl/go1.24.7.linux-amd64.tar.gz
+# Full tutorial https://go.dev/doc/install
+rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf go1.23.0.linux-amd64.tar.gz
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+source ~/.bashrc
