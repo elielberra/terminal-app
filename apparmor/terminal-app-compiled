@@ -1,6 +1,12 @@
 #include <tunables/global>
 
+
+
 profile terminal-app-compiled {
+	#include <abstractions/base>
+	#include <abstractions/audio>
+	#include <abstractions/nameservice>
+
 	/app/terminal-app                 ix,
 	/app/**                           r,
 	/app/                             r,
@@ -29,4 +35,8 @@ profile terminal-app-compiled {
 	# ---- Permit running ONLY a few commands
 	/usr/bin/cat                ix,
 	/usr/bin/ls               ix,
+	/usr/bin/mpv			ix,
+
+	# MPV files
+	/etc/fonts/fonts.conf      r,
 }

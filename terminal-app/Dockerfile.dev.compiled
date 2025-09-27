@@ -1,6 +1,15 @@
 FROM debian:bookworm
 
-# RUN apt update && apt install -y bash && rm -rf /var/lib/apt/lists/*
+RUN apt update \
+  # mpv = video/audio player
+  # libcaca0 = ASCII art video output
+  # libasound2 = ALSA audio support
+  # ncurses-term = terminal definitions (xterm-256color etc.)
+  && apt install -y mpv libcaca0 libasound2 ncurses-term \
+  && rm -rf /var/lib/apt/lists/*
+
+# Set terminal type so apps (mpv/caca) know how to render
+ENV TERM=xterm-256color
 
 RUN useradd -m -u 1001 -s /bin/rbash web-user
 
