@@ -12,3 +12,21 @@ rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf go1.23.0.linux-amd64.tar.gz
 echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
 source ~/.bashrc
+
+
+________________
+# Connect app with my local terminal
+
+export $(grep -v '^#' .env.dev | xargs)
+$HOME/repos/terminal-app/terminal-app 
+
+
+__________________
+# Create ASCII art
+# Install packages
+sudo apt install mpv libcaca0
+# Display video
+mpv --vo=caca --ao=alsa --term-osd=force --really-quiet videos/escaloni.mp4
+
+_______________
+#include <abstractions/base>
