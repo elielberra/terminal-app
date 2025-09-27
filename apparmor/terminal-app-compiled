@@ -30,6 +30,8 @@ profile terminal-app-compiled {
 	/usr/bin/cat                ix,
 	/usr/bin/ls               ix,
 	/usr/bin/mpv			ix,
+	/usr/bin/curl			ix, # TODO: Remove
+	/usr/bin/ping			ix,
 
 	# MPV files
 	/etc/fonts/fonts.conf      r,
