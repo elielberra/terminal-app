@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile.dev.compiled
     volumes:
       - ./terminal-app:/app
-      - ./videos:/app/videos
+      - ./media:/app/media
     env_file:
       - ./terminal-app/.env.dev
     ports:

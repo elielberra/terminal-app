@@ -5,7 +5,9 @@ RUN apt update \
   # libcaca0 = ASCII art video output
   # libasound2 = ALSA audio support
   # ncurses-term = terminal definitions (xterm-256color etc.)
-  && apt install -y mpv libcaca0 libasound2 ncurses-term \
+  # TODO: Remove curl and ping
+  && apt install -y mpv  --no-install-recommends \
+    libcaca0 libasound2 ncurses-term curl iputils-ping \
   && rm -rf /var/lib/apt/lists/*
 
 # Set terminal type so apps (mpv/caca) know how to render

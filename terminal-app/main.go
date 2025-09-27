@@ -34,13 +34,15 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer conn.Close()
-
-	cmd := exec.Command("/bin/rbash")
+	// cmd := exec.Command("/bin/rbash")
+	// cmd := exec.Command("/bin/bash") // TODO: Remove me
+	cmd := exec.Command("/bin/bash", "-c", `echo "Welcome to my Web Page"; exec rbash`)
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
 		return
 	}
+	// ptmx.Write([]byte("echo HIIII"))
 	defer func() {
 		_ = ptmx.Close()
 		_ = cmd.Process.Kill()
