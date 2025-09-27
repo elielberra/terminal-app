@@ -1,7 +1,5 @@
 #include <tunables/global>
 
-
-
 profile terminal-app-compiled {
 	#include <abstractions/base>
 	#include <abstractions/audio>
@@ -10,10 +8,6 @@ profile terminal-app-compiled {
 	/app/terminal-app                 ix,
 	/app/**                           r,
 	/app/                             r,
-
-	# shared libraries
-	/lib/**                           mr,
-	/usr/lib/**                       mr,
 
 	# Terminals + shells
 	/dev/ptmx        rw,
