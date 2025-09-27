@@ -1,23 +1,4 @@
 services:
-  # terminal-app-dev:
-  #   container_name: terminal-app-dev
-  #   build:
-  #     context: ./terminal-app
-  #     dockerfile: Dockerfile.dev
-  #   volumes:
-  #     - ./terminal-app:/app
-  #   env_file:
-  #     - ./terminal-app/.env.dev
-  #   ports:
-  #     - "8080:8080"
-
-  #   security_opt:
-  #     # - apparmor:terminal-app
-  #     - no-new-privileges:true
-  #     # - seccomp:./seccomp-deny-connect.json
-
-  #   # cap_drop:
-  #   #   - ALL
   terminal-app-compiled:
     container_name: terminal-app-compiled
     build:
