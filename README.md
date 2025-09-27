@@ -27,6 +27,3 @@ __________________
 sudo apt install mpv libcaca0
 # Display video
 mpv --vo=caca --ao=alsa --term-osd=force --really-quiet videos/escaloni.mp4
-
-_______________
-#include <abstractions/base>
