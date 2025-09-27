@@ -17,7 +17,9 @@ services:
     # Allow container user to use /dev/snd  
     group_add:
       - "audio"               
-
     security_opt:
       - apparmor:terminal-app-compiled
       - no-new-privileges:true
+    read_only: true
+    cap_drop:
+      - ALL
