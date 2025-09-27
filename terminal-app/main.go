@@ -36,7 +36,8 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 	// cmd := exec.Command("/bin/rbash")
 	// cmd := exec.Command("/bin/bash") // TODO: Remove me
-	cmd := exec.Command("/bin/bash", "-c", `echo "Welcome to my Web Page"; exec rbash`)
+	// cmd := exec.Command("/bin/bash", "-c", `echo "Welcome to my Web Page"; exec rbash`)
+	cmd := exec.Command("/bin/bash", "-c", `bash scripts/hacked.sh; exec rbash`)
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
