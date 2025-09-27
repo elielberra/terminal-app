@@ -1,35 +1,32 @@
 #include <tunables/global>
 
 profile terminal-app-compiled {
-    /app/terminal-app                 ix,
-    /app/**                           r,
-    /app/                             r,
+	/app/terminal-app                 ix,
+	/app/**                           r,
+	/app/                             r,
 
-    # shared libraries
-    /lib/**                           mr,
-    /usr/lib/**                       mr,
+	# shared libraries
+	/lib/**                           mr,
+	/usr/lib/**                       mr,
 
-    # Terminals + shells
-    /dev/ptmx        rw,
-    /dev/pts/**      rw,
-    # /bin/rbash       rmix,
-    # /bin/bash        rmix,
-    /usr/bin/rbash  rmix,
-    /usr/bin/bash   rmix,
+	# Terminals + shells
+	/dev/ptmx        rw,
+	/dev/pts/**      rw,
+	/usr/bin/rbash  rmix,
+	/usr/bin/bash   rmix,
+	/usr/bin/dircolors  ix,
 
-    # bash files
-    /etc/bash.bashrc        r,
-    /home/web-user/.bashrc  r,
+	# bash files
+	/etc/bash.bashrc        r,
+	/home/web-user/.bashrc  r,
 
-    # Miscellaneous programs
-    /usr/bin/dircolors  ix,
+	# sockets
+	network inet stream,
 
-    network inet stream,
+	# Allow container to receive SIGTERM/SIGKILL from Docker
+	signal (receive) peer=unconfined,
 
-    # Allow container to receive SIGTERM/SIGKILL from Docker
-    signal (receive) peer=unconfined,
-
-    # ---- Permit running ONLY a few commands
-    /usr/bin/cat                ix,
-    /usr/bin/ls               ix,
+	# ---- Permit running ONLY a few commands
+	/usr/bin/cat                ix,
+	/usr/bin/ls               ix,
 }
