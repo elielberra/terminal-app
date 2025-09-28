@@ -26,7 +26,7 @@ __________________
 # Install packages
 sudo apt install mpv libcaca0
 # Display video
-mpv --vo=caca --ao=alsa --really-quiet media/escaloni.mp4 &
+mpv --vo=caca --ao=alsa --really-quiet media/escaloni.mp4
 mpv --vo=caca --ao=alsa --really-quiet media/arg-fnc.mp4
 mpv --ao=alsa media/music --really-quiet
 

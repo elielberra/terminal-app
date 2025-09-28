@@ -1,14 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
-	"os/exec"
 	"os"
-	"fmt"
+	"os/exec"
 
-	"github.com/gorilla/websocket"
 	"github.com/creack/pty"
+	"github.com/gorilla/websocket"
 )
 
 var upgrader = websocket.Upgrader{
@@ -24,7 +24,23 @@ var upgrader = websocket.Upgrader{
 			expectedOrigin += ":" + port
 		}
 		log.Println(expectedOrigin)
-		return origin == expectedOrigin },
+		return origin == expectedOrigin
+	},
+}
+
+type UserLanguage string
+
+const (
+	SPANISH UserLanguage = "SPANISH"
+	ENGLISH UserLanguage = "ENGLISH"
+)
+
+func getUserLanguage(r *http.Request) UserLanguage {
+	lang := r.Header.Get("Accept-Language")
+	if len(lang) >= 2 && lang[:2] == "es" {
+		return SPANISH
+	}
+	return ENGLISH
 }
 
 func wsHandler(w http.ResponseWriter, r *http.Request) {
@@ -33,11 +49,14 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("WebSocket upgrade error:", err)
 		return
 	}
+	userLanguage := getUserLanguage(r)
 	defer conn.Close()
 	// cmd := exec.Command("/bin/rbash")
 	// cmd := exec.Command("/bin/bash") // TODO: Remove me
 	// cmd := exec.Command("/bin/bash", "-c", `echo "Welcome to my Web Page"; exec rbash`)
-	cmd := exec.Command("/bin/bash", "-c", `bash scripts/hacked.sh; exec rbash`)
+	// cmd := exec.Command("/bin/bash", "-c", `bash scripts/hacked.sh; exec rbash`)
+	cmd := exec.Command("/bin/bash", "-c", `exec rbash`)
+	cmd.Env = append(os.Environ(), "USER_LANGUAGE="+string(userLanguage))
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
