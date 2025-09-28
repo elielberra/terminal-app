@@ -29,7 +29,7 @@
   <button id="access-intro-btn">Access Web Page</button>
   <button id="skip-intro-btn">Skip Intro</button>
   <div id="terminal"></div>
-  <audio id="introSound" src="/audios/piracy.mp3" preload="auto"></audio>
+  <audio id="intro-sound" src="/audios/piracy.mp3" preload="auto"></audio>
   <script>
 
     console.log("Loading script")
@@ -65,7 +65,7 @@
 
     accessBtn.addEventListener('click', () => {
       const [_, socket] = createXtermTerminal();
-      const introSound = document.getElementById("introSound");
+      const introSound = document.getElementById("intro-sound");
       introSound.play();
       const cmd = 'bash scripts/intro.sh\r';
       socket.onopen = () => {
