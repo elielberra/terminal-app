@@ -26,8 +26,8 @@ echo -e "${YELLOW}ALERT!!${RESET}"
 sleep 1
 echo -e "${YELLOW}ALERT!!${RESET}"
 
-end=$((SECONDS+5))   # run for 5 seconds
-
+sleep 1.3
+end=$((SECONDS+4))   # run for 5 seconds
 while [ $SECONDS -lt $end ]; do
   # Print in red and overwrite the same line
   echo -ne "${RED}----- YOU'VE BEEN HACKED -----${RESET}\r"
@@ -52,6 +52,15 @@ print_progress_bar 0.03
 
 echo -e "${YELLOW}Deleting transactions from Log History${RESET}"
 
-print_progress_bar 0.005
+print_progress_bar 0.017
 
-bash ./scripts/rain2.sh
+timeout 2.2s bash ./scripts/rain2.sh
+
+echo -e "${YELLOW}ALERT!!${RESET}"
+sleep 1
+echo -e "${YELLOW}ALERT!!${RESET}"
+sleep 1
+echo -e "${YELLOW}ALERT!!${RESET}"
+sleep 1
+echo -e "${YELLOW}ALERT!!${RESET}"
+echo
