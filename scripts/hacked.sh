@@ -1,18 +1,17 @@
 #!/bin/bash
 
+trap '' INT    # ignore Ctrl+C while the script runs
+
 echo "USER_LANGUAGE: $USER_LANGUAGE"
+  printf "\n"
 
 print_progress_bar() {
   local sleep_time="$1"
-
-  trap 'printf "\n"; exit' INT
-  tput civis 2>/dev/null
   for i in {0..100}; do
     filled=$(( i / 2 ))  # bar width = 50
     printf "\r%3d%% [%-50s]" "$i" "$(printf '%*s' "$filled" '' | tr ' ' '#')"
     sleep "$sleep_time"
   done
-  tput cnorm 2>/dev/null
   printf "\n"
 }
 
