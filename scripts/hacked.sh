@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "USER_LANGUAGE: $USER_LANGUAGE"
+
 print_progress_bar() {
   local sleep_time="$1"
 
