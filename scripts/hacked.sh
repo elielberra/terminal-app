@@ -56,11 +56,15 @@ print_progress_bar 0.017
 
 timeout 2.2s bash ./scripts/rain2.sh
 
-echo -e "${YELLOW}ALERT!!${RESET}"
+bash ./scripts/putin.sh
 sleep 1
-echo -e "${YELLOW}ALERT!!${RESET}"
+clear
+bash ./scripts/kim-jong-un.sh
 sleep 1
-echo -e "${YELLOW}ALERT!!${RESET}"
+clear
+bash ./scripts/putin2.sh
 sleep 1
-echo -e "${YELLOW}ALERT!!${RESET}"
-echo
+clear
+bash ./scripts/kim-jong-un2.sh
+sleep 1
+clear
