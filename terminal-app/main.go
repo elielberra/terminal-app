@@ -29,8 +29,8 @@ var upgrader = websocket.Upgrader{
 		}
 		if origin != expectedOrigin {
 			log.Printf("ERROR: Expected %s but receieved a connection from %s", expectedOrigin, origin)
-		}
-		return origin == expectedOrigin
+		}									 // Required for acccessing web page from phone // TODO: Remove later
+		return (origin == expectedOrigin) || (origin == "http://192.168.100.8:8080")
 	},
 }
 
