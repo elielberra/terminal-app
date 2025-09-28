@@ -55,13 +55,13 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("WebSocket upgrade error:", err)
 		return
 	}
-	userLanguage := getUserLanguage(r)
+	// userLanguage := getUserLanguage(r)
 	defer conn.Close()
-	initialCommand := "export USER_LANGUAGE=" + string(userLanguage) + "; " +
-		"bash scripts/hacked.sh; " +
-		"exec rbash"
-	cmd := exec.Command("/bin/bash", "-c", initialCommand)
-
+	// initialCommand := "export USER_LANGUAGE=" + string(userLanguage) + "; " +
+	// 	"bash scripts/hacked.sh" + "; " +
+	// 	"exec rbash"
+	// cmd := exec.Command("/bin/bash", "-c", initialCommand)
+	cmd := exec.Command("rbash")
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
