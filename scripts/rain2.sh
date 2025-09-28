@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# start_script_time=$(date +%s%3N)   # take start time in ms
+
+
 clear 
 CSI=$'\e['
 cleanup() {
@@ -26,7 +29,7 @@ done
 printf '%s' "${CSI}2J${CSI}H"
 
 start=$(date +%s)
-duration=2   # run for 5 seconds
+duration=5   # display the rain for this ammount of seconds
 
 while (( $(date +%s) - start < duration )); do
   get_size
@@ -46,3 +49,9 @@ while (( $(date +%s) - start < duration )); do
 done
 
 clear
+
+# end_script_time=$(date +%s%3N)     # take end time in ms
+
+# echo $((end_script_time - start_script_time)) "ms"   # this is the runtime in ms
+
+# sleep 3
