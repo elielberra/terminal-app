@@ -32,6 +32,8 @@ profile terminal-app-compiled {
 	/usr/bin/mpv			ix,
 	/usr/bin/sleep          ix,
 	/usr/bin/tr	            ix,
+	/usr/bin/clear          ix,
+	/usr/bin/date 			ix,
 	/usr/bin/curl			ix, # TODO: Remove
 	/usr/bin/ping			ix,
 

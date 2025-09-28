@@ -2,8 +2,7 @@
 
 trap '' INT    # ignore Ctrl+C while the script runs
 
-echo "USER_LANGUAGE: $USER_LANGUAGE"
-  printf "\n"
+clear
 
 print_progress_bar() {
   local sleep_time="$1"
@@ -53,4 +52,6 @@ print_progress_bar 0.03
 
 echo -e "${YELLOW}Deleting transactions from Log History${RESET}"
 
-print_progress_bar 0.01
+print_progress_bar 0.005
+
+bash ./scripts/rain2.sh
