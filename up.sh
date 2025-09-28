@@ -8,7 +8,10 @@ docker compose down --remove-orphans
 
 # Build the Go App
 cd terminal-app
-go build -o terminal-app main.go
+if ! go build -o terminal-app main.go; then
+  echo "❌ Failed to build Go App. Aborting."
+  exit 1
+fi
 cd ..
 
 # Reload the apparmor profile
