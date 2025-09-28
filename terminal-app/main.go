@@ -17,13 +17,19 @@ var upgrader = websocket.Upgrader{
 		domain := os.Getenv("WS_DOMAIN")
 		port := os.Getenv("WS_PORT")
 
+		if protocol == "" || domain == "" || port == "" {
+			log.Fatal("Missing required environment variables: WS_PROTOCOL, WS_DOMAIN, or WS_PORT")
+		}
+
 		origin := r.Header.Get("Origin")
 
 		expectedOrigin := fmt.Sprintf("%s://%s", protocol, domain)
 		if port != "" {
 			expectedOrigin += ":" + port
 		}
-		log.Println(expectedOrigin)
+		if origin != expectedOrigin {
+			log.Printf("ERROR: Expected %s but receieved a connection from %s", expectedOrigin, origin)
+		}
 		return origin == expectedOrigin
 	},
 }
