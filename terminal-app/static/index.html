@@ -26,27 +26,24 @@
 </head>
 
 <body>
-  <button id="accessBtn">Access Web Page</button>
+  <button id="access-intro-btn">Access Web Page</button>
+  <button id="skip-intro-btn">Skip Intro</button>
   <div id="terminal"></div>
-  <audio id="pirateSound" src="/audios/piracy.mp3" preload="auto"></audio>
+  <audio id="introSound" src="/audios/piracy.mp3" preload="auto"></audio>
   <script>
 
     console.log("Loading script")
 
-    const accessBtn = document.getElementById('accessBtn');
+    const accessBtn = document.getElementById('access-intro-btn');
+    const skipIntroBtn = document.getElementById('skip-intro-btn');
     const terminalDiv = document.getElementById('terminal');
 
-    accessBtn.addEventListener('click', () => {
+    function createXtermTerminal() {
       accessBtn.remove();
+      skipIntroBtn.remove();
       terminalDiv.style.display = 'block';
-
-
       const terminal = new Terminal({ cursorBlink: true });
       terminal.open(document.getElementById('terminal'));
-      const fitAddon = new FitAddon.FitAddon();
-      terminal.loadAddon(fitAddon);
-      fitAddon.fit();
-
       const socket = new WebSocket("ws://" + location.host + "/ws");
       socket.binaryType = "arraybuffer";
       socket.onmessage = function (event) {
@@ -56,15 +53,21 @@
         terminal.write(text);
         console.log(text);
       };
-
       terminal.onData(data => {
         socket.send(data);
       });
+      const fitAddon = new FitAddon.FitAddon();
+      terminal.loadAddon(fitAddon);
+      fitAddon.fit();
+      return [terminal, socket]
+    }
 
-      const pirateSound = document.getElementById("pirateSound");
-      pirateSound.play();
+
+    accessBtn.addEventListener('click', () => {
+      const [_, socket] = createXtermTerminal();
+      const introSound = document.getElementById("introSound");
+      introSound.play();
       const cmd = 'bash scripts/intro.sh\r';
-      terminal.write(cmd);
       socket.onopen = () => {
         socket.send(cmd);
         // Prevent the user from clicking anywhere on the terminal
@@ -74,6 +77,10 @@
         }
         // TODO: After each script clicking should be re enabled
       };
+    })
+
+    skipIntroBtn.addEventListener('click', () => {
+      createXtermTerminal();
     })
   </script>
 </body>
