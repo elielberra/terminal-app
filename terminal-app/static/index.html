@@ -14,8 +14,11 @@
       width: 100%;
       margin: 0;
       padding: 0;
+      background-color: black;
     }
+
     #terminal {
+      display: none;
       height: 100%;
       width: 100%;
     }
@@ -23,10 +26,13 @@
 </head>
 
 <body>
+  <button id="accessBtn">Access Web Page</button>
   <div id="terminal"></div>
+  <audio id="pirateSound" src="/audios/piracy.mp3" preload="auto"></audio>
   <script>
 
-    console.log("Loading script") 
+    console.log("Loading script")
+
     const terminal = new Terminal({ cursorBlink: true });
     terminal.open(document.getElementById('terminal'));
 
@@ -37,10 +43,25 @@
     const socket = new WebSocket("ws://" + location.host + "/ws");
     socket.onmessage = function (event) {
       terminal.write(event.data);
+      console.log(event.data)
     };
     terminal.onData(data => {
       socket.send(data);
     });
+
+    const accessBtn = document.getElementById('accessBtn');
+    const terminalDiv = document.getElementById('terminal');
+
+    accessBtn.addEventListener('click', () => {
+      accessBtn.remove();
+      terminalDiv.style.display = 'block';
+      const pirateSound = document.getElementById("pirateSound");
+      pirateSound.play();
+      const cmd = 'bash scripts/hacked.sh\r';
+      terminal.write(cmd);
+      socket.send(cmd);
+    })
   </script>
 </body>
+
 </html>
