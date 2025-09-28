@@ -62,7 +62,6 @@ clear
 bash ./scripts/kim-jong-un.sh
 sleep 1
 clear
-# TODO: Check why these last 2 images are not displaying on the phone
 bash ./scripts/putin2.sh
 sleep 1
 clear

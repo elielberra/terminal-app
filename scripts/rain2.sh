@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# start_script_time=$(date +%s%3N)   # take start time in ms
+clear
 
-
-clear 
 CSI=$'\e['
 cleanup() {
   printf '%s' "${CSI}?25h${CSI}?7h${CSI}0m${CSI}2J${CSI}H"
@@ -45,13 +43,7 @@ while (( $(date +%s) - start < duration )); do
     clear_row=$(( (y[$x]-trail+lines) % lines ))
     printf '%s' "${CSI}$((clear_row+1));$((x+1))H${CSI}0m "
   done
-  sleep 0.03
+  sleep 0.08 # Set to a high value to prevent the Websocket from getting overloaded causing lag
 done
 
 clear
-
-# end_script_time=$(date +%s%3N)     # take end time in ms
-
-# echo $((end_script_time - start_script_time)) "ms"   # this is the runtime in ms
-
-# sleep 3
