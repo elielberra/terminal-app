@@ -20,9 +20,11 @@ RED="\033[31m"
 YELLOW="\033[33m"
 RESET="\033[0m"
 
-# Example static print
+sleep 0.6 
 echo -e "${YELLOW}ALERT!!${RESET}"
+sleep 1
 echo -e "${YELLOW}ALERT!!${RESET}"
+sleep 1
 echo -e "${YELLOW}ALERT!!${RESET}"
 
 end=$((SECONDS+5))   # run for 5 seconds
@@ -36,11 +38,10 @@ while [ $SECONDS -lt $end ]; do
   sleep 0.5
 done
 echo -ne "${RED}----- YOU'VE BEEN HACKED -----${RESET}\n"
-# clear
 
 echo -e "${YELLOW}Emptying your bank account${RESET}"
 
-print_progress_bar 0.04
+print_progress_bar 0.05
 
 echo -e "${YELLOW}Transfering money to the Caiman Islands${RESET}"
 
@@ -48,4 +49,8 @@ print_progress_bar 0.01
 
 echo -e "${YELLOW}Converting u\$D to Bitcoin${RESET}"
 
-print_progress_bar 0.02
+print_progress_bar 0.03
+
+echo -e "${YELLOW}Deleting transactions from Log History${RESET}"
+
+print_progress_bar 0.01
