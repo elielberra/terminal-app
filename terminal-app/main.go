@@ -51,18 +51,16 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	userLanguage := getUserLanguage(r)
 	defer conn.Close()
-	// cmd := exec.Command("/bin/rbash")
-	// cmd := exec.Command("/bin/bash") // TODO: Remove me
-	// cmd := exec.Command("/bin/bash", "-c", `echo "Welcome to my Web Page"; exec rbash`)
-	// cmd := exec.Command("/bin/bash", "-c", `bash scripts/hacked.sh; exec rbash`)
-	cmd := exec.Command("/bin/bash", "-c", `exec rbash`)
-	cmd.Env = append(os.Environ(), "USER_LANGUAGE="+string(userLanguage))
+	initialCommand := "export USER_LANGUAGE=" + string(userLanguage) + "; " +
+		"bash scripts/hacked.sh; " +
+		"exec rbash"
+	cmd := exec.Command("/bin/bash", "-c", initialCommand)
+
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
 		return
 	}
-	// ptmx.Write([]byte("echo HIIII"))
 	defer func() {
 		_ = ptmx.Close()
 		_ = cmd.Process.Kill()
