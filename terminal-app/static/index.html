@@ -33,33 +33,47 @@
 
     console.log("Loading script")
 
-    const terminal = new Terminal({ cursorBlink: true });
-    terminal.open(document.getElementById('terminal'));
-
-    const fitAddon = new FitAddon.FitAddon();
-    terminal.loadAddon(fitAddon);
-    fitAddon.fit();
-
-    const socket = new WebSocket("ws://" + location.host + "/ws");
-    socket.onmessage = function (event) {
-      terminal.write(event.data);
-      console.log(event.data)
-    };
-    terminal.onData(data => {
-      socket.send(data);
-    });
-
     const accessBtn = document.getElementById('accessBtn');
     const terminalDiv = document.getElementById('terminal');
 
     accessBtn.addEventListener('click', () => {
       accessBtn.remove();
       terminalDiv.style.display = 'block';
+
+
+      const terminal = new Terminal({ cursorBlink: true });
+      terminal.open(document.getElementById('terminal'));
+      const fitAddon = new FitAddon.FitAddon();
+      terminal.loadAddon(fitAddon);
+      fitAddon.fit();
+
+      const socket = new WebSocket("ws://" + location.host + "/ws");
+      socket.binaryType = "arraybuffer";
+      socket.onmessage = function (event) {
+        const text = (typeof event.data === "string")
+          ? event.data
+          : new TextDecoder("utf-8").decode(new Uint8Array(event.data));
+        terminal.write(text);
+        console.log(text);
+      };
+
+      terminal.onData(data => {
+        socket.send(data);
+      });
+
       const pirateSound = document.getElementById("pirateSound");
       pirateSound.play();
-      const cmd = 'bash scripts/hacked.sh\r';
+      const cmd = 'bash scripts/intro.sh\r';
       terminal.write(cmd);
-      socket.send(cmd);
+      socket.onopen = () => {
+        socket.send(cmd);
+        // Prevent the user from clicking anywhere on the terminal
+        // On mobile phones the keyboard is opened when the user clicks the screen to prevent lock or turning off
+        if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+          document.body.style.pointerEvents = 'none';
+        }
+        // TODO: After each script clicking should be re enabled
+      };
     })
   </script>
 </body>
