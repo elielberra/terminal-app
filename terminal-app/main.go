@@ -77,7 +77,8 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				break
 			}
-			conn.WriteMessage(websocket.TextMessage, buf[:n])
+			conn.WriteMessage(websocket.BinaryMessage, buf[:n])
+
 		}
 	}()
 
