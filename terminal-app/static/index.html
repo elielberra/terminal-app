@@ -46,12 +46,67 @@
     const accessBtn = document.getElementById('access-intro-btn');
     const skipIntroBtn = document.getElementById('skip-intro-btn');
     const terminalDiv = document.getElementById('terminal');
+    const DEFAULT_PC_FONT_SIZE = 22;
+    const DEFAULT_MOBILE_FONT_SIZE = 22;
+    const REDUCED_PC_FONT_SIZE = 15;
+    const REDUCED_MOBILE_FONT_SIZE = 10;
+
+    function isMobileUser() {
+      return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    function getReducedFontSize() {
+      return isMobileUser ? REDUCED_MOBILE_FONT_SIZE : REDUCED_PC_FONT_SIZE;
+    }
+
+    function getDefaultFontSize() {
+      return isMobileUser ? DEFAULT_MOBILE_FONT_SIZE : DEFAULT_PC_FONT_SIZE;
+    }
+
+    function stripAnsi(text) {
+      return text.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, '').trim();
+    }
+
+    function handleTerminalOutput(output) {
+      const cleanOutput = stripAnsi(output);
+      if (!cleanOutput.startsWith("SIG")) return
+      if (cleanOutput === "SIG_PLAY_INTRO_MUSIC") {
+        document.getElementById("intro-sound").play();
+        return;
+      }
+
+      if (cleanOutput === "SIG_STOP_INTRO_MUSIC") {
+        document.getElementById("intro-sound").pause();
+        return;
+      }
+
+      if (cleanOutput === "SIG_DISABLE_TOUCH") {
+        // Prevent the user from clicking anywhere on the terminal
+        // On mobile devices, tapping the screen opens the keyboard to avoid screen lock or dimming
+        if (isMobileUser()) document.body.style.pointerEvents = 'none';
+        return;
+      }
+
+      if (cleanOutput === "SIG_ENABLE_TOUCH") {
+        document.body.style.pointerEvents = '';
+        return;
+      }
+
+      if (cleanOutput === "SIG_REDUCE_FONT_SIZE") {
+        terminal.options.fontSize = getReducedFontSize();
+        return;
+      }
+      if (cleanOutput === "SIG_RESTORE_FONT_SIZE") {
+        terminal.options.fontSize = getDefaultFontSize();
+        return;
+      }
+    }
 
     function createXtermTerminal() {
       accessBtn.remove();
       skipIntroBtn.remove();
       terminalDiv.style.display = 'block';
-      const terminal = new Terminal({ cursorBlink: true });
+      const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
       terminal.open(document.getElementById('terminal'));
       const socket = new WebSocket("ws://" + location.host + "/ws");
       socket.binaryType = "arraybuffer";
@@ -60,7 +115,7 @@
           ? event.data
           : new TextDecoder("utf-8").decode(new Uint8Array(event.data));
         terminal.write(text);
-        console.log(text);
+        handleTerminalOutput(text);
       };
       terminal.onData(data => {
         socket.send(data);
@@ -74,17 +129,9 @@
 
     accessBtn.addEventListener('click', () => {
       const [_, socket] = createXtermTerminal();
-      const introSound = document.getElementById("intro-sound");
-      introSound.play();
       const cmd = 'bash scripts/intro.sh\r';
       socket.onopen = () => {
         socket.send(cmd);
-        // Prevent the user from clicking anywhere on the terminal
-        // On mobile phones the keyboard is opened when the user clicks the screen to prevent lock or turning off
-        if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-          document.body.style.pointerEvents = 'none';
-        }
-        // TODO: After each script clicking should be re enabled
       };
     })
 
