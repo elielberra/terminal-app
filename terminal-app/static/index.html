@@ -61,6 +61,13 @@
     const REDUCED_PC_FONT_SIZE = 15;
     const REDUCED_MOBILE_FONT_SIZE = 10;
 
+    if (localStorage.getItem("hasVisitedSitePreviously") === "true") {
+      skipIntroBtn.style.display = "inline-block";
+    } else {
+      skipIntroBtn.style.display = "none";
+      localStorage.setItem("hasVisitedSitePreviously", "true");
+    }
+
     function isMobileUser() {
       return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
@@ -135,7 +142,6 @@
       fitAddon.fit();
       return [terminal, socket]
     }
-
 
     accessBtn.addEventListener('click', () => {
       const [_, socket] = createXtermTerminal();
