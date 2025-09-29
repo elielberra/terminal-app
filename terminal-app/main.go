@@ -29,7 +29,7 @@ var upgrader = websocket.Upgrader{
 		}
 		if origin != expectedOrigin {
 			log.Printf("ERROR: Expected %s but receieved a connection from %s", expectedOrigin, origin)
-		}									 // Required for acccessing web page from phone or device on the same wifi // TODO: Remove later
+		} // Required for acccessing web page from phone or device on the same wifi // TODO: Remove later
 		return (origin == expectedOrigin) || (origin == "http://192.168.100.8:8080")
 	},
 }
@@ -57,9 +57,11 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	userLanguage := getUserLanguage(r)
 	defer conn.Close()
-	initialCommand := "export LANG=" + string(userLanguage) + "; " +
-		"exec rbash"
-	cmd := exec.Command("/bin/bash", "-c", initialCommand)
+	cmd := exec.Command("/bin/bash")
+	cmd.Env = append(os.Environ(),
+		"LANG="+string(userLanguage),
+	)
+
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
