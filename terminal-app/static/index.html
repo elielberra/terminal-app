@@ -62,8 +62,10 @@
     const terminalDiv = document.getElementById('terminal');
     const DEFAULT_PC_FONT_SIZE = 22;
     const DEFAULT_MOBILE_FONT_SIZE = 22;
-    const REDUCED_PC_FONT_SIZE = 15;
-    const REDUCED_MOBILE_FONT_SIZE = 10;
+    const REDUCED_PC_FONT_SIZE = 14;
+    const REDUCED_MOBILE_FONT_SIZE = 20;
+    const fitAddon = new FitAddon.FitAddon();
+
 
     if (localStorage.getItem("hasVisitedSitePreviously") === "true") {
       skipIntroBtn.style.display = "inline-block";
@@ -78,18 +80,18 @@
     }
 
     function getReducedFontSize() {
-      return isMobileUser ? REDUCED_MOBILE_FONT_SIZE : REDUCED_PC_FONT_SIZE;
+      return isMobileUser ? REDUCED_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
     }
 
     function getDefaultFontSize() {
-      return isMobileUser ? DEFAULT_MOBILE_FONT_SIZE : DEFAULT_PC_FONT_SIZE;
+      return isMobileUser ? DEFAULT_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
     }
 
     function stripAnsi(text) {
       return text.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, '').trim();
     }
 
-    function handleTerminalOutput(output) {
+    function handleTerminalOutput(output, terminal) {
       const cleanOutput = stripAnsi(output);
       if (!cleanOutput.startsWith("SIG")) return
       if (cleanOutput === "SIG_PLAY_INTRO_MUSIC") {
@@ -116,10 +118,12 @@
 
       if (cleanOutput === "SIG_REDUCE_FONT_SIZE") {
         terminal.options.fontSize = getReducedFontSize();
+        fitAddon.fit();
         return;
       }
       if (cleanOutput === "SIG_RESTORE_FONT_SIZE") {
         terminal.options.fontSize = getDefaultFontSize();
+        fitAddon.fit();
         return;
       }
     }
@@ -137,12 +141,11 @@
           ? event.data
           : new TextDecoder("utf-8").decode(new Uint8Array(event.data));
         terminal.write(text);
-        handleTerminalOutput(text);
+        handleTerminalOutput(text, terminal);
       };
       terminal.onData(data => {
         socket.send(data);
       });
-      const fitAddon = new FitAddon.FitAddon();
       terminal.loadAddon(fitAddon);
       fitAddon.fit();
       return [terminal, socket]
