@@ -27,14 +27,15 @@ profile terminal-app-compiled {
 	signal (receive) peer=unconfined,
 
 	# ---- Permit running ONLY a few commands
-	/usr/bin/cat                ix,
-	/usr/bin/ls               ix,
+	/usr/bin/cat            ix,
+	/usr/bin/ls             ix,
 	/usr/bin/mpv			ix,
 	/usr/bin/sleep          ix,
 	/usr/bin/tr	            ix,
 	/usr/bin/clear          ix,
 	/usr/bin/date 			ix,
-	/usr/bin/timeout			ix,
+	/usr/bin/timeout		ix,
+	/usr/bin/eliel			rix,
 	/usr/bin/curl			ix, # TODO: Remove
 	/usr/bin/ping			ix,
 

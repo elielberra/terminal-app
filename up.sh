@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 # Close Chrome Window with terminal-app
 wmctrl -c "Web Terminal"

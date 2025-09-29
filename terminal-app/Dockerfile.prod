@@ -21,4 +21,5 @@ COPY static ./static
 
 EXPOSE 8080
 
+# Add eliel script to /usr/bin
 CMD ["./server"]

@@ -8,6 +8,7 @@ services:
       - ./terminal-app:/app
       - ./media:/app/media
       - ./scripts:/app/scripts
+      - ./scripts/eliel:/usr/bin/eliel
     env_file:
       - ./terminal-app/.env.dev
     ports:
