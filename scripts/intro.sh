@@ -2,6 +2,11 @@
 
 trap '' INT    # ignore Ctrl+C while the script runs
 
+echo "SIG_DISABLE_TOUCH"
+clear
+echo "SIG_PLAY_INTRO_MUSIC"
+clear
+
 clear
 
 print_progress_bar() {
@@ -67,4 +72,9 @@ sleep 1
 clear
 bash ./scripts/kim-jong-un2.sh
 sleep 1
+clear
+
+echo "SIG_STOP_INTRO_MUSIC"
+clear
+echo "SIG_ENABLE_TOUCH"
 clear
