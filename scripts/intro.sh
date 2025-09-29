@@ -12,14 +12,13 @@ clear
 print_progress_bar() {
   local sleep_time="$1"
   for i in {0..100}; do
-    filled=$(( i / 2 ))  # bar width = 50
+    filled=$(( i / 2 ))
     printf "\r%3d%% [%-50s]" "$i" "$(printf '%*s' "$filled" '' | tr ' ' '#')"
     sleep "$sleep_time"
   done
   printf "\n"
 }
 
-# Define colors
 RED="\033[31m"
 YELLOW="\033[33m"
 RESET="\033[0m"
@@ -32,12 +31,10 @@ sleep 1
 echo -e "${YELLOW}ALERT!!${RESET}"
 
 sleep 1.3
-end=$((SECONDS+4))   # run for 5 seconds
+end=$((SECONDS+4))   # run for num of seconds
 while [ $SECONDS -lt $end ]; do
-  # Print in red and overwrite the same line
   echo -ne "${RED}----- YOU'VE BEEN HACKED -----${RESET}\r"
   sleep 0.5
-  # Clear the line
   echo -ne "                                                \r"
   sleep 0.5
 done
