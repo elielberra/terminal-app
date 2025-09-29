@@ -59,7 +59,7 @@ echo -e "${YELLOW}Deleting transactions from Log History${RESET}"
 
 print_progress_bar 0.017
 
-timeout 2.2s bash ./scripts/rain2.sh
+timeout 2s bash ./scripts/rain2.sh
 
 bash ./scripts/putin.sh
 sleep 1
