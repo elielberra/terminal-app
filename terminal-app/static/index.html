@@ -63,6 +63,7 @@
 
     if (localStorage.getItem("hasVisitedSitePreviously") === "true") {
       skipIntroBtn.style.display = "inline-block";
+      accessBtn.textContent += (userLang === "es" ? " con" : " with") + " Intro";
     } else {
       skipIntroBtn.style.display = "none";
       localStorage.setItem("hasVisitedSitePreviously", "true");
