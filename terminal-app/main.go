@@ -37,8 +37,8 @@ var upgrader = websocket.Upgrader{
 type UserLanguage string
 
 const (
-	SPANISH UserLanguage = "SPANISH"
-	ENGLISH UserLanguage = "ENGLISH"
+	SPANISH UserLanguage = "ES"
+	ENGLISH UserLanguage = "EN"
 )
 
 func getUserLanguage(r *http.Request) UserLanguage {
@@ -57,7 +57,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	userLanguage := getUserLanguage(r)
 	defer conn.Close()
-	initialCommand := "export USER_LANG=" + string(userLanguage) + "; " +
+	initialCommand := "export LANG=" + string(userLanguage) + "; " +
 		"exec rbash"
 	cmd := exec.Command("/bin/bash", "-c", initialCommand)
 	ptmx, err := pty.Start(cmd)
