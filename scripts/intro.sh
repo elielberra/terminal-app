@@ -7,7 +7,7 @@ clear
 echo "SIG_PLAY_INTRO_MUSIC"
 clear
 
-sleep 0.5
+sleep 0.6
 
 print_progress_bar() {
   local sleep_time="$1"
