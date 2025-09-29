@@ -48,7 +48,11 @@
 
     const userLang = getUserLanguageCode()
 
-    if (userLang === "es") {
+    function isUserLangSpanish() {
+      return userLang === "es";
+    }
+
+    if (isUserLangSpanish()) {
       document.getElementById("access-intro-btn").textContent = "Acceder a la Página Web";
       document.getElementById("skip-intro-btn").textContent = "Saltar Introducción";
     }
@@ -63,7 +67,7 @@
 
     if (localStorage.getItem("hasVisitedSitePreviously") === "true") {
       skipIntroBtn.style.display = "inline-block";
-      accessBtn.textContent += (userLang === "es" ? " con" : " with") + " Intro";
+      accessBtn.textContent += (isUserLangSpanish() ? " con" : " with") + " Intro";
     } else {
       skipIntroBtn.style.display = "none";
       localStorage.setItem("hasVisitedSitePreviously", "true");
