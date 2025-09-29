@@ -7,7 +7,7 @@ clear
 echo "SIG_PLAY_INTRO_MUSIC"
 clear
 
-clear
+sleep 0.5
 
 print_progress_bar() {
   local sleep_time="$1"
@@ -23,36 +23,66 @@ RED="\033[31m"
 YELLOW="\033[33m"
 RESET="\033[0m"
 
-sleep 0.6 
-echo -e "${YELLOW}ALERT!!${RESET}"
+declare -A ALERT_TXT=(
+  [EN]="ALERT"
+  [ES]="ALERTA"
+)
+
+echo -e "${YELLOW}${ALERT_TXT[$LANG]}!!!${RESET}"
 sleep 1
-echo -e "${YELLOW}ALERT!!${RESET}"
+echo -e "${YELLOW}${ALERT_TXT[$LANG]}!!!${RESET}"
 sleep 1
-echo -e "${YELLOW}ALERT!!${RESET}"
+echo -e "${YELLOW}${ALERT_TXT[$LANG]}!!!${RESET}"
 
 sleep 1.3
+
+declare -A BEEN_HACKED_TXT=(
+  [EN]="YOU HAVE BEEN HACKED"
+  [ES]="HAS SIDO HACKEADO"
+)
+
 end=$((SECONDS+4))   # run for num of seconds
 while [ $SECONDS -lt $end ]; do
-  echo -ne "${RED}----- YOU'VE BEEN HACKED -----${RESET}\r"
+  echo -ne "${RED}----- ${BEEN_HACKED_TXT[$LANG]} -----${RESET}\r"
   sleep 0.5
   echo -ne "                                                \r"
   sleep 0.5
 done
-echo -ne "${RED}----- YOU'VE BEEN HACKED -----${RESET}\n"
+echo -ne "${RED}----- ${BEEN_HACKED_TXT[$LANG]} -----${RESET}\n"
 
-echo -e "${YELLOW}Emptying your bank account${RESET}"
+declare -A EMPTYING_BANK_TXT=(
+  [EN]="Emptying your bank account"
+  [ES]="Vaciando tu cuenta bancaria"
+)
+
+echo -e "${YELLOW}${EMPTYING_BANK_TXT[$LANG]}${RESET}"
 
 print_progress_bar 0.05
 
-echo -e "${YELLOW}Transfering money to the Caiman Islands${RESET}"
+declare -A TRANSFERING_MONEY_TXT=(
+  [EN]="Transfering money to the Caiman Islands"
+  [ES]="Transfiriendo los fondos a las Islas Caiman"
+)
+
+echo -e "${YELLOW}${TRANSFERING_MONEY_TXT[$LANG]}${RESET}"
 
 print_progress_bar 0.01
 
-echo -e "${YELLOW}Converting u\$D to Bitcoin${RESET}"
+declare -A CONVERTING_USD_TXT=(
+  [EN]="Converting u\$D to Bitcoin"
+  [ES]="Convirtiendo los Dólares a Bitcoin"
+)
+
+echo -e "${YELLOW}${CONVERTING_USD_TXT[$LANG]}${RESET}"
 
 print_progress_bar 0.03
 
-echo -e "${YELLOW}Deleting transactions from Log History${RESET}"
+declare -A DELETING_HISTORY_TXT=(
+  [EN]="Deleting transactions from Log History"
+  [ES]="Borrando las transacciones del historial"
+)
+
+echo -e "${YELLOW}${DELETING_HISTORY_TXT[$LANG]}${RESET}"
 
 print_progress_bar 0.017
 
