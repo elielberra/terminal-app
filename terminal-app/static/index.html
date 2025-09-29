@@ -41,7 +41,17 @@
   <audio id="intro-sound" src="/audios/piracy.mp3" preload="auto"></audio>
   <script>
 
-    console.log("Loading script")
+    function getUserLanguageCode() {
+      const lang = navigator.language || navigator.userLanguage || 'en';
+      return lang.split('-')[0];
+    }
+
+    const userLang = getUserLanguageCode()
+
+    if (userLang === "es") {
+      document.getElementById("access-intro-btn").textContent = "Acceder a la Página Web";
+      document.getElementById("skip-intro-btn").textContent = "Saltar Introducción";
+    }
 
     const accessBtn = document.getElementById('access-intro-btn');
     const skipIntroBtn = document.getElementById('skip-intro-btn');
