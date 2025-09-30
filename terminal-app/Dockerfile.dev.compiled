@@ -17,6 +17,8 @@ RUN useradd -m -u 1001 -s /bin/rbash web-user
 
 RUN mkdir -p /var/www && chown web-user:web-user /var/www
 
+RUN echo 'PS1="\[\e[1;32m\]user\[\e[0m\]@\[\e[1;32m\]server\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\] \$ "' >> /home/web-user/.bashrc
+
 USER web-user
 
 WORKDIR /app
