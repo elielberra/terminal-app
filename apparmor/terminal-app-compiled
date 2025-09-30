@@ -1,15 +1,17 @@
 #include <tunables/global>
 
 profile terminal-app-compiled {
-	#include <abstractions/base>
-	#include <abstractions/audio>
-	#include <abstractions/nameservice>
 
+	# terminal-app files
 	/app/terminal-app                 ix,
 	/app/**                           r,
 	/app/                             r,
 
-	# Terminals + shells
+	# shared libraries
+	/lib/**                           mr,
+	/usr/lib/**                       mr,
+
+	# terminals
 	/dev/ptmx        rw,
 	/dev/pts/**      rw,
 	/usr/bin/rbash  rmix,
