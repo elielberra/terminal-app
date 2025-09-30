@@ -14,11 +14,11 @@ services:
     ports:
       - "8080:8080"
     # Give container access to host sound device  
-    devices:
-      - "/dev/snd:/dev/snd"
-    # Allow container user to use /dev/snd  
-    group_add:
-      - "audio"               
+    # devices:
+    #   - "/dev/snd:/dev/snd"
+    # # Allow container user to use /dev/snd  
+    # group_add:
+    #   - "audio"               
     security_opt:
       - apparmor:terminal-app-compiled
       - no-new-privileges:true
