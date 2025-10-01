@@ -38,7 +38,7 @@ profile terminal-app-compiled {
 	/usr/bin/date 			ix,
 	/usr/bin/timeout		ix,
 	/usr/bin/eliel			rix,
-	/usr/bin/curl			ix, # TODO: Remove
+	/usr/bin/curl			ix, # TODO: Remove curl and ping for prod
 	/usr/bin/ping			ix,
 
 	# MPV files
