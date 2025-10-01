@@ -23,7 +23,11 @@ fi
 # Open new Chromw Window with terminal-app URL
 # Run in background so docker compose stays attached and shows logs
 # Wait 1 second for the container to run 
-(sleep 1 && google-chrome --new-window http://localhost:8080) &
+(sleep 1 && google-chrome --new-window http://localhost) &
 
 # Spawn new container
-docker compose up
+if ! docker compose up; then
+  echo "❌ Failed to spawn terminal-app container. Aborting."
+  exit 1
+fi
+
