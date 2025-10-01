@@ -1,9 +1,15 @@
 services:
-  terminal-app-compiled:
-    container_name: terminal-app-compiled
+  nginx:
+    image: nginx:1.29.1
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  terminal-app:
+    container_name: terminal-app
     build:
       context: ./terminal-app
-      dockerfile: Dockerfile.dev.compiled
+      dockerfile: Dockerfile.dev
     volumes:
       - ./terminal-app:/app
       - ./media:/app/media
@@ -12,10 +18,12 @@ services:
     env_file:
       - ./terminal-app/.env.dev
     ports:
-      - "8080:8080"              
+      - "8080:8080"          
     security_opt:
+      - seccomp=./seccomp/seccomp.json
       - apparmor:terminal-app-compiled
       - no-new-privileges:true
     read_only: true
     cap_drop:
       - ALL
+    # TODO: Add depends on nginx health for prod file

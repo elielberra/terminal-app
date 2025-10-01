@@ -17,8 +17,8 @@ var upgrader = websocket.Upgrader{
 		domain := os.Getenv("WS_DOMAIN")
 		port := os.Getenv("WS_PORT")
 
-		if protocol == "" || domain == "" || port == "" {
-			log.Fatal("Missing required environment variables: WS_PROTOCOL, WS_DOMAIN, or WS_PORT")
+		if protocol == "" || domain == "" {
+			log.Fatal("Missing required environment variables: WS_PROTOCOL and/or WS_DOMAIN")
 		}
 
 		origin := r.Header.Get("Origin")
@@ -30,7 +30,7 @@ var upgrader = websocket.Upgrader{
 		if origin != expectedOrigin {
 			log.Printf("ERROR: Expected %s but receieved a connection from %s", expectedOrigin, origin)
 		} // Required for acccessing web page from phone or device on the same wifi // TODO: Remove later
-		return (origin == expectedOrigin) || (origin == "http://192.168.100.8:8080")
+		return (origin == expectedOrigin) || (origin == "http://192.168.100.8")
 	},
 }
 
@@ -98,6 +98,6 @@ func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fs)
 
-	log.Println("Listening on :8080")
+	log.Println("Listening on :8080") // TODO: create fn and use env vars
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
