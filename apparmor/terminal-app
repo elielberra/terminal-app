@@ -25,8 +25,8 @@ profile terminal-app {
 	# sockets
 	network inet stream,
 
-	# Allow container to receive SIGTERM/SIGKILL from Docker
-	signal (receive) peer=unconfined,
+	# Only allow Docker (unconfined) to stop this app with TERM or KILL
+	signal (receive) set=(term,kill) peer=unconfined,
 
 	# ---- Permit running ONLY a few commands
 	/usr/bin/cat            ix,
