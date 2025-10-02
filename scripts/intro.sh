@@ -86,7 +86,7 @@ echo -e "${YELLOW}${DELETING_HISTORY_TXT[$LANG]}${RESET}"
 
 print_progress_bar 0.017
 
-timeout 2s bash ./scripts/rain.sh
+bash ./scripts/rain.sh
 
 echo "SIG_REDUCE_FONT_SIZE"
 clear

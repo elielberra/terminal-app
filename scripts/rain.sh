@@ -26,12 +26,12 @@ done
 
 printf '%s' "${CSI}2J${CSI}H"
 
-start=$(date +%s)
-duration=5 # display the rain for this ammount of seconds
+start=$(date +%s%3N)
+duration_ms=2200
 
-while (( $(date +%s) - start < duration )); do
+while (( $(date +%s%3N) - start < duration_ms )); do
   get_size
-  for ((x=0; x<cols; x+=step)); do
+  for ((x=0; x<cols; x+=step)); do  
     y[$x]=$(( (y[$x]+1) % lines ))
     for ((k=0; k<trail; k++)); do
       row=$(( (y[$x]-k+lines) % lines ))
@@ -43,7 +43,7 @@ while (( $(date +%s) - start < duration )); do
     clear_row=$(( (y[$x]-trail+lines) % lines ))
     printf '%s' "${CSI}$((clear_row+1));$((x+1))H${CSI}0m "
   done
-  sleep 0.01 # Set to a high value to prevent the Websocket from getting overloaded causing lag
+  sleep 0.05 # Set to a high value to prevent the Websocket from getting overloaded causing lag
 done
 
 clear
