@@ -1,57 +1,53 @@
 #include <tunables/global>
 
 profile terminal-app {
-    # app source (read-only, except locks on go.mod/go.sum)
-    /app/            r,
-    /app/**          r,
-    /app/go.mod      rk,
-    /app/go.sum      rk,
 
-    # temp + build cache
-    /tmp/            rwk,
-    /tmp/**          rwkix,
+	# terminal-app files
+	/app/terminal-app                 ix,
+	/app/**                           r,
+	/app/                             r,
 
-    # Go module cache
-    /go/pkg/mod/     r,
-    /go/pkg/mod/**   rix,
+	# shared libraries
+	/lib/**                           mr,
+	/usr/lib/**                       mr,
 
-    # Go download cache
-    /go/pkg/mod/cache/     rwk,
-    /go/pkg/mod/cache/**   rwkix,
+	# terminals
+	/dev/ptmx        rw,
+	/dev/pts/**      rw,
+	/usr/bin/rbash  rmix,
+	/usr/bin/bash   rmix,
+	/usr/bin/dircolors  ix,
 
-    # Standard library & toolchain
-    /usr/local/go/   r,
-    /usr/local/go/** rix,
+	# bash files
+	/etc/bash.bashrc        r,
+	/home/web-user/.bashrc  r,
 
-    # User cache
-    /home/web-user/.cache/      rwk,
-    /home/web-user/.cache/**    rwkix,
+	# sockets
+	network inet stream,
 
-    # Devices
-    /dev/null        rw,
-    /dev/urandom     r,
-    /dev/ptmx     rw,
-    /dev/pts/**   rw,
+	# Allow container to receive SIGTERM/SIGKILL from Docker
+	signal (receive) peer=unconfined,
+	# allow timeout to signal its children (same confined peer)
+	signal (send)   set=(term,kill,int,hup,alrm) peer=terminal-app,
+	signal (receive) set=(term,int,hup,alrm)     peer=terminal-app,
 
-    # System compiler (for cgo)
-    /usr/bin/gcc-12   rix,
-    /usr/bin/*gcc*   rix,
 
-    # Add a comment here
-    /etc/ld.so.cache  r,
-    /lib/**           mr,
-    /usr/lib/**       mr,
-    /usr/lib/gcc/**   rix,
+	# ---- Permit running ONLY a few commands
+	/usr/bin/cat            ix,
+	/usr/bin/ls             ix,
+	/usr/bin/mpv			ix,
+	/usr/bin/sleep          ix,
+	/usr/bin/tr	            ix,
+	/usr/bin/clear          ix,
+	/usr/bin/date 			ix,
+	/usr/bin/timeout		ix,
+	/usr/bin/eliel			rix,
+	/usr/bin/curl			ix, # TODO: Remove curl and ping for prod
+	/usr/bin/ping			ix,
 
-    # Add a comment here
-    /usr/include/      r,
-    /usr/include/**    r,
-    /usr/bin/as    rix,
-    /usr/bin/x86_64-linux-gnu-as   rix,
-    /usr/bin/*ld*   rix,
+	# MPV files
+	/etc/fonts/fonts.conf      r,
 
-    network inet stream,
-
-    # Allow container to receive SIGTERM/SIGKILL from Docker
-    signal (receive) peer=unconfined,
+	# devices
+	/dev/null			w,
 }

@@ -22,7 +22,7 @@ services:
       - ./terminal-app/.env.dev
     security_opt:
       - seccomp=./seccomp/seccomp.json
-      - apparmor:terminal-app-compiled
+      - apparmor:terminal-app
       - no-new-privileges:true
     read_only: true
     cap_drop:
