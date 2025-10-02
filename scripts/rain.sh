@@ -7,7 +7,7 @@ cleanup() {
   printf '%s' "${CSI}?25h${CSI}?7h${CSI}0m${CSI}2J${CSI}H"
 }
 trap cleanup EXIT INT
-printf '%s' "${CSI}?25l${CSI}?7l" # hide cursor, disable wrap
+printf '%s' "${CSI}?25l${CSI}?7l"
 
 get_size() {
   read lines cols < <(stty size 2>/dev/null || echo "24 80")
@@ -27,7 +27,7 @@ done
 printf '%s' "${CSI}2J${CSI}H"
 
 start=$(date +%s%3N)
-duration_ms=2200
+duration_ms=2200 # Number of miliseconds for which the rain will appear
 
 while (( $(date +%s%3N) - start < duration_ms )); do
   get_size
