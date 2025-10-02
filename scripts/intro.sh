@@ -37,7 +37,7 @@ echo -e "${YELLOW}${ALERT_TXT[$LANG]}!!!${RESET}"
 sleep 1.3
 
 declare -A BEEN_HACKED_TXT=(
-  [EN]="YOU HAVE BEEN HACKED"
+  [EN]="YOU'VE BEEN HACKED"
   [ES]="HAS SIDO HACKEADO"
 )
 
