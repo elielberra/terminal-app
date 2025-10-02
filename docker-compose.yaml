@@ -5,6 +5,8 @@ services:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    logging:
+      driver: "none"
   terminal-app:
     container_name: terminal-app
     build:
