@@ -43,4 +43,7 @@ profile terminal-app-compiled {
 
 	# MPV files
 	/etc/fonts/fonts.conf      r,
+
+	# devices
+	/dev/null			w,
 }
