@@ -27,10 +27,6 @@ profile terminal-app {
 
 	# Allow container to receive SIGTERM/SIGKILL from Docker
 	signal (receive) peer=unconfined,
-	# allow timeout to signal its children (same confined peer)
-	signal (send)   set=(term,kill,int,hup,alrm) peer=terminal-app,
-	signal (receive) set=(term,int,hup,alrm)     peer=terminal-app,
-
 
 	# ---- Permit running ONLY a few commands
 	/usr/bin/cat            ix,
@@ -40,7 +36,6 @@ profile terminal-app {
 	/usr/bin/tr	            ix,
 	/usr/bin/clear          ix,
 	/usr/bin/date 			ix,
-	/usr/bin/timeout		ix,
 	/usr/bin/eliel			rix,
 	/usr/bin/curl			ix, # TODO: Remove curl and ping for prod
 	/usr/bin/ping			ix,
