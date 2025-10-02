@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# I vibe coded this entire script. I have no idea how it works.
+# Credits go to ChatGPR
 clear
 
 CSI=$'\e['
