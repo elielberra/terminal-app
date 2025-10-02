@@ -7,7 +7,7 @@ cleanup() {
   printf '%s' "${CSI}?25h${CSI}?7h${CSI}0m${CSI}2J${CSI}H"
 }
 trap cleanup EXIT INT
-printf '%s' "${CSI}?25l${CSI}?7l"   # hide cursor, disable wrap
+printf '%s' "${CSI}?25l${CSI}?7l" # hide cursor, disable wrap
 
 get_size() {
   read lines cols < <(stty size 2>/dev/null || echo "24 80")
@@ -27,7 +27,7 @@ done
 printf '%s' "${CSI}2J${CSI}H"
 
 start=$(date +%s)
-duration=5   # display the rain for this ammount of seconds
+duration=5 # display the rain for this ammount of seconds
 
 while (( $(date +%s) - start < duration )); do
   get_size
@@ -43,7 +43,7 @@ while (( $(date +%s) - start < duration )); do
     clear_row=$(( (y[$x]-trail+lines) % lines ))
     printf '%s' "${CSI}$((clear_row+1));$((x+1))H${CSI}0m "
   done
-  sleep 0.08 # Set to a high value to prevent the Websocket from getting overloaded causing lag
+  sleep 0.01 # Set to a high value to prevent the Websocket from getting overloaded causing lag
 done
 
 clear
