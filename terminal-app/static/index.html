@@ -60,6 +60,7 @@
     const accessBtn = document.getElementById('access-intro-btn');
     const skipIntroBtn = document.getElementById('skip-intro-btn');
     const terminalDiv = document.getElementById('terminal');
+    const introSound = document.getElementById('intro-sound');
     const DEFAULT_PC_FONT_SIZE = 22;
     const DEFAULT_MOBILE_FONT_SIZE = 22;
     const REDUCED_PC_FONT_SIZE = 14;
@@ -95,12 +96,13 @@
       const cleanOutput = stripAnsi(output);
       if (!cleanOutput.startsWith("SIG")) return
       if (cleanOutput === "SIG_PLAY_INTRO_MUSIC") {
-        document.getElementById("intro-sound").play();
+        introSound.play();
         return;
       }
 
       if (cleanOutput === "SIG_STOP_INTRO_MUSIC") {
-        document.getElementById("intro-sound").pause();
+        introSound.pause();
+        introSound.currentTime = 0;
         return;
       }
 
@@ -141,6 +143,7 @@
           ? event.data
           : new TextDecoder("utf-8").decode(new Uint8Array(event.data));
         terminal.write(text);
+        console.log(text)
         handleTerminalOutput(text, terminal);
       };
       terminal.onData(data => {
