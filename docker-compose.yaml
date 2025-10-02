@@ -9,6 +9,7 @@ services:
       driver: "none"
   terminal-app:
     container_name: terminal-app
+    # TODO: Add depends on nginx health for prod file
     build:
       context: ./terminal-app
       dockerfile: Dockerfile.dev
@@ -19,8 +20,6 @@ services:
       - ./scripts/eliel:/usr/bin/eliel
     env_file:
       - ./terminal-app/.env.dev
-    ports:
-      - "8080:8080"          
     security_opt:
       - seccomp=./seccomp/seccomp.json
       - apparmor:terminal-app-compiled
@@ -28,4 +27,3 @@ services:
     read_only: true
     cap_drop:
       - ALL
-    # TODO: Add depends on nginx health for prod file

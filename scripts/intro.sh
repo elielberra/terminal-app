@@ -60,7 +60,7 @@ echo -e "${YELLOW}${EMPTYING_BANK_TXT[$LANG]}${RESET}"
 print_progress_bar 0.05
 
 declare -A TRANSFERING_MONEY_TXT=(
-  [EN]="Transfering money to the Caiman Islands"
+  [EN]="Transfering money to the Cayman Islands"
   [ES]="Transfiriendo los fondos a las Islas Caiman"
 )
 
