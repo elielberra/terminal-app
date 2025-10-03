@@ -41,13 +41,13 @@ cv_cmd() {
 
   case "${lang,,}" in
     esp|es|español|spanish)
-      echo "www.cv.com/eliel-spanish"
+      bash /app/scripts/download-cv.sh ESP
       ;;
     eng|en|english|ingles|inglés)
-      echo "www.cv.com/eliel-english"
+      bash /app/scripts/download-cv.sh ENG
       ;;
     "")
-      echo "www.cv.com/eliel-english"
+      bash /app/scripts/download-cv.sh ENG
       ;;
     *)
       echo "Error: unsupported language '$lang' (use esp|eng)" >&2; exit 2

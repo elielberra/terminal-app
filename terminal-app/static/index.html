@@ -42,6 +42,38 @@
   <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
   <script>
 
+
+    function downloadCv(lang) {
+      let url;
+      if (lang === "ENG") {
+        url = "https://docs.google.com/spreadsheets/d/1i2R3kfTmLwdt3H3R1d9nFkLZTlz9LsDLPSU3jCu4HfE/export?format=xlsx&id=1i2R3kfTmLwdt3H3R1d9nFkLZTlz9LsDLPSU3jCu4HfE"
+      } else {
+        url = "url en castellano"
+      }
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Eliel Berra CV ${lang}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function stopAudio(audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+
+    function fadeOutAudio(audio, duration) {
+      let fade = setInterval(() => {
+        audio.volume = Math.max(0, audio.volume - 0.05);
+        if (audio.volume === 0) {
+          clearInterval(fade);
+          stopAudio(audio)
+          audio.volume = 1;
+        }
+      }, duration / 20);
+    }
+
     function getUserLanguageCode() {
       const lang = navigator.language || navigator.userLanguage || "en";
       return lang.split("-")[0];
@@ -104,8 +136,7 @@
       }
 
       if (cleanOutput === "SIG_STOP_INTRO_MUSIC") {
-        introSound.pause();
-        introSound.currentTime = 0;
+        fadeOutAudio(introSound, 3000);
         return;
       }
 
@@ -115,8 +146,7 @@
       }
 
       if (cleanOutput === "SIG_STOP_ARG_FNC_MUSIC") {
-        argFncSound.pause();
-        introSound.currentTime = 0;
+        stopAudio(argFncSound);
         return;
       }
 
@@ -142,6 +172,9 @@
         fitAddon.fit();
         return;
       }
+      if (cleanOutput === "SIG_DOWNLOAD_CV_ENG") {
+        downloadCv("ENG")
+      }
     }
 
     function createXtermTerminal() {
@@ -158,7 +191,7 @@
           : new TextDecoder("utf-8").decode(new Uint8Array(event.data));
         terminal.write(text);
         handleTerminalOutput(text, terminal);
-        // console.log(stripAnsi(text))
+        console.log(stripAnsi(text))
       };
       terminal.onData(data => {
         socket.send(data);
