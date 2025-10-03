@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>Web Terminal</title>
@@ -31,17 +30,22 @@
     #skip-intro-btn {
       margin-left: 40px;
     }
+
+    #inactive-msg {
+      color: yellow;
+      display: none;
+    }
   </style>
 </head>
 
 <body>
+  <p id="inactive-msg">Your previous terminal session was closed due to inactivity</p>
   <button id="access-intro-btn">Access Web Page</button>
   <button id="skip-intro-btn">Skip Intro</button>
   <div id="terminal"></div>
   <audio id="intro-sound" src="/audios/piracy.mp3" preload="auto"></audio>
   <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
   <script>
-
 
     function downloadCv(lang) {
       let url;
@@ -88,10 +92,12 @@
     if (isUserLangSpanish()) {
       document.getElementById("access-intro-btn").textContent = "Acceder a la Página Web";
       document.getElementById("skip-intro-btn").textContent = "Saltar Introducción";
+      document.getElementById("inactive-msg").textContent = "Tu sesión anterior de la terminal se cerró por inactividad";
     }
 
     const accessBtn = document.getElementById("access-intro-btn");
     const skipIntroBtn = document.getElementById("skip-intro-btn");
+    const inactiveMsg = document.getElementById("inactive-msg");
     const terminalDiv = document.getElementById("terminal");
     const introSound = document.getElementById("intro-sound");
     const argFncSound = document.getElementById("arg-fnc-sound");
@@ -178,8 +184,9 @@
     }
 
     function createXtermTerminal() {
-      accessBtn.remove();
-      skipIntroBtn.remove();
+      inactiveMsg.style.display = "none";
+      accessBtn.style.display = "none";
+      skipIntroBtn.style.display = "none";
       terminalDiv.style.display = "block";
       const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
       terminal.open(document.getElementById("terminal"));
@@ -192,6 +199,13 @@
         terminal.write(text);
         handleTerminalOutput(text, terminal);
         console.log(stripAnsi(text))
+      };
+      socket.onclose = function () {
+        terminal.dispose();
+        terminalDiv.style.display = "none";
+        inactiveMsg.style.display = "block";
+        accessBtn.style.display = "inline-block";
+        skipIntroBtn.style.display = "inline-block";
       };
       terminal.onData(data => {
         socket.send(data);
