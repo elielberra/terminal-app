@@ -39,11 +39,12 @@
   <button id="skip-intro-btn">Skip Intro</button>
   <div id="terminal"></div>
   <audio id="intro-sound" src="/audios/piracy.mp3" preload="auto"></audio>
+  <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
   <script>
 
     function getUserLanguageCode() {
-      const lang = navigator.language || navigator.userLanguage || 'en';
-      return lang.split('-')[0];
+      const lang = navigator.language || navigator.userLanguage || "en";
+      return lang.split("-")[0];
     }
 
     const userLang = getUserLanguageCode()
@@ -57,10 +58,11 @@
       document.getElementById("skip-intro-btn").textContent = "Saltar Introducción";
     }
 
-    const accessBtn = document.getElementById('access-intro-btn');
-    const skipIntroBtn = document.getElementById('skip-intro-btn');
-    const terminalDiv = document.getElementById('terminal');
-    const introSound = document.getElementById('intro-sound');
+    const accessBtn = document.getElementById("access-intro-btn");
+    const skipIntroBtn = document.getElementById("skip-intro-btn");
+    const terminalDiv = document.getElementById("terminal");
+    const introSound = document.getElementById("intro-sound");
+    const argFncSound = document.getElementById("arg-fnc-sound");
     const DEFAULT_PC_FONT_SIZE = 22;
     const DEFAULT_MOBILE_FONT_SIZE = 22;
     const REDUCED_PC_FONT_SIZE = 14;
@@ -89,12 +91,13 @@
     }
 
     function stripAnsi(text) {
-      return text.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, '').trim();
+      return text.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, "").trim();
     }
 
     function handleTerminalOutput(output, terminal) {
       const cleanOutput = stripAnsi(output);
       if (!cleanOutput.startsWith("SIG")) return
+
       if (cleanOutput === "SIG_PLAY_INTRO_MUSIC") {
         introSound.play();
         return;
@@ -106,15 +109,26 @@
         return;
       }
 
+      if (cleanOutput === "SIG_PLAY_ARG_FNC_MUSIC") {
+        argFncSound.play();
+        return;
+      }
+
+      if (cleanOutput === "SIG_STOP_ARG_FNC_MUSIC") {
+        argFncSound.pause();
+        introSound.currentTime = 0;
+        return;
+      }
+
       if (cleanOutput === "SIG_DISABLE_TOUCH") {
         // Prevent the user from clicking anywhere on the terminal
         // On mobile devices, tapping the screen opens the keyboard to avoid screen lock or dimming
-        if (isMobileUser()) document.body.style.pointerEvents = 'none';
+        if (isMobileUser()) document.body.style.pointerEvents = "none";
         return;
       }
 
       if (cleanOutput === "SIG_ENABLE_TOUCH") {
-        document.body.style.pointerEvents = '';
+        document.body.style.pointerEvents = "";
         return;
       }
 
@@ -133,9 +147,9 @@
     function createXtermTerminal() {
       accessBtn.remove();
       skipIntroBtn.remove();
-      terminalDiv.style.display = 'block';
+      terminalDiv.style.display = "block";
       const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
-      terminal.open(document.getElementById('terminal'));
+      terminal.open(document.getElementById("terminal"));
       const socket = new WebSocket("ws://" + location.host + "/ws");
       socket.binaryType = "arraybuffer";
       socket.onmessage = function (event) {
@@ -154,15 +168,15 @@
       return [terminal, socket]
     }
 
-    accessBtn.addEventListener('click', () => {
+    accessBtn.addEventListener("click", () => {
       const [_, socket] = createXtermTerminal();
-      const cmd = 'bash scripts/intro.sh\r';
+      const cmd = "bash scripts/intro.sh\r";
       socket.onopen = () => {
         socket.send(cmd);
       };
     })
 
-    skipIntroBtn.addEventListener('click', () => {
+    skipIntroBtn.addEventListener("click", () => {
       createXtermTerminal();
     })
   </script>
