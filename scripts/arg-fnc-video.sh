@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "SIG_DISABLE_TOUCH"
-clear
+clear.
 
 declare -A FIRST_TXT=(
   [EN]="First, let me warn you that a video in super ultra HD is going to be displayed. You will need a powerful NVIDIA GPU to render this graphics"
