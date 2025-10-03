@@ -44,13 +44,13 @@
   <button id="access-intro-btn">Access Web Page</button>
   <button id="skip-intro-btn">Skip Intro</button>
   <div id="terminal"></div>
-  <audio id="intro-sound" src="/audios/piracy.mp3" preload="auto"></audio>
+  <audio id="intro-sound" src="/audios/intro.mp3" preload="auto"></audio>
   <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
   <script>
 
     function downloadCv(lang) {
       let url;
-      if (lang === "ENG") {
+      if (lang === ENG) {
         url = "https://docs.google.com/spreadsheets/d/1i2R3kfTmLwdt3H3R1d9nFkLZTlz9LsDLPSU3jCu4HfE/export?format=xlsx&id=1i2R3kfTmLwdt3H3R1d9nFkLZTlz9LsDLPSU3jCu4HfE"
       } else {
         url = "url en castellano"
@@ -84,16 +84,8 @@
       return lang.split("-")[0];
     }
 
-    const userLang = getUserLanguageCode()
-
     function isUserLangSpanish() {
       return userLang === "es";
-    }
-
-    if (isUserLangSpanish()) {
-      document.getElementById("access-intro-btn").textContent = "Acceder a la Página Web";
-      document.getElementById("skip-intro-btn").textContent = "Saltar Introducción";
-      document.getElementById("inactive-msg").textContent = "Tu sesión anterior de la terminal se cerró por inactividad";
     }
 
     const accessBtn = document.getElementById("access-intro-btn");
@@ -107,7 +99,15 @@
     const REDUCED_PC_FONT_SIZE = 14;
     const REDUCED_MOBILE_FONT_SIZE = 20;
     const fitAddon = new FitAddon.FitAddon();
+    const ENG ="ENG";
+    const ESP ="ESP";
+    const userLang = getUserLanguageCode()
 
+    if (isUserLangSpanish()) {
+      accessBtn.textContent = "Acceder a la Página Web";
+      skipIntroBtn.textContent = "Saltar Introducción";
+      inactiveMsg.textContent = "Tu sesión anterior de la terminal se cerró por inactividad";
+    }
 
     if (localStorage.getItem("hasVisitedSitePreviously") === "true") {
       skipIntroBtn.style.display = "inline-block";
@@ -141,7 +141,6 @@
         introSound.play();
         return;
       }
-
       if (cleanOutput === "SIG_STOP_INTRO_MUSIC") {
         fadeOutAudio(introSound, 3000);
         return;
@@ -151,19 +150,15 @@
         argFncSound.play();
         return;
       }
-
       if (cleanOutput === "SIG_STOP_ARG_FNC_MUSIC") {
         stopAudio(argFncSound);
         return;
       }
 
       if (cleanOutput === "SIG_DISABLE_TOUCH") {
-        // Prevent the user from clicking anywhere on the terminal
-        // On mobile devices, tapping the screen opens the keyboard to avoid screen lock or dimming
         if (isMobileUser()) document.body.style.pointerEvents = "none";
         return;
       }
-
       if (cleanOutput === "SIG_ENABLE_TOUCH") {
         document.body.style.pointerEvents = "";
         return;
@@ -179,8 +174,12 @@
         fitAddon.fit();
         return;
       }
+
       if (cleanOutput === "SIG_DOWNLOAD_CV_ENG") {
-        downloadCv("ENG")
+        downloadCv(ENG)
+      }
+      if (cleanOutput === "SIG_DOWNLOAD_CV_ESP") {
+        downloadCv(ESP)
       }
     }
 
