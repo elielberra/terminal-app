@@ -2,6 +2,10 @@
 
 profile terminal-app {
 
+	# web-user files
+	/home/web-user/                   r,
+	/home/web-user/**                 r,
+
 	# terminal-app files
 	/app/terminal-app                 ix,
 	/app/**                           r,
