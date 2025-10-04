@@ -188,7 +188,7 @@
       skipIntroBtn.style.display = "none";
       terminalDiv.style.display = "block";
       const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
-      terminal.open(document.getElementById("terminal"));
+      terminal.open(terminalDiv);
       const socket = new WebSocket("ws://" + location.host + "/ws");
       socket.binaryType = "arraybuffer";
       socket.onmessage = function (event) {
