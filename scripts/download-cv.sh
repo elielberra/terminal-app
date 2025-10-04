@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-#!/bin/bash
-
 lang="$1"
 ESP="ESP"
 ENG="ENG"
@@ -11,13 +8,11 @@ if [[ "$lang" != "$ESP" && "$lang" != "$ENG" ]]; then
   exit 1
 fi
 
-echo "Language selected: $lang"
-
 clear
 echo "SIG_DOWNLOAD_CV_${lang}"
 clear
 
-echo "In case the file is not automatically downloaded here is the link: #TODO Add link to drive folder"
+echo -e "In case the file is not automatically downloaded here is the link:\n\nhttps://drive.google.com/drive/folders/1S1ePqptM1x7wHTav5CvHAuMEvdvmoear?usp=sharing\n\n"
 
 # Interests Software Development, Cloud Infrastructure and Gen AI
 echo

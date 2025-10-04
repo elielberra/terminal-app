@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Web Terminal</title>
@@ -50,15 +51,10 @@
   <script>
 
     function downloadCv(lang) {
-      let url;
-      if (lang === ENG) {
-        url = "https://docs.google.com/spreadsheets/d/1i2R3kfTmLwdt3H3R1d9nFkLZTlz9LsDLPSU3jCu4HfE/export?format=xlsx&id=1i2R3kfTmLwdt3H3R1d9nFkLZTlz9LsDLPSU3jCu4HfE"
-      } else {
-        url = "url en castellano"
-      }
+      const url = `https://drive.usercontent.google.com/uc?id=${lang == ENG ? engCvId : espCvId}&authuser=0&export=download`
       const a = document.createElement("a");
       a.href = url;
-      a.download = `Eliel Berra CV ${lang}.xlsx`;
+      a.download = `Eliel Berra CV ${lang}.pdf`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -100,8 +96,10 @@
     const REDUCED_PC_FONT_SIZE = 14;
     const REDUCED_MOBILE_FONT_SIZE = 20;
     const fitAddon = new FitAddon.FitAddon();
-    const ENG ="ENG";
-    const ESP ="ESP";
+    const ENG = "ENG";
+    const ESP = "ESP";
+    const engCvId = "1a8X9yvlBTIq26kV4W8PqGr5lLiDhqKai";
+    const espCvId = "13b17AyMQMklVygE6MSf32GRAD5P9UNfT";
     const userLang = getUserLanguageCode()
 
     if (isUserLangSpanish()) {
