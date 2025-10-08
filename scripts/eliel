@@ -12,7 +12,7 @@ Usage:
 
 Commands:
   cv                Print the CV URL based on language.
-  world-champion    Play the Argentina FNC video in ASCII (mpv required).
+  world-champion    Play a surprise video in ASCII Art style
 
 Examples:
   eliel cv --language esp
@@ -61,7 +61,7 @@ world_champion_cmd() {
 
 hacker_cmd() {
   echo "01110000 01110101 01110100 01101111 00100000 01100101 01101100 "\
-        "00100000 01110001 01110101 01100101 00100000 01101100 01100101 01100101"
+       "00100000 01110001 01110101 01100101 00100000 01101100 01100101 01100101"
 }
 
 main() {
