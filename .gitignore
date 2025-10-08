@@ -6,3 +6,6 @@ server/tmp
 
 # compiled app
 terminal-app/terminal-app
+
+# test files
+scripts/test.sh
