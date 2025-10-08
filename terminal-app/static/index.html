@@ -51,9 +51,11 @@
   <script>
 
     function downloadCv(lang) {
-      const url = `https://drive.usercontent.google.com/uc?id=${lang == ENG ? engCvId : espCvId}&authuser=0&export=download`
+      const driveCvFileId = lang == ENG ? engCvId : espCvId;
+      const url = `https://drive.usercontent.google.com/uc?id=${driveCvFileId}&authuser=0&export=download`
       const a = document.createElement("a");
       a.href = url;
+      a.target = "_blank";
       a.download = `Eliel Berra CV ${lang}.pdf`;
       document.body.appendChild(a);
       a.click();
