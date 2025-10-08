@@ -189,6 +189,7 @@
       terminalDiv.style.display = "block";
       const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
       terminal.open(terminalDiv);
+      terminal.focus()
       const socket = new WebSocket("ws://" + location.host + "/ws");
       socket.binaryType = "arraybuffer";
       socket.onmessage = function (event) {
