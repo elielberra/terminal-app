@@ -44,7 +44,7 @@ Si querés conocerme un poco más a nivel personal, acá hay una lista de alguna
 - Álbum: Yo-Yo Ma con Ennio Morricone  
 - Equipo de fútbol: El Boca de Bianchi del 2000  
 - Jugador de fútbol: Ronaldinho (después de Messi, obviamente)  
-- Helado: Dulce de leche con trozos de chocolate  
+- Helado: Dulce de leche granizado
 - Ruta de escape de Corea del Norte: Cruzar el río Tumen congelado hacia China durante el invierno. Desde ahí, viajar hacia el norte a través de redes clandestinas. Cruzar el desierto del Gobi y pedir asilo político en Mongolia
 - Países a los que nunca fui pero me gustaría visitar: Ecuador, Noruega, Bhutan, Botsuana, Australia
 "
