@@ -5,7 +5,7 @@ clear
 
 declare -A FIRST_TXT=(
   [EN]="First, let me warn you that a video in super ultra HD is going to be displayed. You will need a powerful NVIDIA GPU to render this graphics"
-  [ES]="Primero, déjame advertirte que se va a mostrar un video en súper ultra HD. Necesitarás una GPU NVIDIA potente para renderizar estos gráficos"
+  [ES]="Primero, dejame advertirte que se va a mostrar un video en súper ultra HD. Necesitarás una GPU NVIDIA potente para renderizar estos gráficos"
 )
 
 declare -A SECOND_TXT=(
@@ -19,12 +19,18 @@ echo -e "${YELLOW}${SECOND_TXT[$LANG]}!!!${RESET}"
 sleep 3
 
 
+clear
+echo "SIG_PAUSE_MORSE_BACKGROUND"
+clear
 echo "SIG_PLAY_ARG_FNC_MUSIC"
 clear
 
 mpv --vo=caca --no-audio --really-quiet /app/media/arg-fnc.mp4
 
+clear
 echo "SIG_STOP_ARG_FNC_MUSIC"
+clear
+echo "SIG_PLAY_MORSE_BACKGROUND"
 clear
 echo "SIG_ENABLE_TOUCH"
 clear

@@ -39,20 +39,25 @@
       display: none;
     }
 
-    [id$="mode-icon"] {
-      width: 50px;
+    [id$="icon"] {
+      width: 40px;
       position: fixed;
       top: 10px;
-      right: 20px;
-      width: 40px;
-      height: 40px;
       z-index: 9999;
       display: none;
     }
 
+    [id$="mode-icon"] {
+      right: 20px;
+    }
+
+    [id$="music-icon"] {
+      background-color: rgba(255, 255, 255, 0.75);
+      right: 70px;
+    }
+
     #light-mode-icon {
       background-color: rgba(255, 255, 255, 0.75);
-      display: block;
     }
   </style>
 </head>
@@ -62,10 +67,13 @@
   <button id="access-intro-btn">Access Web Page</button>
   <button id="skip-intro-btn">Skip Intro</button>
   <div id="terminal"></div>
-  <img id="night-mode-icon" src="/images/night-mode.png" alt="Theme Icon">
-  <img id="light-mode-icon" src="/images/light-mode.png" alt="Theme Icon">
+  <img id="night-mode-icon" src="/images/night-mode.png" alt="Night theme icon">
+  <img id="light-mode-icon" src="/images/light-mode.png" alt="Light theme icon">
+  <img id="mute-music-icon" src="/images/mute.png" alt="Mute music icon">
+  <img id="unmute-music-icon" src="/images/unmute.png" alt="Unmute music icon">
   <audio id="intro-sound" src="/audios/intro.mp3" preload="auto"></audio>
   <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
+  <audio id="morse-bakground-sound" src="/audios/morse-background.mp3" preload="auto"></audio>
   <script>
 
     function downloadCv(lang) {
@@ -96,6 +104,9 @@
       }, duration / 20);
     }
 
+    function isBackgroundSonarMuted() {
+      return muteMusicIcon.style.display === "none" ? true : false;
+    }
     function getUserLanguageCode() {
       const lang = navigator.language || navigator.userLanguage || "en";
       return lang.split("-")[0];
@@ -111,8 +122,12 @@
     const terminalDiv = document.getElementById("terminal");
     const introSound = document.getElementById("intro-sound");
     const argFncSound = document.getElementById("arg-fnc-sound");
+    const morseBackgroundSound = document.getElementById("morse-bakground-sound");
+    morseBackgroundSound.loop = true;
     const nightModeIcon = document.getElementById("night-mode-icon");
     const lightModeIcon = document.getElementById("light-mode-icon");
+    const muteMusicIcon = document.getElementById("mute-music-icon");
+    const unmuteMusicIcon = document.getElementById("unmute-music-icon");
     const DEFAULT_PC_FONT_SIZE = 22;
     const DEFAULT_MOBILE_FONT_SIZE = 22;
     const REDUCED_PC_FONT_SIZE = 14;
@@ -123,6 +138,9 @@
     const engCvId = "1a8X9yvlBTIq26kV4W8PqGr5lLiDhqKai";
     const espCvId = "13b17AyMQMklVygE6MSf32GRAD5P9UNfT";
     const userLang = getUserLanguageCode()
+    let currentTerminal = null;
+    const semiOpaqueWhite = "rgba(255, 255, 255, 0.75)";
+    const transparent = "rgba(255, 255, 255, 0)";
 
     if (isUserLangSpanish()) {
       accessBtn.textContent = "Acceder a la Página Web";
@@ -202,9 +220,15 @@
       if (cleanOutput === "SIG_DOWNLOAD_CV_ESP") {
         downloadCv(ESP)
       }
-    }
 
-    let currentTerminal = null;
+      if (cleanOutput === "SIG_PLAY_MORSE_BACKGROUND") {
+        !isBackgroundSonarMuted() && morseBackgroundSound.play();
+      }
+
+      if (cleanOutput === "SIG_PAUSE_MORSE_BACKGROUND") {
+        morseBackgroundSound.pause();
+      }
+    }
 
     function createXtermTerminal() {
       inactiveMsg.style.display = "none";
@@ -212,6 +236,7 @@
       skipIntroBtn.style.display = "none";
       terminalDiv.style.display = "block";
       lightModeIcon.style.display = "block";
+      muteMusicIcon.style.display = "block";
       const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
       currentTerminal = terminal;
       terminal.open(terminalDiv);
@@ -234,6 +259,8 @@
         skipIntroBtn.style.display = "inline-block";
         lightModeIcon.style.display = "none";
         nightModeIcon.style.display = "none";
+        muteMusicIcon.style.display = "none";
+        unmuteMusicIcon.style.display = "none";
       };
       terminal.onData(data => {
         socket.send(data);
@@ -252,7 +279,11 @@
     })
 
     skipIntroBtn.addEventListener("click", () => {
-      createXtermTerminal();
+      const [_, socket] = createXtermTerminal();
+      const cmd = "bash /app/scripts/welcome-msg.sh\r";
+      socket.onopen = () => {
+        socket.send(cmd);
+      };
     })
 
     function setLightTheme(terminal) {
@@ -287,11 +318,14 @@
       }
       return true;
     }
+
     nightModeIcon.addEventListener("click", () => {
       if (!isTerminalInitialized(currentTerminal)) return
       nightModeIcon.style.display = "none";
       lightModeIcon.style.display = "block";
       currentTerminal.options.theme = {};
+      muteMusicIcon.style.backgroundColor = semiOpaqueWhite;
+      unmuteMusicIcon.style.backgroundColor = semiOpaqueWhite;
     })
 
     lightModeIcon.addEventListener("click", () => {
@@ -299,6 +333,20 @@
       nightModeIcon.style.display = "block";
       lightModeIcon.style.display = "none";
       setLightTheme(currentTerminal);
+      muteMusicIcon.style.backgroundColor = transparent;
+      unmuteMusicIcon.style.backgroundColor = transparent;
+    })
+
+    muteMusicIcon.addEventListener("click", () => {
+      muteMusicIcon.style.display = "none";
+      unmuteMusicIcon.style.display = "block";
+      morseBackgroundSound.pause()
+    })
+
+    unmuteMusicIcon.addEventListener("click", () => {
+      unmuteMusicIcon.style.display = "none";
+      muteMusicIcon.style.display = "block";
+      morseBackgroundSound.play()
     })
   </script>
 </body>
