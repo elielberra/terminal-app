@@ -38,6 +38,22 @@
       font-size: x-large;
       display: none;
     }
+
+    [id$="mode-icon"] {
+      width: 50px;
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      z-index: 9999;
+      display: none;
+    }
+
+    #light-mode-icon {
+      background-color: rgba(255, 255, 255, 0.75);
+      display: block;
+    }
   </style>
 </head>
 
@@ -46,6 +62,8 @@
   <button id="access-intro-btn">Access Web Page</button>
   <button id="skip-intro-btn">Skip Intro</button>
   <div id="terminal"></div>
+  <img id="night-mode-icon" src="/images/night-mode.png" alt="Theme Icon">
+  <img id="light-mode-icon" src="/images/light-mode.png" alt="Theme Icon">
   <audio id="intro-sound" src="/audios/intro.mp3" preload="auto"></audio>
   <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
   <script>
@@ -93,6 +111,8 @@
     const terminalDiv = document.getElementById("terminal");
     const introSound = document.getElementById("intro-sound");
     const argFncSound = document.getElementById("arg-fnc-sound");
+    const nightModeIcon = document.getElementById("night-mode-icon");
+    const lightModeIcon = document.getElementById("light-mode-icon");
     const DEFAULT_PC_FONT_SIZE = 22;
     const DEFAULT_MOBILE_FONT_SIZE = 22;
     const REDUCED_PC_FONT_SIZE = 14;
@@ -123,11 +143,11 @@
     }
 
     function getReducedFontSize() {
-      return isMobileUser ? REDUCED_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
+      return isMobileUser() ? REDUCED_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
     }
 
     function getDefaultFontSize() {
-      return isMobileUser ? DEFAULT_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
+      return isMobileUser() ? DEFAULT_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
     }
 
     function stripAnsi(text) {
@@ -184,14 +204,18 @@
       }
     }
 
+    let currentTerminal = null;
+
     function createXtermTerminal() {
       inactiveMsg.style.display = "none";
       accessBtn.style.display = "none";
       skipIntroBtn.style.display = "none";
       terminalDiv.style.display = "block";
+      lightModeIcon.style.display = "block";
       const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
+      currentTerminal = terminal;
       terminal.open(terminalDiv);
-      terminal.focus()
+      terminal.focus();
       const socket = new WebSocket("ws://" + location.host + "/ws");
       socket.binaryType = "arraybuffer";
       socket.onmessage = function (event) {
@@ -208,6 +232,8 @@
         inactiveMsg.style.display = "block";
         accessBtn.style.display = "inline-block";
         skipIntroBtn.style.display = "inline-block";
+        lightModeIcon.style.display = "none";
+        nightModeIcon.style.display = "none";
       };
       terminal.onData(data => {
         socket.send(data);
@@ -227,6 +253,52 @@
 
     skipIntroBtn.addEventListener("click", () => {
       createXtermTerminal();
+    })
+
+    function setLightTheme(terminal) {
+      terminal.options.theme = {
+        background: "#f5e6cc",
+        foreground: "#000000",
+        cursor: "#000000",
+        selectionBackground: "#c0c0c0",
+        black: "#000000",
+        red: "#d70000",
+        green: "#008700",
+        yellow: "#af8700",
+        blue: "#005faf",
+        magenta: "#870087",
+        cyan: "#008787",
+        white: "#e4e4e4",
+        brightBlack: "#1c1c1c",
+        brightRed: "#d75f5f",
+        brightGreen: "#5faf5f",
+        brightYellow: "#afaf5f",
+        brightBlue: "#5f87af",
+        brightMagenta: "#af5faf",
+        brightCyan: "#5fafaf",
+        brightWhite: "#ffffff",
+      };
+    }
+
+    function isTerminalInitialized(terminal) {
+      if (terminal == null) {
+        console.error("The terminal has to be initialized before its properties can be modified");
+        return false;
+      }
+      return true;
+    }
+    nightModeIcon.addEventListener("click", () => {
+      if (!isTerminalInitialized(currentTerminal)) return
+      nightModeIcon.style.display = "none";
+      lightModeIcon.style.display = "block";
+      currentTerminal.options.theme = {};
+    })
+
+    lightModeIcon.addEventListener("click", () => {
+      if (!isTerminalInitialized(currentTerminal)) return
+      nightModeIcon.style.display = "block";
+      lightModeIcon.style.display = "none";
+      setLightTheme(currentTerminal);
     })
   </script>
 </body>
