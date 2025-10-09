@@ -111,3 +111,5 @@ echo "SIG_STOP_INTRO_MUSIC"
 clear
 echo "SIG_ENABLE_TOUCH"
 clear
+
+bash ./scripts/welcome-msg.sh
