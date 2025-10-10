@@ -222,7 +222,10 @@
       }
 
       if (cleanOutput === "SIG_PLAY_MORSE_BACKGROUND") {
-        !isBackgroundSonarMuted() && morseBackgroundSound.play();
+        if (!isBackgroundSonarMuted()) {
+          morseBackgroundSound.play();
+          morseBackgroundSound.volume = 0.08;
+        }
       }
 
       if (cleanOutput === "SIG_PAUSE_MORSE_BACKGROUND") {
