@@ -57,7 +57,8 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	userLanguage := getUserLanguage(r)
 	defer conn.Close()
-	cmd := exec.Command("/bin/rbash")
+	cmd := exec.Command("/bin/bash")
+	// cmd := exec.Command("/bin/rbash")
 	cmd.Env = append(os.Environ(),
 		"LANG="+string(userLanguage),
 	)

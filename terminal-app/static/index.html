@@ -139,6 +139,7 @@
     const espCvId = "13b17AyMQMklVygE6MSf32GRAD5P9UNfT";
     const userLang = getUserLanguageCode()
     let currentTerminal = null;
+    let currentSocket = null;
     const semiOpaqueWhite = "rgba(255, 255, 255, 0.75)";
     const transparent = "rgba(255, 255, 255, 0)";
 
@@ -233,6 +234,16 @@
       }
     }
 
+    function syncPtySize() {
+      console.log("inside syncPtySize")
+      if (!currentTerminal || !currentSocket || currentSocket.readyState !== WebSocket.OPEN) return;
+      console.log("inside syncPtySize after if block")
+      const rows = currentTerminal.rows;
+      const cols = currentTerminal.cols;
+      currentSocket.send(`stty rows ${rows} cols ${cols}\r`);
+    }
+
+
     function createXtermTerminal() {
       inactiveMsg.style.display = "none";
       accessBtn.style.display = "none";
@@ -245,6 +256,7 @@
       terminal.open(terminalDiv);
       terminal.focus();
       const socket = new WebSocket("ws://" + location.host + "/ws");
+      currentSocket = socket;
       socket.binaryType = "arraybuffer";
       socket.onmessage = function (event) {
         const text = (typeof event.data === "string")
@@ -278,6 +290,7 @@
       const cmd = "bash /app/scripts/intro.sh\r";
       socket.onopen = () => {
         socket.send(cmd);
+        syncPtySize();
       };
     })
 
@@ -286,6 +299,7 @@
       const cmd = "bash /app/scripts/welcome-msg.sh\r";
       socket.onopen = () => {
         socket.send(cmd);
+        syncPtySize();
       };
     })
 
@@ -353,7 +367,9 @@
     })
 
     window.addEventListener("resize", () => {
-      if (currentTerminal) fitAddon.fit();
+      if (!currentTerminal) return;
+      fitAddon.fit();
+      syncPtySize();
     });
   </script>
 </body>
