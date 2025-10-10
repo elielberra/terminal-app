@@ -1,13 +1,13 @@
 #!/bin/bash
 
+ESP="ESP"
+ENG="ENG"
+
 cv_lang="$1"
 if [[ "$cv_lang" != "$ESP" && "$cv_lang" != "$ENG" ]]; then
   echo "Error: argument must be ESP or ENG"
   exit 1
 fi
-
-ESP="ESP"
-ENG="ENG"
 
 clear
 echo "SIG_DOWNLOAD_CV_${cv_lang}"
