@@ -86,21 +86,21 @@ echo -e "${YELLOW}${DELETING_HISTORY_TXT[$LANG]}${RESET}"
 
 print_progress_bar 0.017
 
-bash ./scripts/rain.sh
+bash /app/scripts/rain.sh
 
 echo "SIG_REDUCE_FONT_SIZE"
 clear
 
-bash ./scripts/putin-small.sh
+bash /app/scripts/putin-small.sh
 sleep 1
 clear
-bash ./scripts/kim-jong-un-small.sh
+bash /app/scripts/kim-jong-un-small.sh
 sleep 1
 clear
-bash ./scripts/putin-big.sh
+bash /app/scripts/putin-big.sh
 sleep 1
 clear
-bash ./scripts/kim-jong-un-big.sh
+bash /app/scripts/kim-jong-un-big.sh
 sleep 1
 clear
 
@@ -112,4 +112,4 @@ clear
 echo "SIG_ENABLE_TOUCH"
 clear
 
-bash ./scripts/welcome-msg.sh
+bash /app/scripts/welcome-msg.sh
