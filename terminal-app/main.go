@@ -29,8 +29,8 @@ var upgrader = websocket.Upgrader{
 		}
 		if origin != expectedOrigin {
 			log.Printf("ERROR: Expected %s but receieved a connection from %s", expectedOrigin, origin)
-		} // Required for acccessing web page from phone or device on the same wifi // TODO: Remove later
-		return (origin == expectedOrigin) || (origin == "http://192.168.100.8")
+		} // Allow access on same wifi network or running App directly on host machine // TODO: Remove later
+		return (origin == expectedOrigin) || (origin == "http://192.168.100.8" || (origin == "http://localhost:8080"))
 	},
 }
 
