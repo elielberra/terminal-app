@@ -73,7 +73,7 @@
   <img id="unmute-music-icon" src="/images/unmute.png" alt="Unmute music icon">
   <audio id="intro-sound" src="/audios/intro.mp3" preload="auto"></audio>
   <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
-  <audio id="morse-bakground-sound" src="/audios/morse-background.mp3" preload="auto"></audio>
+  <audio id="bakground-sound" src="/audios/background-sound.mp3" preload="auto"></audio>
   <script>
 
     function downloadCv(lang) {
@@ -104,7 +104,7 @@
       }, duration / 20);
     }
 
-    function isBackgroundSonarMuted() {
+    function isBackgroundSoundMuted() {
       return muteMusicIcon.style.display === "none" ? true : false;
     }
     function getUserLanguageCode() {
@@ -122,8 +122,8 @@
     const terminalDiv = document.getElementById("terminal");
     const introSound = document.getElementById("intro-sound");
     const argFncSound = document.getElementById("arg-fnc-sound");
-    const morseBackgroundSound = document.getElementById("morse-bakground-sound");
-    morseBackgroundSound.loop = true;
+    const backgroundSound = document.getElementById("bakground-sound");
+    backgroundSound.loop = true;
     const nightModeIcon = document.getElementById("night-mode-icon");
     const lightModeIcon = document.getElementById("light-mode-icon");
     const muteMusicIcon = document.getElementById("mute-music-icon");
@@ -223,15 +223,15 @@
         downloadCv(ESP)
       }
 
-      if (cleanOutput === "SIG_PLAY_MORSE_BACKGROUND") {
-        if (!isBackgroundSonarMuted()) {
-          morseBackgroundSound.play();
-          morseBackgroundSound.volume = 0.08;
+      if (cleanOutput === "SIG_PLAY_BACKGROUND_SOUND") {
+        if (!isBackgroundSoundMuted()) {
+          backgroundSound.play();
+          backgroundSound.volume = 0.08;
         }
       }
 
-      if (cleanOutput === "SIG_PAUSE_MORSE_BACKGROUND") {
-        morseBackgroundSound.pause();
+      if (cleanOutput === "SIG_PAUSE_BACKGROUND_SOUND") {
+        backgroundSound.pause();
       }
     }
 
@@ -363,13 +363,13 @@
     muteMusicIcon.addEventListener("click", () => {
       muteMusicIcon.style.display = "none";
       unmuteMusicIcon.style.display = "block";
-      morseBackgroundSound.pause()
+      backgroundSound.pause()
     })
 
     unmuteMusicIcon.addEventListener("click", () => {
       unmuteMusicIcon.style.display = "none";
       muteMusicIcon.style.display = "block";
-      morseBackgroundSound.play()
+      backgroundSound.play()
     })
 
     window.addEventListener("resize", fitAndResize);
