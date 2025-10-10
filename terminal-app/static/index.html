@@ -142,6 +142,7 @@
     let currentSocket = null;
     const semiOpaqueWhite = "rgba(255, 255, 255, 0.75)";
     const transparent = "rgba(255, 255, 255, 0)";
+    let resizeTimer;
 
     if (isUserLangSpanish()) {
       accessBtn.textContent = "Acceder a la Página Web";
@@ -206,12 +207,12 @@
 
       if (cleanOutput === "SIG_REDUCE_FONT_SIZE") {
         terminal.options.fontSize = getReducedFontSize();
-        fitAddon.fit();
+        fitAndResize();
         return;
       }
       if (cleanOutput === "SIG_RESTORE_FONT_SIZE") {
         terminal.options.fontSize = getDefaultFontSize();
-        fitAddon.fit();
+        fitAndResize();
         return;
       }
 
@@ -234,15 +235,21 @@
       }
     }
 
-    function syncPtySize() {
-      console.log("inside syncPtySize")
+    function sendResize() {
       if (!currentTerminal || !currentSocket || currentSocket.readyState !== WebSocket.OPEN) return;
-      console.log("inside syncPtySize after if block")
-      const rows = currentTerminal.rows;
-      const cols = currentTerminal.cols;
-      currentSocket.send(`stty rows ${rows} cols ${cols}\r`);
+      currentSocket.send(JSON.stringify({
+        type: "resize",
+        cols: currentTerminal.cols,
+        rows: currentTerminal.rows,
+      }));
     }
 
+    function fitAndResize() {
+      if (!currentTerminal) return;
+      fitAddon.fit();
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(sendResize, 250);
+    }
 
     function createXtermTerminal() {
       inactiveMsg.style.display = "none";
@@ -281,7 +288,6 @@
         socket.send(data);
       });
       terminal.loadAddon(fitAddon);
-      fitAddon.fit();
       return [terminal, socket]
     }
 
@@ -290,7 +296,7 @@
       const cmd = "bash /app/scripts/intro.sh\r";
       socket.onopen = () => {
         socket.send(cmd);
-        syncPtySize();
+        fitAndResize();
       };
     })
 
@@ -299,7 +305,7 @@
       const cmd = "bash /app/scripts/welcome-msg.sh\r";
       socket.onopen = () => {
         socket.send(cmd);
-        syncPtySize();
+        fitAndResize();
       };
     })
 
@@ -366,11 +372,7 @@
       morseBackgroundSound.play()
     })
 
-    window.addEventListener("resize", () => {
-      if (!currentTerminal) return;
-      fitAddon.fit();
-      syncPtySize();
-    });
+    window.addEventListener("resize", fitAndResize);
   </script>
 </body>
 
