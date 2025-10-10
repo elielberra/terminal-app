@@ -351,6 +351,10 @@
       muteMusicIcon.style.display = "block";
       morseBackgroundSound.play()
     })
+
+    window.addEventListener("resize", () => {
+      if (currentTerminal) fitAddon.fit();
+    });
   </script>
 </body>
 
