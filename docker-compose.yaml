@@ -15,9 +15,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./terminal-app:/app
-      - ./media:/app/media
-      - ./scripts:/app/scripts
-      - ./scripts/eliel:/usr/bin/eliel
+      - ./terminal-app/scripts/eliel:/usr/bin/eliel
     env_file:
       - ./terminal-app/.env.dev
     security_opt:
