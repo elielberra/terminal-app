@@ -14,24 +14,22 @@ import (
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
-		protocol := os.Getenv("WS_PROTOCOL")
-		domain := os.Getenv("WS_DOMAIN")
-		port := os.Getenv("WS_PORT")
 
-		if protocol == "" || domain == "" {
-			log.Fatal("Missing required environment variables: WS_PROTOCOL and/or WS_DOMAIN")
+		reqOrigin := r.Header.Get("Origin")
+
+		var cfg = getWsConfig()
+		for _, origin := range cfg.DevExpectedOrigins {
+			if origin == reqOrigin {
+				return true
+			}
 		}
 
-		origin := r.Header.Get("Origin")
-
-		expectedOrigin := fmt.Sprintf("%s://%s", protocol, domain)
-		if port != "" {
-			expectedOrigin += ":" + port
-		}
-		if origin != expectedOrigin {
-			log.Printf("ERROR: Expected %s but receieved a connection from %s", expectedOrigin, origin)
-		} // Allow access on same wifi network or running App directly on host machine // TODO: Remove later
-		return (origin == expectedOrigin) || (origin == "http://192.168.100.8" || (origin == "http://localhost:8080"))
+		log.Printf(
+			"ERROR: Expected one of %v but received a connection from %s",
+			cfg.DevExpectedOrigins,
+			reqOrigin,
+		)
+		return false
 	},
 }
 
@@ -44,10 +42,43 @@ type wsMsg struct {
 
 type userLanguage string
 
+type wsCfg struct {
+	Protocol           string
+	Domain             string
+	Port               string
+	ExpectedOrigin     string
+	DevExpectedOrigins [3]string
+}
+
 const (
 	SPANISH userLanguage = "ES"
 	ENGLISH userLanguage = "EN"
 )
+
+func getWsConfig() wsCfg {
+	protocol := os.Getenv("WS_PROTOCOL")
+	domain := os.Getenv("WS_DOMAIN")
+	port := os.Getenv("WS_PORT")
+
+	if protocol == "" || domain == "" {
+		log.Fatal("Missing required environment variables: WS_PROTOCOL and/or WS_DOMAIN")
+	}
+
+	expectedOrigin := fmt.Sprintf("%s://%s", protocol, domain)
+	if port != "" {
+		expectedOrigin += ":" + port
+	}
+	devExpectedOrigins := [...]string{expectedOrigin, "http://192.168.100.8", "http://localhost:8080"}
+
+	return wsCfg{
+		Protocol:           protocol,
+		Domain:             domain,
+		Port:               port,
+		ExpectedOrigin:     expectedOrigin,
+		DevExpectedOrigins: devExpectedOrigins,
+	}
+
+}
 
 func getUserLanguage(r *http.Request) userLanguage {
 	lang := r.Header.Get("Accept-Language")
@@ -94,22 +125,22 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	for {
-    _, messageData, err := conn.ReadMessage()
-    if err != nil {
-        break
-    }
+		_, messageData, err := conn.ReadMessage()
+		if err != nil {
+			break
+		}
 
-    var messageJson wsMsg
-    if err := json.Unmarshal(messageData, &messageJson); err == nil && messageJson.Type == "resize" {
-        _ = pty.Setsize(ptmx, &pty.Winsize{
-            Cols: uint16(messageJson.Cols),
-            Rows: uint16(messageJson.Rows),
-        })
-        continue
-    }
+		var messageJson wsMsg
+		if err := json.Unmarshal(messageData, &messageJson); err == nil && messageJson.Type == "resize" {
+			_ = pty.Setsize(ptmx, &pty.Winsize{
+				Cols: uint16(messageJson.Cols),
+				Rows: uint16(messageJson.Rows),
+			})
+			continue
+		}
 
-    ptmx.Write(messageData)
-}
+		ptmx.Write(messageData)
+	}
 
 }
 
@@ -117,7 +148,7 @@ func main() {
 	http.HandleFunc("/ws", wsHandler)
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fs)
-
-	log.Println("Listening on :8080") // TODO: create fn and use env vars
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	appPort := ":" + os.Getenv("APP_PORT")
+	log.Printf("terminal-app listening on port %s", appPort)
+	log.Fatal(http.ListenAndServe(appPort, nil))
 }
