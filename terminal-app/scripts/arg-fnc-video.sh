@@ -20,7 +20,7 @@ sleep 3
 
 
 clear
-echo "SIG_PAUSE_MORSE_BACKGROUND"
+echo "SIG_PAUSE_BACKGROUND_SOUND"
 clear
 echo "SIG_PLAY_ARG_FNC_MUSIC"
 clear
@@ -30,7 +30,7 @@ mpv --vo=caca --no-audio --really-quiet /app/media/arg-fnc.mp4
 clear
 echo "SIG_STOP_ARG_FNC_MUSIC"
 clear
-echo "SIG_PLAY_MORSE_BACKGROUND"
+echo "SIG_PLAY_BACKGROUND_SOUND"
 clear
 echo "SIG_ENABLE_TOUCH"
 clear
