@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -34,14 +35,21 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-type UserLanguage string
+type wsMsg struct {
+	Type string `json:"type"`
+	Cols int    `json:"cols"`
+	Rows int    `json:"rows"`
+	Data string `json:"data,omitempty"`
+}
+
+type userLanguage string
 
 const (
-	SPANISH UserLanguage = "ES"
-	ENGLISH UserLanguage = "EN"
+	SPANISH userLanguage = "ES"
+	ENGLISH userLanguage = "EN"
 )
 
-func getUserLanguage(r *http.Request) UserLanguage {
+func getUserLanguage(r *http.Request) userLanguage {
 	lang := r.Header.Get("Accept-Language")
 	if len(lang) >= 2 && lang[:2] == "es" {
 		return SPANISH
@@ -86,12 +94,23 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	for {
-		_, msg, err := conn.ReadMessage()
-		if err != nil {
-			break
-		}
-		ptmx.Write(msg)
-	}
+    _, messageData, err := conn.ReadMessage()
+    if err != nil {
+        break
+    }
+
+    var messageJson wsMsg
+    if err := json.Unmarshal(messageData, &messageJson); err == nil && messageJson.Type == "resize" {
+        _ = pty.Setsize(ptmx, &pty.Winsize{
+            Cols: uint16(messageJson.Cols),
+            Rows: uint16(messageJson.Rows),
+        })
+        continue
+    }
+
+    ptmx.Write(messageData)
+}
+
 }
 
 func main() {
