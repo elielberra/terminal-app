@@ -2,24 +2,37 @@ FROM golang:1.23-bookworm as builder
 
 WORKDIR /app
 
-COPY go.mod ./
+COPY go.mod go.sum ./
+
 RUN go mod download
 
-COPY . ./
+COPY main.go ./
 
-RUN go build -o server main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o terminal-app main.go
 
 FROM debian:bookworm
 
-RUN apt update && apt install -y bash && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
-COPY --from=builder /app/server .
+RUN apt update \
+ && apt install -y --no-install-recommends mpv libcaca0 ncurses-term curl iputils-ping \
+ && rm -rf /var/lib/apt/lists/*
 
-COPY static ./static
+RUN useradd -m -u 1000 -s /usr/sbin/nologin app-user \
+ && useradd -m -u 1001 -s /usr/sbin/nologin web-user
 
-EXPOSE 8080
+COPY ./ /app
+ 
+RUN cat ./bashrc-append >> /home/web-user/.bashrc
 
-# Add eliel script to /usr/bin
-CMD ["./server"]
+COPY ./scripts/eliel.sh /usr/bin/eliel
+
+COPY --from=builder /app/terminal-app /app
+ 
+RUN chmod 0100 terminal-app \
+  && chown app-user:app-user terminal-app \
+  && setcap cap_setuid,cap_setgid+ep terminal-app
+
+USER app-user
+
+CMD ["./terminal-app"]
