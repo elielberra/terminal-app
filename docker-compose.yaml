@@ -9,15 +9,13 @@ services:
       driver: "none"
   terminal-app:
     container_name: terminal-app
-    # TODO: Add depends on nginx health for prod file
     build:
       context: ./terminal-app
       dockerfile: Dockerfile.dev
-    volumes:
-      - ./terminal-app:/app
-      - ./terminal-app/scripts/eliel.sh:/usr/bin/eliel
     env_file:
       - ./terminal-app/.env.dev
+    volumes:
+      - ./terminal-app/scripts/eliel.sh:/usr/bin/eliel:ro
     security_opt:
       - seccomp=./seccomp/seccomp.json
       - apparmor:terminal-app
@@ -25,3 +23,7 @@ services:
     read_only: true
     cap_drop:
       - ALL
+    # Optional: these don’t hurt, but file caps are the crucial part
+    cap_add:
+      - SETUID
+      - SETGID

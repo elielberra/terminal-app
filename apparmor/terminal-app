@@ -16,10 +16,10 @@ profile terminal-app {
 	/usr/lib/**                       mr,
 
 	# terminals
-	/dev/ptmx        rw,
-	/dev/pts/**      rw,
-	/usr/bin/rbash  rmix,
-	/usr/bin/bash   rmix,
+	/dev/ptmx           rw,
+	/dev/pts/**         rw,
+	/usr/bin/rbash      rmix,
+	/usr/bin/bash       rmix,
 	/usr/bin/dircolors  ix,
 
 	# bash files
@@ -48,5 +48,9 @@ profile terminal-app {
 	/etc/fonts/fonts.conf      r,
 
 	# devices
-	/dev/null			w,
+	/dev/null			rw,
+
+	# Allow temporarily change of user or group ID
+	capability			setuid,
+	capability			setgid,
 }
