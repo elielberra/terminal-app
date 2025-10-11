@@ -1,11 +1,26 @@
 services:
-  server:
-    container_name: terminal-app-prod
+  nginx:
+    image: nginx:1.29.1
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    logging:
+      driver: "none"
+  terminal-app:
+    container_name: terminal-app
     build:
-      context: ./server
+      context: ./terminal-app
       dockerfile: Dockerfile.prod
     env_file:
-      - ./server/.env.prod
-    ports:
-      - "8080:8080"
+      - ./terminal-app/.env.prod
+    security_opt:
+      - seccomp=./seccomp/seccomp.json
+      - apparmor:terminal-app
+      - no-new-privileges:true
     read_only: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
