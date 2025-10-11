@@ -12,7 +12,11 @@ if ! go build -o terminal-app main.go; then
   echo "❌ Failed to build Go App. Aborting."
   exit 1
 fi
-
+sudo chmod 0100 terminal-app
+# Ownsership to app-user (id 1000)
+sudo chown 1000:1000 terminal-app
+# Add change UID and GUI capabilities to build file
+sudo setcap cap_setuid,cap_setgid+ep terminal-app
 cd ..
 
 # Reload the apparmor profile

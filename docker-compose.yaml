@@ -15,7 +15,8 @@ services:
     env_file:
       - ./terminal-app/.env.dev
     volumes:
-      - ./terminal-app/scripts/eliel.sh:/usr/bin/eliel:ro
+      - ./terminal-app/:/app
+      - ./terminal-app/scripts/eliel.sh:/usr/bin/eliel
     security_opt:
       - seccomp=./seccomp/seccomp.json
       - apparmor:terminal-app
@@ -23,7 +24,6 @@ services:
     read_only: true
     cap_drop:
       - ALL
-    # Optional: these don’t hurt, but file caps are the crucial part
     cap_add:
       - SETUID
       - SETGID
