@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"syscall"
 
 	"github.com/creack/pty"
 	"github.com/gorilla/websocket"
@@ -96,11 +97,20 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	userLanguage := getUserLanguage(r)
 	defer conn.Close()
-	cmd := exec.Command("/bin/bash")
-	// cmd := exec.Command("/bin/rbash")
+	cmd := exec.Command(
+		"/bin/rbash",
+		"--rcfile", "/home/web-user/.bashrc",
+		"-i",
+	)
 	cmd.Env = append(os.Environ(),
 		"LANG="+string(userLanguage),
 	)
+
+	webUserID := uint32(1001)
+	webGroupID := uint32(1001)
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Credential: &syscall.Credential{Uid: webUserID, Gid: webGroupID},
+	}
 
 	ptmx, err := pty.Start(cmd)
 	if err != nil {

@@ -12,7 +12,6 @@ if ! go build -o terminal-app main.go; then
   echo "❌ Failed to build Go App. Aborting."
   exit 1
 fi
-
 cd ..
 
 # Reload the apparmor profile
@@ -24,10 +23,10 @@ fi
 # Open new Chromw Window with terminal-app URL
 # Run in background so docker compose stays attached and shows logs
 # Wait 1 second for the container to run 
-(sleep 2 && google-chrome --new-window http://localhost) &
+(sleep 1 && google-chrome --new-window http://localhost) &
 
 # Spawn new container
-if ! docker compose up --build; then
+if ! docker compose up; then
   echo "❌ Failed to spawn terminal-app container. Aborting."
   exit 1
 fi
