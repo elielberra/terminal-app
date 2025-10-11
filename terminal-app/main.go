@@ -104,6 +104,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	)
 	cmd.Env = append(os.Environ(),
 		"LANG="+string(userLanguage),
+		"TERM=xterm-256color",
 	)
 
 	webUserID := uint32(1001)

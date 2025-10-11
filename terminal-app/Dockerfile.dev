@@ -6,8 +6,6 @@ RUN apt update \
  && apt install -y --no-install-recommends mpv libcaca0 ncurses-term curl iputils-ping \
  && rm -rf /var/lib/apt/lists/*
 
-ENV TERM=xterm-256color
-
 RUN useradd -m -u 1000 -s /usr/sbin/nologin app-user \
  && useradd -m -u 1001 -s /usr/sbin/nologin web-user
 
