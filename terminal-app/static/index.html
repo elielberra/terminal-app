@@ -127,7 +127,7 @@
     backgroundSound.loop = true;
     const morseSound = document.getElementById("morse-sound");
     morseSound.loop = true;
-    morseSound.volume = 0.15;
+    morseSound.volume = 0.05;
     const nightModeIcon = document.getElementById("night-mode-icon");
     const lightModeIcon = document.getElementById("light-mode-icon");
     const muteMusicIcon = document.getElementById("mute-music-icon");
@@ -187,7 +187,7 @@
         return;
       }
       if (cleanOutput === "SIG_STOP_INTRO_MUSIC") {
-        fadeOutAudio(introSound, 3000);
+        fadeOutAudio(introSound, 5000);
         return;
       }
 
@@ -195,8 +195,8 @@
         morseSound.play();
         return;
       }
-      if (cleanOutput === "SIG_PAUSE_MORSE_SOUND") {
-        morseSound.pause();
+      if (cleanOutput === "SIG_STOP_MORSE_SOUND") {
+        fadeOutAudio(morseSound, 5000)
         return;
       }
 

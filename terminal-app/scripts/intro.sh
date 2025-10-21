@@ -4,127 +4,181 @@ trap '' INT # ignore Ctrl+C while the script runs
 
 echo "SIG_DISABLE_TOUCH"
 clear
-# echo "SIG_PLAY_INTRO_MUSIC"
-# clear
+echo "SIG_PLAY_INTRO_MUSIC"
+clear
 
-# sleep 0.6
+sleep 0.6
 
-# print_progress_bar() {
-#   local sleep_time="$1"
-#   for i in {0..100}; do
-#     filled=$(( i / 2 ))
-#     printf "\r%3d%% [%-50s]" "$i" "$(printf '%*s' "$filled" '' | tr ' ' '#')"
-#     sleep "$sleep_time"
-#   done
-#   printf "\n"
-# }
+print_progress_bar() {
+  local sleep_time="$1"
+  for i in {0..100}; do
+    filled=$(( i / 2 ))
+    printf "\r%3d%% [%-50s]" "$i" "$(printf '%*s' "$filled" '' | tr ' ' '#')"
+    sleep "$sleep_time"
+  done
+  printf "\n"
+}
 
-# RED="\033[31m"
-# YELLOW="\033[33m"
-# RESET="\033[0m"
+RED="\033[31m"
+YELLOW="\033[33m"
+RESET="\033[0m"
 
-# declare -A ALERT_TXT=(
-#   [EN]="ALERT"
-#   [ES]="ALERTA"
-# )
+declare -A ALERT_TXT=(
+  [EN]="ALERT"
+  [ES]="ALERTA"
+)
 
-# echo -e "${YELLOW}${ALERT_TXT[$LANG]}!!!${RESET}"
-# sleep 1
-# echo -e "${YELLOW}${ALERT_TXT[$LANG]}!!!${RESET}"
-# sleep 1
-# echo -e "${YELLOW}${ALERT_TXT[$LANG]}!!!${RESET}"
+echo -e "${YELLOW}${ALERT_TXT[$LANG]}!!!${RESET}"
+sleep 1
+echo -e "${YELLOW}${ALERT_TXT[$LANG]}!!!${RESET}"
+sleep 1
+echo -e "${YELLOW}${ALERT_TXT[$LANG]}!!!${RESET}"
 
-# sleep 1.3
+sleep 1.3
 
-# declare -A BEEN_HACKED_TXT=(
-#   [EN]="YOU'VE BEEN HACKED"
-#   [ES]="HAS SIDO HACKEADO"
-# )
+declare -A BEEN_HACKED_TXT=(
+  [EN]="YOU'VE BEEN HACKED"
+  [ES]="HAS SIDO HACKEADO"
+)
 
-# end=$((SECONDS+4)) # run for num of seconds
-# while [ $SECONDS -lt $end ]; do
-#   echo -ne "${RED}----- ${BEEN_HACKED_TXT[$LANG]} -----${RESET}\r"
-#   sleep 0.5
-#   echo -ne "                                                \r"
-#   sleep 0.5
-# done
-# echo -ne "${RED}----- ${BEEN_HACKED_TXT[$LANG]} -----${RESET}\n"
+end=$((SECONDS+4)) # run for num of seconds
+while [ $SECONDS -lt $end ]; do
+  echo -ne "${RED}----- ${BEEN_HACKED_TXT[$LANG]} -----${RESET}\r"
+  sleep 0.5
+  echo -ne "                                                \r"
+  sleep 0.5
+done
+echo -ne "${RED}----- ${BEEN_HACKED_TXT[$LANG]} -----${RESET}\n"
 
-# declare -A EMPTYING_BANK_TXT=(
-#   [EN]="Emptying your bank account"
-#   [ES]="Vaciando tu cuenta bancaria"
-# )
+declare -A EMPTYING_BANK_TXT=(
+  [EN]="Emptying your bank account"
+  [ES]="Vaciando tu cuenta bancaria"
+)
 
-# echo -e "${YELLOW}${EMPTYING_BANK_TXT[$LANG]}${RESET}"
+echo -e "${YELLOW}${EMPTYING_BANK_TXT[$LANG]}${RESET}"
 
-# print_progress_bar 0.05
+print_progress_bar 0.05
 
-# declare -A TRANSFERING_MONEY_TXT=(
-#   [EN]="Transfering money to the Cayman Islands"
-#   [ES]="Transfiriendo los fondos a las Islas Caiman"
-# )
+declare -A TRANSFERING_MONEY_TXT=(
+  [EN]="Transfering money to the Cayman Islands"
+  [ES]="Transfiriendo los fondos a las Islas Caiman"
+)
 
-# echo -e "${YELLOW}${TRANSFERING_MONEY_TXT[$LANG]}${RESET}"
+echo -e "${YELLOW}${TRANSFERING_MONEY_TXT[$LANG]}${RESET}"
 
-# print_progress_bar 0.01
+print_progress_bar 0.01
 
-# declare -A CONVERTING_USD_TXT=(
-#   [EN]="Converting u\$D to Bitcoin"
-#   [ES]="Convirtiendo los Dólares a Bitcoin"
-# )
+declare -A CONVERTING_USD_TXT=(
+  [EN]="Converting u\$D to Bitcoin"
+  [ES]="Convirtiendo los Dólares a Bitcoin"
+)
 
-# echo -e "${YELLOW}${CONVERTING_USD_TXT[$LANG]}${RESET}"
+echo -e "${YELLOW}${CONVERTING_USD_TXT[$LANG]}${RESET}"
 
-# print_progress_bar 0.03
+print_progress_bar 0.04
 
-# declare -A DELETING_HISTORY_TXT=(
-#   [EN]="Deleting transactions from Log History"
-#   [ES]="Borrando las transacciones del historial"
-# )
+declare -A DELETING_HISTORY_TXT=(
+  [EN]="Deleting transactions from Log History"
+  [ES]="Borrando las transacciones del historial"
+)
 
-# echo -e "${YELLOW}${DELETING_HISTORY_TXT[$LANG]}${RESET}"
+echo -e "${YELLOW}${DELETING_HISTORY_TXT[$LANG]}${RESET}"
 
-# print_progress_bar 0.017
+print_progress_bar 0.022
 
-# bash /app/scripts/rain.sh
+echo "SIG_REDUCE_FONT_SIZE"
+clear
 
-# echo "SIG_REDUCE_FONT_SIZE"
-# clear
+bash /app/scripts/putin-small.sh
+sleep 1
+clear
+bash /app/scripts/kim-jong-un-small.sh
+sleep 1
+clear
+bash /app/scripts/putin-big.sh
+sleep 1
+clear
+bash /app/scripts/kim-jong-un-big.sh
+sleep 1
+clear
 
-# bash /app/scripts/putin-small.sh
-# sleep 1
-# clear
-# bash /app/scripts/kim-jong-un-small.sh
-# sleep 1
-# clear
-# bash /app/scripts/putin-big.sh
-# sleep 1
-# clear
-# bash /app/scripts/kim-jong-un-big.sh
-# sleep 1
-# clear
+echo "SIG_RESTORE_FONT_SIZE"
+clear
 
-# echo "SIG_RESTORE_FONT_SIZE"
-# clear
+echo "SIG_STOP_INTRO_MUSIC"
+clear
 
-# echo "SIG_STOP_INTRO_MUSIC"
-# clear
+bash /app/scripts/rain.sh
+
+clear
+echo "SIG_PLAY_MORSE_SOUND"
+clear
 
 print_typing_effect() {
   text="$*"
-  clear
-  echo "SIG_PLAY_MORSE_SOUND"
-  clear
   for ((i=0; i<${#text}; i++)); do
     printf "%s" "${text:$i:1}"
     sleep 0.05
   done
-  clear
-  echo "SIG_PAUSE_MORSE_SOUND"
-  clear
   echo
 }
 
-print_typing_effect "Hello my friend"
+declare -A DONT_WORRY_TXT=(
+  [EN]="Don't worry, I was just kidding."
+  [ES]="No te preocupes, era una broma nada más."
+)
+
+print_typing_effect "${DONT_WORRY_TXT[$LANG]}"
+
+sleep 2
+
+declare -A MONEY_SAFE_TXT=(
+  [EN]="Your money is safe, nobody hacked into your bank accounts."
+  [ES]="Tu plata está a salvo, nadie hackeó tus cuentas bancarias."
+)
+
+print_typing_effect "${MONEY_SAFE_TXT[$LANG]}"
+
+sleep 2
+
+declare -A TERMINAL_APPEAR_TXT=(
+  [EN]="In a few seconds, a terminal will appear. This will be different from the traditional web page interface you are probably used to."
+  [ES]="En unos segundos va a aparecer una terminal. Esto va a ser distinto a la interfaz web tradicional a la que probablemente estás acostumbrado."
+)
+
+print_typing_effect "${TERMINAL_APPEAR_TXT[$LANG]}"
+
+sleep 2
+
+declare -A TERMINAL_COMUNICATE_PC_TXT=(
+  [EN]="A terminal is basically another way to communicate with the PC. Instead of clicking icons with your mouse, you type commands to interact and tell it what you want to do."
+  [ES]="Una terminal es básicamente otra forma de comunicarse con la PC. En vez de hacer clic en íconos con el mouse, tenés que escribir comandos para interactuar y darle instrucciones de lo que querés hacer."
+)
+
+print_typing_effect "${TERMINAL_COMUNICATE_PC_TXT[$LANG]}"
+
+sleep 2
+
+declare -A DETAILED_INSTRUCTIONS_TXT=(
+  [EN]="I will leave you detailed instructions on how to use this terminal. Read them carefully, they contain the different commands you can use."
+  [ES]="Te voy a dejar instrucciones detalladas sobre cómo usar esta terminal. Leelas con atención, ahí están los distintos comandos que podés usar."
+)
+
+print_typing_effect "${DETAILED_INSTRUCTIONS_TXT[$LANG]}"
+
+sleep 2
+
+declare -A PRESS_ENTER_TXT=(
+  [EN]="Press Enter when you are ready to continue."
+  [ES]="Presioná Enter cuando estés listo para continuar."
+)
+
+print_typing_effect "${PRESS_ENTER_TXT[$LANG]}"
+
+read -r
+
+clear
+echo "SIG_STOP_MORSE_SOUND"
+clear
 
 bash /app/scripts/welcome-msg.sh
