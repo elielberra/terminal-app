@@ -74,6 +74,7 @@
   <audio id="intro-sound" src="/audios/intro.mp3" preload="auto"></audio>
   <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
   <audio id="bakground-sound" src="/audios/background-sound.mp3" preload="auto"></audio>
+  <audio id="morse-sound" src="/audios/morse-sound.mp3" preload="auto"></audio>
   <script>
 
     function downloadCv(lang) {
@@ -124,6 +125,9 @@
     const argFncSound = document.getElementById("arg-fnc-sound");
     const backgroundSound = document.getElementById("bakground-sound");
     backgroundSound.loop = true;
+    const morseSound = document.getElementById("morse-sound");
+    morseSound.loop = true;
+    morseSound.volume = 0.15;
     const nightModeIcon = document.getElementById("night-mode-icon");
     const lightModeIcon = document.getElementById("light-mode-icon");
     const muteMusicIcon = document.getElementById("mute-music-icon");
@@ -184,6 +188,15 @@
       }
       if (cleanOutput === "SIG_STOP_INTRO_MUSIC") {
         fadeOutAudio(introSound, 3000);
+        return;
+      }
+
+      if (cleanOutput === "SIG_PLAY_MORSE_SOUND") {
+        morseSound.play();
+        return;
+      }
+      if (cleanOutput === "SIG_PAUSE_MORSE_SOUND") {
+        morseSound.pause();
         return;
       }
 
