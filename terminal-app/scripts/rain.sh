@@ -1,6 +1,8 @@
 #!/bin/bash
 # I vibe coded this entire script. I have no idea how it works.
 # Credits go to ChatGPT
+duration_ms=5000 # Number of miliseconds for which the rain will appear
+
 clear
 
 CSI=$'\e['
@@ -28,7 +30,6 @@ done
 printf '%s' "${CSI}2J${CSI}H"
 
 start=$(date +%s%3N)
-duration_ms=2200 # Number of miliseconds for which the rain will appear
 
 while (( $(date +%s%3N) - start < duration_ms )); do
   get_size
