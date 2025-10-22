@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"syscall"
+	"bytes"
 
 	"github.com/creack/pty"
 	"github.com/gorilla/websocket"
@@ -126,14 +127,16 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	go func() {
-		buf := make([]byte, 1024)
+		buf := make([]byte, 4096)
 		for {
 			n, err := ptmx.Read(buf)
 			if err != nil {
 				break
 			}
-			conn.WriteMessage(websocket.BinaryMessage, buf[:n])
-
+			if n > 0 {
+				cleanOutput := bytes.ToValidUTF8(buf[:n], nil)
+				conn.WriteMessage(websocket.BinaryMessage, cleanOutput)
+			}
 		}
 	}()
 
