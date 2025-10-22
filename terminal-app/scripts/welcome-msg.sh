@@ -29,7 +29,10 @@ Sorry, no Bitcoin passwords here (I wasn’t an early crypto genius).
 But in case you are a curious hacker instead of a cybercriminal, I left a scavenger hunt with a hidden easter egg.
 Run ${BLUE}eliel hacker${RESET} to start the quest.
 
-If you want to see the manual with the instructions on how to use the \`eliel\` program again, enter the command ${BLUE}eliel --help${RESET}."
+If you want to see the manual with the instructions on how to use the \`eliel\` program again, enter the command ${BLUE}eliel --help${RESET}.
+
+You can mute the background server noises and switch to a light theme using the two buttons in the top right corner.
+"
 
 WELCOME_MSG_ESP="¡Hola y bienvenido a mi página web!
 
@@ -52,7 +55,9 @@ Perdón, acá no vas a encontrar contraseñas de Bitcoin (no fui de los vivos qu
 Pero si en lugar de ciberdelincuente sos un hacker curioso, te dejé una búsqueda del tesoro para que te entretengas.  
 Corré ${BLUE}eliel hacker${RESET} para empezar la misión.
 
-Si querés volver a ver el manual con las instrucciones para usar el programa \`eliel\`, escribí el comando ${BLUE}eliel --help${RESET}."
+Si querés volver a ver el manual con las instrucciones para usar el programa \`eliel\`, escribí el comando ${BLUE}eliel --help${RESET}.
+
+Podés silenciar los ruidos de fondo del servidor y cambiar al tema claro con los dos botones en la esquina superior derecha."
 
 declare -A WELCOME_MSG_TXT=(
   [EN]=${WELCOME_MSG_ENG}
