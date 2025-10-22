@@ -28,7 +28,17 @@ fi
 # Open new Chromw Window with terminal-app URL
 # Run in background so docker compose stays attached and shows logs
 # Wait 1 second for the container to run 
-(sleep 2 && google-chrome --new-window http://localhost) &
+# (sleep 2 && google-chrome --new-window http://localhost) &
+(
+  for i in {1..30}; do
+    if curl -s -o /dev/null -w "%{http_code}" http://localhost | grep -q 200; then
+      (sleep 2 && google-chrome --new-window http://localhost) &
+      break
+    fi
+    sleep 1
+  done
+) &
+
 
 # Spawn new container
 if ! docker compose up --build; then
