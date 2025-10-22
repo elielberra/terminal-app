@@ -3,7 +3,7 @@ FROM debian:bookworm
 WORKDIR /app
 
 RUN apt update \
- && apt install -y --no-install-recommends mpv libcaca0 ncurses-term curl iputils-ping \
+ && apt install -y --no-install-recommends mpv libcaca0 ncurses-term curl iputils-ping gnupg \
  && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -u 1000 -s /usr/sbin/nologin app-user \
@@ -12,6 +12,11 @@ RUN useradd -m -u 1000 -s /usr/sbin/nologin app-user \
 COPY bashrc-append /app
 
 RUN cat ./bashrc-append >> /home/web-user/.bashrc
+
+RUN mkdir -p /home/web-user/.gnupg \
+ && printf '%s\n' 'pinentry-mode loopback' > /home/web-user/.gnupg/gpg.conf \
+ && chown -R web-user:web-user /home/web-user/.gnupg \
+ && chmod 700 /home/web-user/.gnupg
 
 USER app-user
 
