@@ -9,11 +9,15 @@
   <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
   <style>
+    html,
     body {
       height: 100%;
       width: 100%;
       margin: 0;
       padding: 0;
+    }
+
+    body {
       background-color: black;
     }
 
@@ -201,7 +205,7 @@
         gladiatorSound.volume = 0.3;
         gladiatorSound.play();
         setTimeout(() => {
-        gladiatorSound.volume = 0.15;
+          gladiatorSound.volume = 0.15;
         }, 37000)
         return;
       }
