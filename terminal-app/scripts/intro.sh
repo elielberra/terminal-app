@@ -127,52 +127,70 @@ declare -A DONT_WORRY_TXT=(
   [EN]="Don't worry, I was just kidding."
   [ES]="No te preocupes, era una broma nada más."
 )
-
 print_typing_effect "${DONT_WORRY_TXT[$LANG]}"
 
-sleep 2
+sleep 1
 
 declare -A MONEY_SAFE_TXT=(
   [EN]="Your money is safe, nobody hacked into your bank accounts."
   [ES]="Tu plata está a salvo, nadie hackeó tus cuentas bancarias."
 )
-
 print_typing_effect "${MONEY_SAFE_TXT[$LANG]}"
 
-sleep 2
+sleep 1
 
-declare -A TERMINAL_APPEAR_TXT=(
-  [EN]="In a few seconds, a terminal will appear. This will be different from the traditional web page interface you are probably used to."
-  [ES]="En unos segundos va a aparecer una terminal. Esto va a ser distinto a la interfaz web tradicional a la que probablemente estás acostumbrado."
+declare -A TERMINAL_APPEAR_TXT_1=(
+  [EN]="In a few seconds, a terminal will appear."
+  [ES]="En unos segundos va a aparecer una terminal."
 )
+print_typing_effect "${TERMINAL_APPEAR_TXT_1[$LANG]}"
 
-print_typing_effect "${TERMINAL_APPEAR_TXT[$LANG]}"
+sleep 1
 
-sleep 2
-
-declare -A TERMINAL_COMUNICATE_PC_TXT=(
-  [EN]="A terminal is basically another way to communicate with the PC. Instead of clicking icons with your mouse, you type commands to interact and tell it what you want to do."
-  [ES]="Una terminal es básicamente otra forma de comunicarse con la PC. En vez de hacer clic en íconos con el mouse, tenés que escribir comandos para interactuar y darle instrucciones de lo que querés hacer."
+declare -A DIFFERENT_TRADITIONAL_UI_TXT=(
+  [EN]="This will be different from the traditional web page interface you are probably used to."
+  [ES]="Esto va a ser distinto a la interfaz web tradicional a la que probablemente estás acostumbrado."
 )
+print_typing_effect "${DIFFERENT_TRADITIONAL_UI_TXT[$LANG]}"
 
-print_typing_effect "${TERMINAL_COMUNICATE_PC_TXT[$LANG]}"
+sleep 1
 
-sleep 2
-
-declare -A DETAILED_INSTRUCTIONS_TXT=(
-  [EN]="I will leave you detailed instructions on how to use this terminal. Read them carefully, they contain the different commands you can use."
-  [ES]="Te voy a dejar instrucciones detalladas sobre cómo usar esta terminal. Leelas con atención, ahí están los distintos comandos que podés usar."
+declare -A TERMINAL_COMUNICATE_PC_TXT_1=(
+  [EN]="A terminal is basically another way to communicate with the PC."
+  [ES]="Una terminal es básicamente otra forma de comunicarse con la PC."
 )
+print_typing_effect "${TERMINAL_COMUNICATE_PC_TXT_1[$LANG]}"
 
-print_typing_effect "${DETAILED_INSTRUCTIONS_TXT[$LANG]}"
+sleep 1
 
-sleep 2
+declare -A INSTEAD_CLICKING_ICONS_TXT=(
+  [EN]="Instead of clicking icons with your mouse, you type commands to interact and tell it what you want to do."
+  [ES]="En vez de hacer clic en íconos con el mouse, tenés que escribir comandos para interactuar y darle instrucciones de lo que querés hacer."
+)
+print_typing_effect "${INSTEAD_CLICKING_ICONS_TXT[$LANG]}"
+
+sleep 1
+
+declare -A DETAILED_INSTRUCTIONS_TXT_1=(
+  [EN]="I will leave you detailed instructions on how to use this terminal."
+  [ES]="Te voy a dejar instrucciones detalladas sobre cómo usar esta terminal."
+)
+print_typing_effect "${DETAILED_INSTRUCTIONS_TXT_1[$LANG]}"
+
+sleep 1
+
+declare -A READ_THEM_CAREFULLY_TXT=(
+  [EN]="Read them carefully, they contain the different commands you can use."
+  [ES]="Leelas con atención, ahí están los distintos comandos que podés usar."
+)
+print_typing_effect "${READ_THEM_CAREFULLY_TXT[$LANG]}"
+
+sleep 1
 
 declare -A PRESS_ENTER_TXT=(
   [EN]="Press Enter when you are ready to continue."
   [ES]="Presioná Enter cuando estés listo para continuar."
 )
-
 print_typing_effect "${PRESS_ENTER_TXT[$LANG]}"
 
 read -r
