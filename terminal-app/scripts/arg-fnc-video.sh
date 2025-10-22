@@ -15,15 +15,15 @@ sleep 2
 
 declare -A DESERT_BATTLE_TXT=(
   [EN]="Among the deserts of the Middle East, the greatest battle took place."
-  [ES]="Entre los desiertos de Medio Oriente, tuvo lugar la batalla más grande."
+  [ES]="Entre los desiertos de Medio Oriente, se libró una gran batalla."
 )
 echo "${DESERT_BATTLE_TXT[$LANG]}"
 
 sleep 4
 
 declare -A NATIONS_CLASH_TXT=(
-  [EN]="Two nations clashed fiercely with one another."
-  [ES]="Dos naciones se enfrentaron ferozmente."
+  [EN]="Two nations clashed fiercely with one another in an epic combat."
+  [ES]="Dos naciones se enfrentaron ferozmente en un épico combate."
 )
 echo "${NATIONS_CLASH_TXT[$LANG]}"
 
