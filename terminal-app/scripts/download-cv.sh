@@ -23,7 +23,7 @@ DRIVE_LINK="https://drive.google.com/drive/folders/1S1ePqptM1x7wHTav5CvHAuMEvdvm
 echo -e "\n\n${DRIVE_LINK}\n\n"
 
 declare -A INTERESTS_TXT=(
-  [EN]="Professionally, I’m interested in projects where I can combine my Software Development, Cloud Infrastructure, and AI Engineering skills.
+  [EN]="Professionally, I’m interested in projects where I can combine my Software Development, Cloud Infrastructure, Cybersecurity and AI Engineering skills.
 
 If you’d like to get to know me on a more personal level, here’s a list of some of my favorite things:
 - Book: Edge of Eternity by Ken Follett
@@ -36,7 +36,7 @@ If you’d like to get to know me on a more personal level, here’s a list of s
 - Escape route from North Korea: Cross the frozen Tumen River into China during winter. From there, travel north through underground networks. Cross the Gobi Desert and seek political asylum in Mongolia.
 - Countries I’ve never been to but would like to visit: Ecuador, Norway, Bhutan, Botswana, Australia
 "
-  [ES]="Profesionalmente, me interesan los proyectos donde pueda combinar mis habilidades en Desarrollo de Software, Infraestructura en la Nube e Ingeniería de IA.
+  [ES]="Profesionalmente, me interesan los proyectos donde pueda combinar mis habilidades en Desarrollo de Software, Infraestructura en la Nube, Ciberseguridad e Ingeniería de IA.
 
 Si querés conocerme un poco más a nivel personal, acá hay una lista de algunas de mis cosas favoritas:
 - Libro: El Umbral de la Eternidad de Ken Follett  
