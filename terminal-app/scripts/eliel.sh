@@ -5,15 +5,15 @@ set -euo pipefail
 print_help() {
   cat <<'EOF'
 Usage:
-  eliel hacker
   eliel champion
   eliel cv --language <esp|eng>
+  eliel hacker
   eliel -h | --help
 
 Commands:
-  cv                Print the CV URL based on language.
-  champion          Play a surprise video in ASCII Art style
-
+  champion          Play a surprise video
+  cv                Download a CV in PDF format
+  hacker            Get hints for a scavenger hunt
 Examples:
   eliel cv --language esp
 EOF
