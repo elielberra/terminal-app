@@ -156,6 +156,16 @@
     const transparent = "rgba(255, 255, 255, 0)";
     const lightThemeBackgroundColor = "#f5e6cc";
     let resizeTimer;
+    const hasVisitedSitePreviously = localStorage.getItem("hasVisitedSitePreviously") === "true";
+    const alertMobileTxtEn =
+      "It’s recommended to open this webpage on a computer rather than a mobile phone. " +
+      "Although the page is responsive and works on mobile devices, " +
+      "using a computer provides a better overall user experience.";
+
+    const alertMobileTxtEs =
+      "Se recomienda abrir esta página web en una computadora en lugar de un teléfono móvil. " +
+      "Aunque la página es adaptable y funciona en celulares, " +
+      "el uso de una computadora ofrece una mejor experiencia general de usuario.";
 
     if (isUserLangSpanish()) {
       accessBtn.textContent = "Acceder a la Página Web";
@@ -163,7 +173,7 @@
       inactiveMsg.textContent = "Tu sesión anterior de la terminal se cerró por inactividad";
     }
 
-    if (localStorage.getItem("hasVisitedSitePreviously") === "true") {
+    if (hasVisitedSitePreviously) {
       skipIntroBtn.style.display = "inline-block";
       accessBtn.textContent += (isUserLangSpanish() ? " con" : " with") + " Intro";
     } else {
@@ -410,6 +420,10 @@
       muteMusicIcon.style.display = "block";
       backgroundSound.play()
     })
+
+    if (!hasVisitedSitePreviously) {
+      alert(isUserLangSpanish() ? alertMobileTxtEs : alertMobileTxtEn)
+    }
 
     window.addEventListener("resize", fitAndResize);
   </script>
