@@ -100,18 +100,18 @@
     }
 
     function fadeOutAudio(audio, duration) {
-      let steps = 50;
-      let stepTime = duration / steps;
+      const steps = 50;
+      const stepTime = duration / steps;
       const initialAudioVolume = audio.volume;
-      let fade = setInterval(() => {
-        audio.volume = Math.max(0, audio.volume - initialAudioVolume / steps)
+      const volumeStep = initialAudioVolume / steps;
+      const fade = setInterval(() => {
+        audio.volume = Math.max(0, audio.volume - volumeStep);
         if (audio.volume === 0) {
           clearInterval(fade);
           stopAudio(audio);
         }
       }, stepTime);
     }
-
 
     function isBackgroundSoundMuted() {
       return muteMusicIcon.style.display === "none" ? true : false;
