@@ -188,7 +188,7 @@
       if (!cleanOutput.startsWith("SIG")) return
 
       if (cleanOutput === "SIG_PLAY_INTRO_MUSIC") {
-        introSound.volume = 0.1;
+        introSound.volume = 1;
         introSound.play();
         return;
       }
@@ -216,7 +216,7 @@
         return;
       }
       if (cleanOutput === "SIG_STOP_MORSE_SOUND") {
-        fadeOutAudio(morseSound, 5000)
+        fadeOutAudio(morseSound, 2500)
         return;
       }
 
