@@ -165,7 +165,7 @@ sleep 1
 
 declare -A INSTEAD_CLICKING_ICONS_TXT=(
   [EN]="Instead of clicking icons with your mouse, you type commands to interact and tell it what you want to do."
-  [ES]="En vez de hacer clic en íconos con el mouse, tenés que escribir comandos para interactuar y darle instrucciones de lo que querés hacer."
+  [ES]="En vez de hacer click en íconos con el mouse, tenés que escribir comandos para interactuar y darle instrucciones de lo que querés hacer."
 )
 print_typing_effect "${INSTEAD_CLICKING_ICONS_TXT[$LANG]}"
 
