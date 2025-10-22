@@ -18,7 +18,7 @@ declare -A DRIVE_FOLDER_TXT=(
   [ES]="En caso de que el archivo no se haya descargado automáticamente, este es el enlace a la carpeta de Google Drive:"
 )
 
-echo "${DRIVE_FOLDER_TXT[$LANG]}"
+echo "${DRIVE_FOLDER_TXT[$USER_LANG]}"
 DRIVE_LINK="https://drive.google.com/drive/folders/1S1ePqptM1x7wHTav5CvHAuMEvdvmoear?usp=sharing"
 echo -e "\n\n${DRIVE_LINK}\n\n"
 
@@ -51,4 +51,4 @@ Si querés conocerme un poco más a nivel personal, acá hay una lista de alguna
 "
 )
 
-echo "${INTERESTS_TXT[$LANG]}"
+echo "${INTERESTS_TXT[$USER_LANG]}"

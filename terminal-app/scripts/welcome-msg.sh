@@ -64,4 +64,4 @@ declare -A WELCOME_MSG_TXT=(
   [ES]=${WELCOME_MSG_ESP}
 )
 
-echo -e "${WELCOME_MSG_TXT[$LANG]}"
+echo -e "${WELCOME_MSG_TXT[$USER_LANG]}"
