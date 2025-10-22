@@ -76,6 +76,7 @@
   <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
   <audio id="bakground-sound" src="/audios/background-sound.mp3" preload="auto"></audio>
   <audio id="morse-sound" src="/audios/morse-sound.mp3" preload="auto"></audio>
+  <audio id="gladiator-sound" src="/audios/gladiator.mp3" preload="auto"></audio>
   <script>
 
     function downloadCv(lang) {
@@ -96,15 +97,18 @@
     }
 
     function fadeOutAudio(audio, duration) {
+      let steps = 50;
+      let stepTime = duration / steps;
+      const initialAudioVolume = audio.volume;
       let fade = setInterval(() => {
-        audio.volume = Math.max(0, audio.volume - 0.05);
+        audio.volume = Math.max(0, audio.volume - initialAudioVolume / steps)
         if (audio.volume === 0) {
           clearInterval(fade);
-          stopAudio(audio)
-          audio.volume = 1;
+          stopAudio(audio);
         }
-      }, duration / 20);
+      }, stepTime);
     }
+
 
     function isBackgroundSoundMuted() {
       return muteMusicIcon.style.display === "none" ? true : false;
@@ -126,9 +130,9 @@
     const argFncSound = document.getElementById("arg-fnc-sound");
     const backgroundSound = document.getElementById("bakground-sound");
     backgroundSound.loop = true;
+    const gladiatorSound = document.getElementById("gladiator-sound");
     const morseSound = document.getElementById("morse-sound");
     morseSound.loop = true;
-    morseSound.volume = 0.05;
     const nightModeIcon = document.getElementById("night-mode-icon");
     const lightModeIcon = document.getElementById("light-mode-icon");
     const muteMusicIcon = document.getElementById("mute-music-icon");
@@ -184,6 +188,7 @@
       if (!cleanOutput.startsWith("SIG")) return
 
       if (cleanOutput === "SIG_PLAY_INTRO_MUSIC") {
+        introSound.volume = 0.1;
         introSound.play();
         return;
       }
@@ -192,7 +197,21 @@
         return;
       }
 
+      if (cleanOutput === "SIG_PLAY_GLADIATOR_MUSIC") {
+        gladiatorSound.volume = 0.3;
+        gladiatorSound.play();
+        setTimeout(() => {
+        gladiatorSound.volume = 0.15;
+        }, 37000)
+        return;
+      }
+      if (cleanOutput === "SIG_STOP_GLADIATOR_MUSIC") {
+        fadeOutAudio(gladiatorSound, 8000);
+        return;
+      }
+
       if (cleanOutput === "SIG_PLAY_MORSE_SOUND") {
+        morseSound.volume = 0.05;
         morseSound.play();
         return;
       }
