@@ -17,7 +17,7 @@ declare -A DESERT_BATTLE_TXT=(
   [EN]="Among the deserts of the Middle East, the greatest battle took place."
   [ES]="Entre los desiertos de Medio Oriente, se libró una gran batalla."
 )
-echo "${DESERT_BATTLE_TXT[$LANG]}"
+echo "${DESERT_BATTLE_TXT[$USER_LANG]}"
 
 sleep 4
 
@@ -25,7 +25,7 @@ declare -A NATIONS_CLASH_TXT=(
   [EN]="Two nations clashed fiercely with one another in an epic combat."
   [ES]="Dos naciones se enfrentaron ferozmente en un épico combate."
 )
-echo "${NATIONS_CLASH_TXT[$LANG]}"
+echo "${NATIONS_CLASH_TXT[$USER_LANG]}"
 
 sleep 4
 
@@ -33,7 +33,7 @@ declare -A GROUP_23_TXT=(
   [EN]="A group of 11 men, led by their humble messiah, put an end to a 28-year curse."
   [ES]="Un grupo de 11 hombres, liderados por su humilde mesías, puso fin a una maldición de 28 años."
 )
-echo "${GROUP_23_TXT[$LANG]}"
+echo "${GROUP_23_TXT[$USER_LANG]}"
 
 sleep 4
 
@@ -41,7 +41,7 @@ declare -A HAPPINESS_STREETS_TXT=(
   [EN]="Happiness filled the country's streets."
   [ES]="La felicidad inundó las calles del país."
 )
-echo "${HAPPINESS_STREETS_TXT[$LANG]}"
+echo "${HAPPINESS_STREETS_TXT[$USER_LANG]}"
 
 sleep 4
 
@@ -49,7 +49,7 @@ declare -A GLORY_HISTORY_TXT=(
   [EN]="Glory was found, history was made."
   [ES]="Se alcanzó la gloria, se hizo historia."
 )
-echo "${GLORY_HISTORY_TXT[$LANG]}"
+echo "${GLORY_HISTORY_TXT[$USER_LANG]}"
 
 sleep 4
 
@@ -57,7 +57,7 @@ declare -A LUSAIL_TIME_TXT=(
   [EN]="Lusail Stadium — Saturday, December 18, 2022 — 18:00"
   [ES]="Estadio Lusail — Sábado 18 de diciembre de 2022 — 18:00 hs"
 )
-echo -e "\n\n${LUSAIL_TIME_TXT[$LANG]}\n\n"
+echo -e "\n\n${LUSAIL_TIME_TXT[$USER_LANG]}\n\n"
 
 sleep 8
 
