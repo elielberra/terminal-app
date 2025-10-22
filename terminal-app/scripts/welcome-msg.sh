@@ -34,7 +34,7 @@ If you want to see the manual with the instructions on how to use the \`eliel\` 
 You can mute the background server noises and switch to a light theme using the two buttons in the top right corner.
 "
 
-WELCOME_MSG_ESP="¡Hola y bienvenido a mi página web!
+WELCOME_MSG_ESP="¡Hola y bienvenid@ a mi página web!
 
 Si te estás preguntando por qué ves una terminal en lugar de una interfaz, es porque no soy muy bueno diseñando cosas.  
 La última vez que intenté usar JavaScript tuve una reacción alérgica tremenda y el médico me dijo que me mantenga alejado de los frameworks de frontend.  
