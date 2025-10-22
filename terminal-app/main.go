@@ -103,7 +103,9 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		"-i",
 	)
 	cmd.Env = append(os.Environ(),
-		"LANG="+string(userLanguage),
+		"USER_LANG="+string(userLanguage),
+		"LC_ALL=C.UTF-8",
+		"LC_CTYPE=C.UTF-8",
 		"TERM=xterm-256color",
 	)
 
