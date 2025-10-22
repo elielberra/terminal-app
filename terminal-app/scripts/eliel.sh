@@ -6,13 +6,13 @@ print_help() {
   cat <<'EOF'
 Usage:
   eliel hacker
-  eliel world-champion
+  eliel champion
   eliel cv --language <esp|eng>
   eliel -h | --help
 
 Commands:
   cv                Print the CV URL based on language.
-  world-champion    Play a surprise video in ASCII Art style
+  champion          Play a surprise video in ASCII Art style
 
 Examples:
   eliel cv --language esp
@@ -55,7 +55,7 @@ cv_cmd() {
   esac
 }
 
-world_champion_cmd() {
+champion_cmd() {
   bash /app/scripts/arg-fnc-video.sh
 }
 
@@ -70,7 +70,7 @@ main() {
 
   case "$cmd" in
     cv)              cv_cmd "$@" ;;
-    world-champion)  world_champion_cmd ;;
+    champion)  champion_cmd ;;
     hacker)  hacker_cmd ;;
     -h|--help|help|"") print_help ;;
     *)
