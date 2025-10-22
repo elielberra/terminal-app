@@ -14,8 +14,8 @@ RESET="\033[0m"
 sleep 2
 
 declare -A DESERT_BATTLE_TXT=(
-  [EN]="Among the deserts of the Middle East, the greatest battle took place."
-  [ES]="Entre los desiertos de Medio Oriente, se libró una gran batalla."
+  [EN]="Among the deserts of the Middle East, the greatest battle of history took place."
+  [ES]="Entre los desiertos de Medio Oriente, se libró la batalla más importante de la historia."
 )
 echo "${DESERT_BATTLE_TXT[$USER_LANG]}"
 
@@ -46,16 +46,16 @@ echo "${HAPPINESS_STREETS_TXT[$USER_LANG]}"
 sleep 4
 
 declare -A GLORY_HISTORY_TXT=(
-  [EN]="Glory was found, history was made."
-  [ES]="Se alcanzó la gloria, se hizo historia."
+  [EN]="Glory was found, a new legend was written..."
+  [ES]="Se alcanzó la gloria, se escribió una nueva leyenda..."
 )
 echo "${GLORY_HISTORY_TXT[$USER_LANG]}"
 
 sleep 4
 
 declare -A LUSAIL_TIME_TXT=(
-  [EN]="Lusail Stadium — Saturday, December 18, 2022 — 18:00"
-  [ES]="Estadio Lusail — Sábado 18 de diciembre de 2022 — 18:00 hs"
+  [EN]="Lusail, Qatar — Saturday, December 18th, 2022 — 18:00 hs"
+  [ES]="Estadio, Qatar — Sábado 18 de diciembre de 2022 — 18:00 hs"
 )
 echo -e "\n\n${LUSAIL_TIME_TXT[$USER_LANG]}\n\n"
 
