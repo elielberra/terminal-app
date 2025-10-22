@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -8,7 +9,6 @@ import (
 	"os"
 	"os/exec"
 	"syscall"
-	"bytes"
 
 	"github.com/creack/pty"
 	"github.com/gorilla/websocket"
@@ -108,6 +108,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		"LC_ALL=C.UTF-8",
 		"LC_CTYPE=C.UTF-8",
 		"TERM=xterm-256color",
+		"GNUPGHOME=/home/web-user/.gnupg",
 	)
 
 	webUserID := uint32(1001)
