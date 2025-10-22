@@ -1,5 +1,6 @@
 #!/bin/bash
 
+trap '' INT # ignore Ctrl+C while the script runs
 echo "SIG_DISABLE_TOUCH"
 clear
 clear
@@ -61,12 +62,17 @@ echo -e "\n\n${LUSAIL_TIME_TXT[$USER_LANG]}\n\n"
 
 sleep 8
 
-echo -ne "${YELLOW}★${RESET}"
+echo -ne "${YELLOW} ★${RESET}"
 sleep 0.9
-echo -ne "\r${YELLOW}★★${RESET}"
+echo -ne "\r${YELLOW} ★★${RESET}"
 sleep 0.9
-echo -e "\r${YELLOW}★★★${RESET}"
-sleep 5
+end=$((SECONDS+5)) # run for num of seconds
+while [ $SECONDS -lt $end ]; do
+  echo -ne "\r${YELLOW} ★★★${RESET}\r"
+  sleep 0.45
+  echo -ne "    \r"
+  sleep 0.45
+done
 
 clear
 echo "SIG_PLAY_ARG_FNC_MUSIC"
@@ -77,14 +83,13 @@ mpv --vo=caca --no-audio --really-quiet /app/media/arg-fnc.mp4
 clear
 echo "SIG_STOP_ARG_FNC_MUSIC"
 clear
-
-clear
 echo "SIG_STOP_GLADIATOR_MUSIC"
 clear
 
 bash /app/scripts/messi.sh
 sleep 8
 
+clear
 echo "SIG_PLAY_BACKGROUND_SOUND"
 clear
 echo "SIG_ENABLE_TOUCH"
