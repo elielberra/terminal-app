@@ -9,7 +9,6 @@
   <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
   <style>
-    html,
     body {
       height: 100%;
       width: 100%;
@@ -151,6 +150,7 @@
     let currentSocket = null;
     const semiOpaqueWhite = "rgba(255, 255, 255, 0.75)";
     const transparent = "rgba(255, 255, 255, 0)";
+    const lightThemeBackgroundColor = "#f5e6cc";
     let resizeTimer;
 
     if (isUserLangSpanish()) {
@@ -344,7 +344,7 @@
 
     function setLightTheme(terminal) {
       terminal.options.theme = {
-        background: "#f5e6cc",
+        background: lightThemeBackgroundColor,
         foreground: "#000000",
         cursor: "#000000",
         selectionBackground: "#c0c0c0",
@@ -382,6 +382,7 @@
       currentTerminal.options.theme = {};
       muteMusicIcon.style.backgroundColor = semiOpaqueWhite;
       unmuteMusicIcon.style.backgroundColor = semiOpaqueWhite;
+      document.body.style.backgroundColor = "black";
     })
 
     lightModeIcon.addEventListener("click", () => {
@@ -391,6 +392,7 @@
       setLightTheme(currentTerminal);
       muteMusicIcon.style.backgroundColor = transparent;
       unmuteMusicIcon.style.backgroundColor = transparent;
+      document.body.style.backgroundColor = lightThemeBackgroundColor;
     })
 
     muteMusicIcon.addEventListener("click", () => {
