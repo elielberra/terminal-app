@@ -54,8 +54,8 @@ echo "${GLORY_HISTORY_TXT[$LANG]}"
 sleep 4
 
 declare -A LUSAIL_TIME_TXT=(
-  [EN]="Lusail Stadium — Saturday, December 18 — 18:00"
-  [ES]="Estadio Lusail — Sábado 18 de diciembre — 18:00 hs"
+  [EN]="Lusail Stadium — Saturday, December 18, 2022 — 18:00"
+  [ES]="Estadio Lusail — Sábado 18 de diciembre de 2022 — 18:00 hs"
 )
 echo -e "\n\n${LUSAIL_TIME_TXT[$LANG]}\n\n"
 
