@@ -5,6 +5,8 @@ profile terminal-app {
 	# web-user files
 	/home/web-user/                   r,
 	/home/web-user/**                 r,
+	/home/web-user/.gnupg/            rw,
+	/home/web-user/.gnupg/**          rw,
 
 	# terminal-app files
 	/app/terminal-app                 ix,
@@ -28,6 +30,11 @@ profile terminal-app {
 
 	# sockets
 	network inet stream,
+	network unix stream,
+
+	# gpg config files
+	/etc/gnupg/        r,
+	/etc/gnupg/**      r,
 
 	# Only allow Docker (unconfined) to stop this app with TERM or KILL
 	signal (receive) set=(term,kill) peer=unconfined,
@@ -41,6 +48,8 @@ profile terminal-app {
 	/usr/bin/clear          ix,
 	/usr/bin/date 			ix,
 	/usr/bin/eliel			rix,
+	/usr/bin/gpg            ix,
+	/usr/bin/gpg-agent      ix,
 	/usr/bin/curl			ix, # TODO: Remove curl and ping for prod
 	/usr/bin/ping			ix,
 
@@ -49,6 +58,7 @@ profile terminal-app {
 
 	# devices
 	/dev/null			rw,
+	/dev/tty            rw,
 
 	# Allow temporarily change of user or group ID
 	capability			setuid,

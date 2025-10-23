@@ -1,3 +1,6 @@
+
+alias gpg='gpg --decrypt'
+
 PS1="\[\e[1;32m\]web-user\[\e[0m\]@\[\e[1;32m\]server\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\] \$ "
 
 cd /home/web-user
