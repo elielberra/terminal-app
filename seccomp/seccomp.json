@@ -1,9 +1,0 @@
-{
-  "defaultAction": "SCMP_ACT_ALLOW",
-  "syscalls": [
-    {
-      "names": ["connect"],
-      "action": "SCMP_ACT_ERRNO"
-    }
-  ]
-}
