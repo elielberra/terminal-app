@@ -19,13 +19,14 @@ services:
       - ./terminal-app/scripts/eliel.sh:/usr/bin/eliel
       - ./quest-files/bitcoin-password.txt:/home/web-user/bitcoin-password.txt
       - ./quest-files/hint3.gpg:/home/web-user/hint3.gpg
-    # security_opt:
-    #   - seccomp=./seccomp/seccomp.json
-    #   - apparmor:terminal-app
-    #   - no-new-privileges:true
-    # read_only: true
-    # cap_drop:
-    #   - ALL
-    # cap_add:
-    #   - SETUID
-    #   - SETGID
+    security_opt:
+      - apparmor:terminal-app
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+     - /home/web-user/.gnupg:rw,uid=1001,gid=1001,mode=700,nosuid,nodev,noexec
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
