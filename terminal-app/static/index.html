@@ -313,7 +313,6 @@
           : new TextDecoder("utf-8").decode(new Uint8Array(event.data));
         terminal.write(text);
         handleTerminalOutput(text, terminal);
-        console.log(stripAnsi(text))
       };
       socket.onclose = function () {
         terminal.dispose();
