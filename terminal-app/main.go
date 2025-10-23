@@ -49,7 +49,7 @@ type wsCfg struct {
 	Domain             string
 	Port               string
 	ExpectedOrigin     string
-	DevExpectedOrigins [4]string
+	DevExpectedOrigins [5]string
 }
 
 const (
