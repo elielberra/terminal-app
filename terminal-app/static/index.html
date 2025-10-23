@@ -121,10 +121,6 @@
       return lang.split("-")[0];
     }
 
-    function isUserLangSpanish() {
-      return userLang === "es";
-    }
-
     const accessBtn = document.getElementById("access-intro-btn");
     const skipIntroBtn = document.getElementById("skip-intro-btn");
     const inactiveMsg = document.getElementById("inactive-msg");
@@ -166,8 +162,10 @@
       "Se recomienda abrir esta página web en una computadora en lugar de un teléfono móvil. " +
       "Aunque la página es adaptable y funciona en celulares, " +
       "el uso de una computadora ofrece una mejor experiencia general de usuario.";
+    const isMobileUser = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isUserLangSpanish = userLang === "es";
 
-    if (isUserLangSpanish()) {
+    if (isUserLangSpanish) {
       accessBtn.textContent = "Acceder a la Página Web";
       skipIntroBtn.textContent = "Saltar Introducción";
       inactiveMsg.textContent = "Tu sesión anterior de la terminal se cerró por inactividad";
@@ -175,22 +173,18 @@
 
     if (hasVisitedSitePreviously) {
       skipIntroBtn.style.display = "inline-block";
-      accessBtn.textContent += (isUserLangSpanish() ? " con" : " with") + " Intro";
+      accessBtn.textContent += (isUserLangSpanish ? " con" : " with") + " Intro";
     } else {
       skipIntroBtn.style.display = "none";
       localStorage.setItem("hasVisitedSitePreviously", "true");
     }
 
-    function isMobileUser() {
-      return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    }
-
     function getReducedFontSize() {
-      return isMobileUser() ? REDUCED_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
+      return isMobileUser ? REDUCED_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
     }
 
     function getDefaultFontSize() {
-      return isMobileUser() ? DEFAULT_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
+      return isMobileUser ? DEFAULT_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
     }
 
     function stripAnsi(text) {
@@ -244,7 +238,7 @@
       }
 
       if (cleanOutput === "SIG_DISABLE_TOUCH") {
-        if (isMobileUser()) document.body.style.pointerEvents = "none";
+        if (isMobileUser) document.body.style.pointerEvents = "none";
         return;
       }
       if (cleanOutput === "SIG_ENABLE_TOUCH") {
@@ -421,8 +415,8 @@
       backgroundSound.play()
     })
 
-    if (!hasVisitedSitePreviously) {
-      alert(isUserLangSpanish() ? alertMobileTxtEs : alertMobileTxtEn)
+    if (!hasVisitedSitePreviously && isMobileUser) {
+      alert(isUserLangSpanish ? alertMobileTxtEs : alertMobileTxtEn)
     }
 
     window.addEventListener("resize", fitAndResize);
