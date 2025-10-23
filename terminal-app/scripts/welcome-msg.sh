@@ -31,6 +31,7 @@ However, in case you are a curious hacker instead of a cybercriminal, I left a s
 Run ${BLUE}eliel hacker${RESET} to start the quest.
 
 If you want to see the manual with the instructions on how to use the \`eliel\` program again, enter the command ${BLUE}eliel --help${RESET}.
+Try to rembember this last command, you will probably need it later to refresh your memory on how to use this program.
 
 You can mute the background server noises and switch to a light theme using the two buttons in the top right corner.
 "
@@ -58,6 +59,7 @@ De todos modos, si en lugar de ciberdelincuente sos un hacker curioso, te dejé 
 Corré ${BLUE}eliel hacker${RESET} para empezar la misión.
 
 Si querés volver a ver el manual con las instrucciones para usar el programa \`eliel\`, escribí el comando ${BLUE}eliel --help${RESET}.
+Tratá de acordarte de este último comando, probablemente lo necesites para refrescarte la memoria de cómo usar este programa.
 
 Podés silenciar los ruidos de fondo del servidor y cambiar al tema claro con los dos botones en la esquina superior derecha.
 "
