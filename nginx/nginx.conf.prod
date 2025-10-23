@@ -1,0 +1,36 @@
+events {}
+
+http {
+    upstream terminal-app {
+        server terminal-app:8080;
+    }
+
+    server {
+        listen 443 ssl;
+        server_name www.elielberra.com;
+
+        ssl_certificate     /etc/ssl/certs/elielberra.crt;
+        ssl_certificate_key /etc/ssl/private/elielberra.key;
+
+        location /ws {
+            proxy_pass http://terminal-app;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header Host $host;
+            proxy_read_timeout 3600s;
+        }
+
+        location / {
+            proxy_pass http://terminal-app;
+            proxy_set_header Host $host;
+        }
+    }
+
+    # Optional: redirect HTTP → HTTPS
+    server {
+        listen 80;
+        server_name www.elielberra.com;
+        return 301 https://$host$request_uri;
+    }
+}
