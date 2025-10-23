@@ -303,7 +303,8 @@
       currentTerminal = terminal;
       terminal.open(terminalDiv);
       terminal.focus();
-      const socket = new WebSocket("ws://" + location.host + "/ws");
+      const scheme = location.protocol === 'https:' ? 'wss' : 'ws';
+      const socket = new WebSocket(`${scheme}://${location.host}/ws`);
       currentSocket = socket;
       socket.binaryType = "arraybuffer";
       socket.onmessage = function (event) {

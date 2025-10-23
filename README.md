@@ -60,6 +60,11 @@ newgrp docker
 git clone https://github.com/elielberra/terminal-app.git
 cd terminal-app
 
+# Stop nginx
+sudo service nginx disable
+sudo service nginx stop
+sudo pkill -f nginx
+
 # Create SSL Certs
 sudo apt install certbot python3-certbot-nginx -y
 sudo certbot --nginx -d elielberra.com -d www.elielberra.com
