@@ -59,7 +59,7 @@ profile terminal-app {
 	/usr/bin/clear          ix,
 	/usr/bin/date 			ix,
 	/usr/bin/eliel			rix,
-	/usr/bin/easter-egg  	rix,
+	/usr/bin/easter-egg  	ix,
 	/usr/bin/gpg            ix,
 	/usr/bin/gpg-agent      ix,
 	/usr/bin/curl			ix, # TODO: Remove curl and ping for prod
