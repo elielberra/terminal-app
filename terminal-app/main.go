@@ -71,7 +71,7 @@ func getWsConfig() wsCfg {
 		expectedOrigin += ":" + port
 	}
 	// TODO: Separate into prod and dev origins
-	devExpectedOrigins := [...]string{expectedOrigin, "http://192.168.100.8", "http://localhost:8080", "http://54.90.182.8"}
+	devExpectedOrigins := [...]string{expectedOrigin, "http://192.168.100.8", "http://localhost:8080", "www.elielberra.com"}
 
 	return wsCfg{
 		Protocol:           protocol,
