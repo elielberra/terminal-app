@@ -32,6 +32,17 @@ profile terminal-app {
 	network inet stream,
 	network unix stream,
 
+	# quest hints
+	/home/web-user/hint-1        r,
+	/hint-2                      r,
+	/tmp/.hint-3.gpg             r,
+	/tmp/.hint-2.5               r,
+	/var/log/gpg-passphrase      r,
+	/                            r,
+	/tmp/                        r,
+	/var/log/                    r,
+
+
 	# gpg config files
 	/etc/gnupg/        r,
 	/etc/gnupg/**      r,
@@ -48,6 +59,7 @@ profile terminal-app {
 	/usr/bin/clear          ix,
 	/usr/bin/date 			ix,
 	/usr/bin/eliel			rix,
+	/usr/bin/easter-egg  	rix,
 	/usr/bin/gpg            ix,
 	/usr/bin/gpg-agent      ix,
 	/usr/bin/curl			ix, # TODO: Remove curl and ping for prod

@@ -100,6 +100,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 	cmd := exec.Command(
 		"/bin/rbash",
+		// "/bin/bash",
 		"--rcfile", "/home/web-user/.bashrc",
 		"-i",
 	)
