@@ -60,6 +60,10 @@ newgrp docker
 git clone https://github.com/elielberra/terminal-app.git
 cd terminal-app
 
+# Create SSL Certs
+sudo apt install certbot python3-certbot-nginx -y
+sudo certbot --nginx -d elielberra.com -d www.elielberra.com
+
 # Start app
 bash up-prod.sh
 ```
