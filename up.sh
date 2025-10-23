@@ -30,9 +30,9 @@ fi
 # Wait 1 second for the container to run 
 # (sleep 2 && google-chrome --new-window http://localhost) &
 (
-  for i in {1..30}; do
+  for i in {1..60}; do
     if curl -s -o /dev/null -w "%{http_code}" http://localhost | grep -q 200; then
-      (sleep 2 && google-chrome --new-window http://localhost) &
+      (sleep 0.5 && google-chrome --new-window http://localhost) &
       break
     fi
     sleep 1
