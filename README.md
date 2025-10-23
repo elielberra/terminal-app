@@ -18,3 +18,41 @@ $HOME/repos/terminal-app/terminal-app
 __________________
 # Create compiled bash script
 `shc -r -f easter-egg.sh -o easter-egg`
+
+
+__________________
+# Install docker and git on AWS Debian machine
+```
+# Update package list
+sudo apt update -y
+
+# Install dependencies for apt over HTTPS
+sudo apt install -y ca-certificates curl gnupg git
+
+# Add Docker’s official GPG key
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Add Docker repository
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Update package list again
+sudo apt update -y
+
+# Install Docker
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Start and enable Docker
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Add your user to the Docker group (to run without sudo)
+sudo usermod -aG docker $USER
+
+# Apply the new group without logging out
+newgrp docker
+```
