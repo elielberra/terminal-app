@@ -49,7 +49,7 @@ type wsCfg struct {
 	Domain             string
 	Port               string
 	ExpectedOrigin     string
-	DevExpectedOrigins [3]string
+	DevExpectedOrigins [4]string
 }
 
 const (
@@ -70,7 +70,8 @@ func getWsConfig() wsCfg {
 	if port != "" {
 		expectedOrigin += ":" + port
 	}
-	devExpectedOrigins := [...]string{expectedOrigin, "http://192.168.100.8", "http://localhost:8080"}
+	// TODO: Separate into prod and dev origins
+	devExpectedOrigins := [...]string{expectedOrigin, "http://192.168.100.8", "http://localhost:8080", "http://54.90.182.8"}
 
 	return wsCfg{
 		Protocol:           protocol,
