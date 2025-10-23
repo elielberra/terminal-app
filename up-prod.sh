@@ -4,6 +4,7 @@
 docker compose down --remove-orphans
 
 # Reload the apparmor profile
+sudo ln -s /home/admin/terminal-app/apparmor/terminal-app /etc/apparmor.d/terminal-app
 if ! sudo apparmor_parser -r -W /etc/apparmor.d/terminal-app; then
   echo "❌ Failed to reload AppArmor profile. Aborting."
   exit 1
