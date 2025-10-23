@@ -55,4 +55,15 @@ sudo usermod -aG docker $USER
 
 # Apply the new group without logging out
 newgrp docker
+
+# Clone repo
+git clone https://github.com/elielberra/terminal-app.git
+cd terminal-app
+
+# Start app
+bash up-prod.sh
 ```
+
+________________
+# Docker RAM usage
+`docker stats`
