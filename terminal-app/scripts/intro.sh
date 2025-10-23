@@ -136,6 +136,7 @@ declare -A MONEY_SAFE_TXT=(
   [ES]="Tu plata está a salvo, nadie hackeó tus cuentas bancarias."
 )
 print_typing_effect "${MONEY_SAFE_TXT[$USER_LANG]}"
+echo
 
 sleep 1
 
