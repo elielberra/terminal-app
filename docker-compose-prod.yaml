@@ -18,7 +18,6 @@ services:
     env_file:
       - ./terminal-app/.env.prod
     volumes:
-      - ./terminal-app/:/app
       - ./terminal-app/scripts/eliel.sh:/usr/bin/eliel
       - ./quest-files/bitcoin-password.txt:/home/web-user/bitcoin-password.txt
       - ./quest-files/hint-1:/home/web-user/hint-1

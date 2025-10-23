@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Remove pre existing containers
-docker compose down --remove-orphans
+docker compose -f docker-compose-prod.yaml down --remove-orphans
 
 # Reload the apparmor profile
 sudo ln -s /home/admin/terminal-app/apparmor/terminal-app /etc/apparmor.d/terminal-app
@@ -11,7 +11,7 @@ if ! sudo apparmor_parser -r -W /etc/apparmor.d/terminal-app; then
 fi
 
 # Spawn new container
-if ! docker compose up --build; then
+if ! docker compose -f docker-compose-prod.yaml up --build; then
   echo "❌ Failed to spawn terminal-app container. Aborting."
   exit 1
 fi

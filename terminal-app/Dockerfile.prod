@@ -36,4 +36,4 @@ RUN chmod 0100 terminal-app \
 
 USER app-user
 
-CMD ["./terminal-app"]
+CMD ["/app/terminal-app"]
