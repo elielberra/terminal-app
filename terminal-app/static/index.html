@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- TODO: Add metadata so this page is indexed by crawlers -->
 <head>
   <meta charset="UTF-8" />
   <title>Web Terminal</title>
@@ -320,7 +320,7 @@
       socket.send(JSON.stringify({
         type: "resize",
         cols: terminal.cols,
-        rows: terminal.rows,
+        rows: terminal.rows, // TODO: Check why initially it sends smaller cols and rows and is corrected when windows resizes
       }));
     }
 
