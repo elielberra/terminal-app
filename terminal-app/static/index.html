@@ -166,6 +166,7 @@
       "el uso de una computadora ofrece una mejor experiencia general de usuario.";
     const isMobileUser = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const isUserLangSpanish = userLang === "es";
+    const [terminal, socket] = createXtermTerminal();
 
     if (isUserLangSpanish) {
       accessBtn.textContent = "Acceder a la Página Web";
@@ -328,14 +329,9 @@
     }
 
     function createXtermTerminal() {
-      inactiveMsg.style.display = "none";
-      accessBtn.style.display = "none";
-      skipIntroBtn.style.display = "none";
-      terminalDiv.style.display = "block";
       const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
       currentTerminal = terminal;
       terminal.open(terminalDiv);
-      terminal.focus();
       const scheme = location.protocol === 'https:' ? 'wss' : 'ws';
       const socket = new WebSocket(`${scheme}://${location.host}/ws`);
       currentSocket = socket;
@@ -369,22 +365,41 @@
       return [terminal, socket]
     }
 
+    function displayTerminal() {
+      inactiveMsg.style.display = "none";
+      accessBtn.style.display = "none";
+      skipIntroBtn.style.display = "none";
+      terminalDiv.style.display = "block";
+      terminal.focus();
+    }
+
+    function sendInitialCmd(cmd) {
+      socket.send(cmd);
+      fitAndResize();
+    }
+
+    function waitSocketSendCmd(cmd) {
+      if (socket.readyState === WebSocket.OPEN) {
+        sendInitialCmd(cmd);
+      } else {
+        socket.onopen = () => {
+          setTimeout(() => {
+            sendInitialCmd(cmd);
+          }, 1000);
+        };
+      }
+    }
+
     accessBtn.addEventListener("click", () => {
-      const [_, socket] = createXtermTerminal();
       const cmd = "bash /app/scripts/intro.sh\r";
-      socket.onopen = () => {
-        socket.send(cmd);
-        fitAndResize();
-      };
+      waitSocketSendCmd(cmd);
+      displayTerminal();
     })
 
     skipIntroBtn.addEventListener("click", () => {
-      const [_, socket] = createXtermTerminal();
       const cmd = "bash /app/scripts/welcome-msg.sh\r";
-      socket.onopen = () => {
-        socket.send(cmd);
-        fitAndResize();
-      };
+      waitSocketSendCmd(cmd);
+      displayTerminal();
     })
 
     function setLightTheme(terminal) {
