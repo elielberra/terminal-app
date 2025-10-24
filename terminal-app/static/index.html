@@ -148,8 +148,6 @@
     const engCvId = "1a8X9yvlBTIq26kV4W8PqGr5lLiDhqKai";
     const espCvId = "13b17AyMQMklVygE6MSf32GRAD5P9UNfT";
     const userLang = getUserLanguageCode()
-    let currentTerminal = null;
-    let currentSocket = null;
     const semiOpaqueWhite = "rgba(255, 255, 255, 0.75)";
     const transparent = "rgba(255, 255, 255, 0)";
     const lightThemeBackgroundColor = "#f5e6cc";
@@ -312,17 +310,21 @@
 
     }
 
+    function isSocketReady() {
+      return socket.readyState === WebSocket.OPEN;
+    }
+  
     function sendResize() {
-      if (!currentTerminal || !currentSocket || currentSocket.readyState !== WebSocket.OPEN) return;
-      currentSocket.send(JSON.stringify({
+      if (!isSocketReady()) return;
+      socket.send(JSON.stringify({
         type: "resize",
-        cols: currentTerminal.cols,
-        rows: currentTerminal.rows,
+        cols: terminal.cols,
+        rows: terminal.rows,
       }));
     }
 
     function fitAndResize() {
-      if (!currentTerminal) return;
+      if (!isSocketReady()) return;
       fitAddon.fit();
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(sendResize, 250);
@@ -330,11 +332,9 @@
 
     function createXtermTerminal() {
       const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
-      currentTerminal = terminal;
       terminal.open(terminalDiv);
       const scheme = location.protocol === 'https:' ? 'wss' : 'ws';
       const socket = new WebSocket(`${scheme}://${location.host}/ws`);
-      currentSocket = socket;
       socket.binaryType = "arraybuffer";
       socket.onmessage = function (event) {
         const text = (typeof event.data === "string")
@@ -379,7 +379,7 @@
     }
 
     function waitSocketSendCmd(cmd) {
-      if (socket.readyState === WebSocket.OPEN) {
+      if (isSocketReady()) {
         sendInitialCmd(cmd);
       } else {
         socket.onopen = () => {
@@ -436,20 +436,18 @@
     }
 
     nightModeIcon.addEventListener("click", () => {
-      if (!isTerminalInitialized(currentTerminal)) return
       nightModeIcon.style.display = "none";
       lightModeIcon.style.display = "block";
-      currentTerminal.options.theme = {};
+      terminal.options.theme = {};
       muteMusicIcon.style.backgroundColor = semiOpaqueWhite;
       unmuteMusicIcon.style.backgroundColor = semiOpaqueWhite;
       document.body.style.backgroundColor = "black";
     })
 
     lightModeIcon.addEventListener("click", () => {
-      if (!isTerminalInitialized(currentTerminal)) return
       nightModeIcon.style.display = "block";
       lightModeIcon.style.display = "none";
-      setLightTheme(currentTerminal);
+      setLightTheme(terminal);
       muteMusicIcon.style.backgroundColor = transparent;
       unmuteMusicIcon.style.backgroundColor = transparent;
       document.body.style.backgroundColor = lightThemeBackgroundColor;
