@@ -5,4 +5,4 @@ server/tmp
 terminal-app/terminal-app
 
 # test files
-scripts/test.sh
+terminal-app/scripts/test.sh
