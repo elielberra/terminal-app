@@ -1,6 +1,8 @@
 #!/bin/bash
 
 clear
+echo "SIG_DISPLAY_THEME_VOL_BTNS"
+clear
 echo "SIG_PLAY_BACKGROUND_SOUND"
 clear
 
