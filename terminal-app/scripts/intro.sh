@@ -1,13 +1,13 @@
 #!/bin/bash
 
-trap '' INT # ignore Ctrl+C while the script runs
-
+trap '' INT
+sleep 0.01
 echo "SIG_DISABLE_TERMINAL_INPUT"
-clear
+sleep 0.01
 echo "SIG_AUGMENT_FONT_SIZE"
-clear
+sleep 0.01
 echo "SIG_PLAY_INTRO_MUSIC"
-clear
+sleep 0.01
 
 sleep 0.6
 
