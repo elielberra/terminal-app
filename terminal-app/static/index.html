@@ -313,7 +313,7 @@
     function isSocketReady() {
       return socket.readyState === WebSocket.OPEN;
     }
-  
+
     function sendResize() {
       if (!isSocketReady()) return;
       socket.send(JSON.stringify({
@@ -381,14 +381,10 @@
 
     function waitSocketSendCmd(cmd) {
       if (isSocketReady()) {
-        setTimeout(() => {
-            sendInitialCmd(cmd);
-          }, 2000);
+        sendInitialCmd(cmd);
       } else {
         socket.onopen = () => {
-          setTimeout(() => {
-            sendInitialCmd(cmd);
-          }, 2000);
+          sendInitialCmd(cmd);
         };
       }
     }
