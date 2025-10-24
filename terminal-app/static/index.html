@@ -429,14 +429,6 @@
       };
     }
 
-    function isTerminalInitialized(terminal) {
-      if (terminal == null) {
-        console.error("The terminal has to be initialized before its properties can be modified");
-        return false;
-      }
-      return true;
-    }
-
     nightModeIcon.addEventListener("click", () => {
       nightModeIcon.style.display = "none";
       lightModeIcon.style.display = "block";
