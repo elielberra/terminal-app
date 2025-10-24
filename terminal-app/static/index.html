@@ -325,6 +325,7 @@
 
     function fitAndResize() {
       if (!isSocketReady()) return;
+      console.log("inside fitAndResize"); // TODO: Delete me
       fitAddon.fit();
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(sendResize, 250);
@@ -358,6 +359,7 @@
         nightModeIcon.style.display = "none";
         muteMusicIcon.style.display = "none";
         unmuteMusicIcon.style.display = "none";
+        backgroundSound.pause()
       };
       terminal.onData(data => {
         socket.send(data);
