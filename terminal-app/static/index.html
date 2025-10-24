@@ -164,7 +164,8 @@
       "el uso de una computadora ofrece una mejor experiencia general de usuario.";
     const isMobileUser = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const isUserLangSpanish = userLang === "es";
-    const [terminal, socket] = createXtermTerminal();
+    let terminal, socket;
+    [terminal, socket] = createXtermTerminal();
 
     if (isUserLangSpanish) {
       accessBtn.textContent = "Acceder a la Página Web";
@@ -391,13 +392,20 @@
       }
     }
 
+    // TODO: Avoid duplicated code on the 2 fns below
     accessBtn.addEventListener("click", () => {
+      if (terminal._isDisposed) {
+        [terminal, socket] = createXtermTerminal();
+      }
       const cmd = "bash /app/scripts/intro.sh\r";
       waitSocketSendCmd(cmd);
       displayTerminal();
     })
 
     skipIntroBtn.addEventListener("click", () => {
+      if (terminal._isDisposed) {
+        [terminal, socket] = createXtermTerminal();
+      }
       const cmd = "bash /app/scripts/welcome-msg.sh\r";
       waitSocketSendCmd(cmd);
       displayTerminal();
