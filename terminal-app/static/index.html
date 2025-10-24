@@ -380,12 +380,14 @@
 
     function waitSocketSendCmd(cmd) {
       if (isSocketReady()) {
-        sendInitialCmd(cmd);
+        setTimeout(() => {
+            sendInitialCmd(cmd);
+          }, 2000);
       } else {
         socket.onopen = () => {
           setTimeout(() => {
             sendInitialCmd(cmd);
-          }, 1000);
+          }, 2000);
         };
       }
     }
