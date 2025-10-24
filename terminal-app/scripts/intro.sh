@@ -1,13 +1,13 @@
 #!/bin/bash
 
 trap '' INT
-sleep 0.01
+sleep 0.001
 echo "SIG_DISABLE_TERMINAL_INPUT"
-sleep 0.01
+sleep 0.001
 echo "SIG_AUGMENT_FONT_SIZE"
-sleep 0.01
+sleep 0.001
 echo "SIG_PLAY_INTRO_MUSIC"
-sleep 0.01
+sleep 0.001
 
 sleep 0.6
 
