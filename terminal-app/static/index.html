@@ -317,6 +317,8 @@
 
     function sendResize() {
       if (!isSocketReady()) return;
+      const dimensions = fitAddon.proposeDimensions();
+      terminal.resize(dimensions.cols, dimensions.rows);
       socket.send(JSON.stringify({
         type: "resize",
         cols: terminal.cols,
@@ -326,7 +328,6 @@
 
     function fitAndResize() {
       if (!isSocketReady()) return;
-      console.log("inside fitAndResize"); // TODO: Delete me
       fitAddon.fit();
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(sendResize, 250);
@@ -373,13 +374,13 @@
       inactiveMsg.style.display = "none";
       accessBtn.style.display = "none";
       skipIntroBtn.style.display = "none";
-      terminalDiv.style.display = "block";
       terminal.focus();
+      terminalDiv.style.display = "block";
+      fitAndResize();
     }
 
     function sendInitialCmd(cmd) {
       socket.send(cmd);
-      fitAndResize();
     }
 
     function waitSocketSendCmd(cmd) {
@@ -398,8 +399,8 @@
         [terminal, socket] = createXtermTerminal();
       }
       const cmd = "bash /app/scripts/intro.sh\r";
-      waitSocketSendCmd(cmd);
       displayTerminal();
+      waitSocketSendCmd(cmd);
     })
 
     skipIntroBtn.addEventListener("click", () => {
@@ -407,8 +408,8 @@
         [terminal, socket] = createXtermTerminal();
       }
       const cmd = "bash /app/scripts/welcome-msg.sh\r";
-      waitSocketSendCmd(cmd);
       displayTerminal();
+      waitSocketSendCmd(cmd);
     })
 
     function setLightTheme(terminal) {
