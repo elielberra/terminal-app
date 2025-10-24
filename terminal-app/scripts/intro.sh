@@ -2,7 +2,7 @@
 
 trap '' INT # ignore Ctrl+C while the script runs
 
-echo "SIG_DISABLE_TOUCH"
+echo "SIG_DISABLE_TERMINAL_INPUT"
 clear
 echo "SIG_PLAY_INTRO_MUSIC"
 clear
@@ -194,10 +194,12 @@ declare -A PRESS_ENTER_TXT=(
 )
 print_typing_effect "${PRESS_ENTER_TXT[$USER_LANG]}"
 
-read -r
-
-clear
+sleep 0.01
+echo "SIG_ENABLE_TERMINAL_INPUT"
+sleep 0.01
 echo "SIG_STOP_MORSE_SOUND"
-clear
+sleep 0.01
+
+read -r
 
 bash /app/scripts/welcome-msg.sh

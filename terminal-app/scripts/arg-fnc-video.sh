@@ -1,7 +1,7 @@
 #!/bin/bash
 
 trap '' INT # ignore Ctrl+C while the script runs
-echo "SIG_DISABLE_TOUCH"
+echo "SIG_DISABLE_TERMINAL_INPUT"
 clear
 clear
 echo "SIG_PAUSE_BACKGROUND_SOUND"
@@ -62,15 +62,15 @@ echo -e "\n\n${LUSAIL_TIME_TXT[$USER_LANG]}\n\n"
 
 sleep 8
 
-echo -ne "${YELLOW} ★${RESET}"
+echo -ne "${YELLOW}★${RESET}"
 sleep 0.9
-echo -ne "\r${YELLOW} ★★${RESET}"
+echo -ne "\r${YELLOW}★★${RESET}"
 sleep 0.9
 end=$((SECONDS+5)) # run for num of seconds
 while [ $SECONDS -lt $end ]; do
-  echo -ne "\r${YELLOW} ★★★${RESET}\r"
+  echo -ne "\r${YELLOW}★★★${RESET}\r"
   sleep 0.45
-  echo -ne "    \r"
+  echo -ne "   \r"
   sleep 0.45
 done
 
@@ -92,5 +92,5 @@ sleep 8
 clear
 echo "SIG_PLAY_BACKGROUND_SOUND"
 clear
-echo "SIG_ENABLE_TOUCH"
+echo "SIG_ENABLE_TERMINAL_INPUT"
 clear
