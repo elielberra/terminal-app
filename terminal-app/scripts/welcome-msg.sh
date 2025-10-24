@@ -1,10 +1,10 @@
 #!/bin/bash
 
-clear
+sleep 0.01
 echo "SIG_DISPLAY_THEME_VOL_BTNS"
-clear
+sleep 0.01
 echo "SIG_PLAY_BACKGROUND_SOUND"
-clear
+sleep 0.01
 
 VIOLET="\033[35m"
 BLUE="\033[34m"

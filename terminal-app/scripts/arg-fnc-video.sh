@@ -1,6 +1,6 @@
 #!/bin/bash
 
-trap '' INT # ignore Ctrl+C while the script runs
+trap '' INT
 echo "SIG_DISABLE_TERMINAL_INPUT"
 clear
 echo "SIG_AUGMENT_FONT_SIZE"
