@@ -9,9 +9,9 @@ if [[ "$cv_lang" != "$ESP" && "$cv_lang" != "$ENG" ]]; then
   exit 1
 fi
 
-clear
+sleep 0.001
 echo "SIG_DOWNLOAD_CV_${cv_lang}"
-clear
+sleep 0.001
 
 declare -A DRIVE_FOLDER_TXT=(
   [EN]="In case the file was not downloaded automatically, here is the link to the Google Drive folder:"

@@ -1,14 +1,13 @@
 #!/bin/bash
 
 trap '' INT
+clear
 sleep 0.001
 echo "SIG_DISABLE_TERMINAL_INPUT"
 sleep 0.001
 echo "SIG_AUGMENT_FONT_SIZE"
 sleep 0.001
 echo "SIG_PLAY_INTRO_MUSIC"
-sleep 0.001
-
 sleep 0.6
 
 print_progress_bar() {
@@ -88,8 +87,9 @@ echo -e "${YELLOW}${DELETING_HISTORY_TXT[$USER_LANG]}${RESET}"
 
 print_progress_bar 0.022
 
+sleep 0.001
 echo "SIG_REDUCE_FONT_SIZE"
-clear
+sleep 0.001
 
 bash /app/scripts/putin-small.sh
 sleep 1
@@ -105,16 +105,15 @@ sleep 1
 clear
 
 echo "SIG_AUGMENT_FONT_SIZE"
-clear
-
+sleep 0.001
 echo "SIG_STOP_INTRO_MUSIC"
-clear
+sleep 0.001
 
 bash /app/scripts/rain.sh
 
-clear
+sleep 0.001
 echo "SIG_PLAY_MORSE_SOUND"
-clear
+sleep 0.001
 
 print_typing_effect() {
   text="$*"
@@ -204,7 +203,7 @@ sleep 0.01
 
 read -r
 
-clear
+sleep 0.001
 echo "SIG_RESTORE_FONT_SIZE"
-clear
+sleep 0.001
 bash /app/scripts/welcome-msg.sh

@@ -1,16 +1,17 @@
 #!/bin/bash
 
 trap '' INT
+sleep 0.001
 echo "SIG_DISABLE_TERMINAL_INPUT"
-clear
+sleep 0.001
 echo "SIG_AUGMENT_FONT_SIZE"
-clear
+sleep 0.001
 echo "SIG_HIDE_THEME_VOL_BTNS"
-clear
+sleep 0.001
 echo "SIG_PAUSE_BACKGROUND_SOUND"
-clear
+sleep 0.001
 echo "SIG_PLAY_GLADIATOR_MUSIC"
-clear
+sleep 0.001
 
 YELLOW="\033[33m"
 RESET="\033[0m"
@@ -77,30 +78,29 @@ while [ $SECONDS -lt $end ]; do
   sleep 0.4
 done
 
-clear
+sleep 0.001
 echo "SIG_REDUCE_FONT_SIZE"
 sleep 1
-clear
 echo "SIG_PLAY_ARG_FNC_MUSIC"
-clear
+sleep 0.001
 
 mpv --vo=caca --no-audio --really-quiet /app/media/arg-fnc.mp4
 
-clear
+sleep 0.001
 echo "SIG_STOP_ARG_FNC_MUSIC"
-clear
+sleep 0.001
 echo "SIG_STOP_GLADIATOR_MUSIC"
-clear
+sleep 0.001
 echo "SIG_RESTORE_FONT_SIZE"
-clear
+sleep 0.001
 
 bash /app/scripts/messi.sh
 sleep 8
 
-clear
+sleep 0.001
 echo "SIG_PLAY_BACKGROUND_SOUND"
-clear
+sleep 0.001
 echo "SIG_ENABLE_TERMINAL_INPUT"
-clear
+sleep 0.001
 echo "SIG_DISPLAY_THEME_VOL_BTNS"
-clear
+sleep 0.001
