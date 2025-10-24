@@ -234,15 +234,6 @@
         return;
       }
 
-      if (output === "SIG_DISABLE_TOUCH") {
-        if (isMobileUser) document.body.style.pointerEvents = "none";
-        return;
-      }
-      if (output === "SIG_ENABLE_TOUCH") {
-        document.body.style.pointerEvents = "";
-        return;
-      }
-
       if (output === "SIG_REDUCE_FONT_SIZE") {
         terminal.options.fontSize = getReducedFontSize();
         fitAndResize();
@@ -271,6 +262,23 @@
       if (output === "SIG_PAUSE_BACKGROUND_SOUND") {
         backgroundSound.pause();
       }
+
+      if (output === "SIG_DISABLE_TERMINAL_INPUT") {
+        terminalDiv.style.pointerEvents = "none";
+        terminal.blur();
+        terminal.options.disableStdin = true;
+        terminal.options.cursorBlink = false;
+        terminal.options.cursorInactiveStyle = "none";
+      }
+
+      if (output === "SIG_ENABLE_TERMINAL_INPUT") {
+        terminalDiv.style.pointerEvents = "auto";
+        terminal.focus();
+        terminal.options.disableStdin = false;
+        terminal.options.cursorBlink = true;
+        terminal.options.cursorInactiveStyle = "block";
+      }
+
     }
 
     function sendResize() {
