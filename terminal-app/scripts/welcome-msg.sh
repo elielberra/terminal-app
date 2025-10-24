@@ -1,5 +1,6 @@
 #!/bin/bash
 
+clear
 sleep 0.001
 echo "SIG_DISPLAY_THEME_VOL_BTNS"
 sleep 0.001
