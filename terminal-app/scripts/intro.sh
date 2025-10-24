@@ -90,6 +90,7 @@ print_progress_bar 0.022
 sleep 0.001
 echo "SIG_REDUCE_FONT_SIZE"
 sleep 0.001
+clear
 
 bash /app/scripts/putin-small.sh
 sleep 1
