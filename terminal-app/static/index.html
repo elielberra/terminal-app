@@ -213,7 +213,7 @@
         gladiatorSound.play();
         setTimeout(() => {
           gladiatorSound.volume = 0.15;
-        }, 37000)
+        }, 38000)
         return;
       }
       if (output === "SIG_STOP_GLADIATOR_MUSIC") {
@@ -227,7 +227,7 @@
         return;
       }
       if (output === "SIG_STOP_MORSE_SOUND") {
-        fadeOutAudio(morseSound, 1000)
+        fadeOutAudio(morseSound, 500)
         return;
       }
 
@@ -259,20 +259,24 @@
 
       if (output === "SIG_DOWNLOAD_CV_ENG") {
         downloadCv(ENG)
+        return;
       }
       if (output === "SIG_DOWNLOAD_CV_ESP") {
         downloadCv(ESP)
+        return;
       }
 
       if (output === "SIG_PLAY_BACKGROUND_SOUND") {
         if (!isBackgroundSoundMuted()) {
           backgroundSound.play();
           backgroundSound.volume = 0.4;
+          return;
         }
       }
 
       if (output === "SIG_PAUSE_BACKGROUND_SOUND") {
         backgroundSound.pause();
+        return;
       }
 
       if (output === "SIG_DISABLE_TERMINAL_INPUT") {
@@ -281,6 +285,7 @@
         terminal.options.disableStdin = true;
         terminal.options.cursorBlink = false;
         terminal.options.cursorInactiveStyle = "none";
+        return;
       }
 
       if (output === "SIG_ENABLE_TERMINAL_INPUT") {
@@ -289,6 +294,19 @@
         terminal.options.disableStdin = false;
         terminal.options.cursorBlink = true;
         terminal.options.cursorInactiveStyle = "block";
+        return;
+      }
+
+      if (output === "SIG_DISPLAY_THEME_VOL_BTNS") {
+        lightModeIcon.style.display = "block";
+        muteMusicIcon.style.display = "block";
+        return;
+      }
+
+      if (output === "SIG_HIDE_THEME_VOL_BTNS") {
+        lightModeIcon.style.display = "none";
+        muteMusicIcon.style.display = "none";
+        return;
       }
 
     }
@@ -314,8 +332,6 @@
       accessBtn.style.display = "none";
       skipIntroBtn.style.display = "none";
       terminalDiv.style.display = "block";
-      lightModeIcon.style.display = "block";
-      muteMusicIcon.style.display = "block";
       const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
       currentTerminal = terminal;
       terminal.open(terminalDiv);

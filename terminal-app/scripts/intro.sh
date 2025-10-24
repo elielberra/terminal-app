@@ -104,7 +104,7 @@ bash /app/scripts/kim-jong-un-big.sh
 sleep 1
 clear
 
-echo "SIG_RESTORE_FONT_SIZE"
+echo "SIG_AUGMENT_FONT_SIZE"
 clear
 
 echo "SIG_STOP_INTRO_MUSIC"
@@ -204,4 +204,7 @@ sleep 0.01
 
 read -r
 
+clear
+echo "SIG_RESTORE_FONT_SIZE"
+clear
 bash /app/scripts/welcome-msg.sh
