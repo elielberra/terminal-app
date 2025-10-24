@@ -45,7 +45,7 @@ while (( $(date +%s%3N) - start < duration_ms )); do
     clear_row=$(( (y[$x]-trail+lines) % lines ))
     printf '%s' "${CSI}$((clear_row+1));$((x+1))H${CSI}0m "
   done
-  sleep 0.05 # Set to a high value to prevent the Websocket from getting overloaded causing lag
+  sleep 0.08 # Set to a high value to prevent the Websocket from getting overloaded causing lag
 done
 
 clear
