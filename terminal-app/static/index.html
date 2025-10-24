@@ -140,6 +140,8 @@
     const DEFAULT_MOBILE_FONT_SIZE = 22;
     const REDUCED_PC_FONT_SIZE = 14;
     const REDUCED_MOBILE_FONT_SIZE = 20;
+    const AUGMENTED_PC_FONT_SIZE = 25;
+    const AUGMENTED_MOBILE_FONT_SIZE = 30;
     const fitAddon = new FitAddon.FitAddon();
     const ENG = "ENG";
     const ESP = "ESP";
@@ -184,7 +186,11 @@
     }
 
     function getDefaultFontSize() {
-      return isMobileUser ? DEFAULT_PC_FONT_SIZE : REDUCED_MOBILE_FONT_SIZE;
+      return isMobileUser ? DEFAULT_PC_FONT_SIZE : DEFAULT_MOBILE_FONT_SIZE;
+    }
+
+    function getAugmentedFontSize() {
+      return isMobileUser ? AUGMENTED_PC_FONT_SIZE : AUGMENTED_MOBILE_FONT_SIZE;
     }
 
     function stripAnsi(text) {
@@ -221,7 +227,7 @@
         return;
       }
       if (output === "SIG_STOP_MORSE_SOUND") {
-        fadeOutAudio(morseSound, 2500)
+        fadeOutAudio(morseSound, 1000)
         return;
       }
 
@@ -241,6 +247,12 @@
       }
       if (output === "SIG_RESTORE_FONT_SIZE") {
         terminal.options.fontSize = getDefaultFontSize();
+        fitAndResize();
+        return;
+      }
+
+      if (output === "SIG_AUGMENT_FONT_SIZE") {
+        terminal.options.fontSize = getAugmentedFontSize();
         fitAndResize();
         return;
       }

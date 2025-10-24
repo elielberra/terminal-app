@@ -4,6 +4,8 @@ trap '' INT # ignore Ctrl+C while the script runs
 
 echo "SIG_DISABLE_TERMINAL_INPUT"
 clear
+echo "SIG_AUGMENT_FONT_SIZE"
+clear
 echo "SIG_PLAY_INTRO_MUSIC"
 clear
 

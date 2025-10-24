@@ -3,6 +3,7 @@
 trap '' INT # ignore Ctrl+C while the script runs
 echo "SIG_DISABLE_TERMINAL_INPUT"
 clear
+echo "SIG_AUGMENT_FONT_SIZE"
 clear
 echo "SIG_PAUSE_BACKGROUND_SOUND"
 clear
@@ -69,11 +70,14 @@ sleep 0.9
 end=$((SECONDS+5)) # run for num of seconds
 while [ $SECONDS -lt $end ]; do
   echo -ne "\r${YELLOW}★★★${RESET}\r"
-  sleep 0.45
+  sleep 0.4
   echo -ne "   \r"
-  sleep 0.45
+  sleep 0.4
 done
 
+clear
+echo "SIG_REDUCE_FONT_SIZE"
+sleep 1
 clear
 echo "SIG_PLAY_ARG_FNC_MUSIC"
 clear
@@ -84,6 +88,8 @@ clear
 echo "SIG_STOP_ARG_FNC_MUSIC"
 clear
 echo "SIG_STOP_GLADIATOR_MUSIC"
+clear
+echo "SIG_RESTORE_FONT_SIZE"
 clear
 
 bash /app/scripts/messi.sh
