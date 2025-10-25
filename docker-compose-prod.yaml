@@ -20,6 +20,8 @@ services:
     env_file:
       - ./terminal-app/.env.prod
     volumes:
+      - ./terminal-app/scripts:/app/scripts # TODO: Delete me
+      - ./terminal-app/static:/app/static # TODO: Delete me
       - ./terminal-app/scripts/eliel.sh:/usr/bin/eliel
       - ./quest-files/bitcoin-password.txt:/home/web-user/bitcoin-password.txt
       - ./quest-files/hint-1:/home/web-user/hint-1
