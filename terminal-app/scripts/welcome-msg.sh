@@ -1,6 +1,5 @@
 #!/bin/bash
 
-clear
 sleep 0.001
 echo "SIG_DISPLAY_THEME_VOL_BTNS"
 sleep 0.001
@@ -30,7 +29,7 @@ Like I said before, you have to type some commands in the terminal to use this w
 "This downloads the latest PDF version of my CV in English by default. For Spanish, run ${BLUE}eliel cv --language esp${RESET}.
 
 - If you’re a ${VIOLET}hacker${RESET}, congrats — you've gotten access to the Web Server! "\
-"But sorry to disappoint you... no Bitcoin passwords here (I wasn’t an early crypto genius). "\
+"Sorry to disappoint you, but no Bitcoin passwords here (I wasn’t an early crypto genius). "\
 "However, in case you are a curious hacker instead of a cybercriminal, I left a scavenger hunt with a hidden easter egg. "\
 "Run ${BLUE}eliel hacker${RESET} to start the quest.
 
@@ -59,7 +58,7 @@ Como te dije antes, tenés que escribir algunos comandos en la terminal para usa
 "Esto descarga la última versión de mi CV en PDF en inglés por defecto. Si lo querés en español, corré ${BLUE}eliel cv --language esp${RESET}.
 
 - Si sos un ${VIOLET}hacker${RESET}, felicitaciones: lograste acceder al servidor web! "\
-"Pero disculpame si te decepciono... acá no vas a encontrar contraseñas de Bitcoin (no fui de los vivos que invirtieron temprano). "\
+"Disculpame si te decepciono, pero acá no vas a encontrar contraseñas de Bitcoin (no fui de los visionarios que invirtieron cuando estaba barato). "\
 "De todos modos, si en lugar de ciberdelincuente sos un hacker curioso, te dejé una búsqueda del tesoro para que te entretengas. "\
 "Corré ${BLUE}eliel hacker${RESET} para empezar la misión.
 
