@@ -13,7 +13,6 @@ RESET="\033[0m"
 WELCOME_MSG_ENG="Hello and welcome to my webpage!
 
 If you’re wondering why you’re seeing a terminal instead of a UI, it’s because I’m not great at designing things. "\
-"The last time I tried to use JavaScript I had a severe allergic reaction and my doctor told me to stay away from frontend development. "\
 "Besides, I have a severe allergic reaction to JavaScript and my doctor told me to stay away from frontend development. "\
 "On the other hand, I think this is an interesting way for people to get to know who I am.
 
