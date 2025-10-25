@@ -62,7 +62,7 @@ sleep 4
 
 declare -A LUSAIL_TIME_TXT=(
   [EN]="Lusail, Qatar — Saturday, December 18th, 2022 — 18:00 hs"
-  [ES]="Estadio, Qatar — Sábado 18 de diciembre de 2022 — 18:00 hs"
+  [ES]="Lusail, Qatar — Sábado 18 de diciembre de 2022 — 18:00 hs"
 )
 echo -e "\n\n${LUSAIL_TIME_TXT[$USER_LANG]}\n\n" | fmt -w $(tput cols)
 
