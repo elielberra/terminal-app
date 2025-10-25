@@ -13,8 +13,8 @@ sleep 0.6
 print_progress_bar() {
   local sleep_time="$1"
   for i in {0..100}; do
-    filled=$(( i / 2 ))
-    printf "\r%3d%% [%-50s]" "$i" "$(printf '%*s' "$filled" '' | tr ' ' '#')"
+    filled=$(( i / 4 ))
+    printf "\r%3d%% [%-25s]" "$i" "$(printf '%*s' "$filled" '' | tr ' ' '#')"
     sleep "$sleep_time"
   done
   printf "\n"
