@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <!-- TODO: Add metadata so this page is indexed by crawlers -->
+
 <head>
   <meta charset="UTF-8" />
   <title>Web Terminal</title>
@@ -322,7 +323,7 @@
       socket.send(JSON.stringify({
         type: "resize",
         cols: terminal.cols,
-        rows: terminal.rows, // TODO: Check why initially it sends smaller cols and rows and is corrected when windows resizes
+        rows: terminal.rows,
       }));
     }
 
@@ -379,37 +380,32 @@
       fitAndResize();
     }
 
-    function sendInitialCmd(cmd) {
-      socket.send(cmd);
-    }
-
-    function waitSocketSendCmd(cmd) {
+    function waitSocketSendCmd(command) {
       if (isSocketReady()) {
-        sendInitialCmd(cmd);
+        socket.send(command);
       } else {
         socket.onopen = () => {
-          sendInitialCmd(cmd);
+          socket.send(command);
         };
       }
     }
 
-    // TODO: Avoid duplicated code on the 2 fns below
-    accessBtn.addEventListener("click", () => {
+    function sendInitialCmd(command) {
       if (terminal._isDisposed) {
         [terminal, socket] = createXtermTerminal();
       }
-      const cmd = "bash /app/scripts/intro.sh\r";
       displayTerminal();
-      waitSocketSendCmd(cmd);
+      waitSocketSendCmd(command);
+    }
+
+    accessBtn.addEventListener("click", () => {
+      const cmd = "bash /app/scripts/intro.sh\r";
+      sendInitialCmd(cmd);
     })
 
     skipIntroBtn.addEventListener("click", () => {
-      if (terminal._isDisposed) {
-        [terminal, socket] = createXtermTerminal();
-      }
       const cmd = "bash /app/scripts/welcome-msg.sh\r";
-      displayTerminal();
-      waitSocketSendCmd(cmd);
+      sendInitialCmd(cmd);
     })
 
     function setLightTheme(terminal) {
