@@ -17,15 +17,13 @@ import (
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		reqOrigin := r.Header.Get("Origin")
-		var cfg = getWsConfig()
-		if reqOrigin == cfg.ExpectedOrigin {
-			return true
+		cfg := getWsConfig()
+		for _, o := range cfg.AllowedOrigins {
+			if reqOrigin == o {
+				return true
+			}
 		}
-		log.Printf(
-			"ERROR: Expected one of %v but received a connection from %s",
-			cfg.ExpectedOrigin,
-			reqOrigin,
-		)
+		log.Printf("ERROR: Expected one of %v but received a connection from %s", cfg.AllowedOrigins, reqOrigin)
 		return false
 	},
 }
@@ -40,10 +38,10 @@ type wsMsg struct {
 type userLanguage string
 
 type wsCfg struct {
-	Protocol           string
-	Domain             string
-	Port               string
-	ExpectedOrigin     string
+	Protocol       string
+	Domain         string
+	Port           string
+	AllowedOrigins []string
 }
 
 const (
@@ -58,17 +56,25 @@ func getWsConfig() wsCfg {
 	if protocol == "" || domain == "" {
 		log.Fatal("Missing required environment variables: WS_PROTOCOL and/or WS_DOMAIN")
 	}
-	expectedOrigin := fmt.Sprintf("%s://%s", protocol, domain)
-	if port != "" {
-		expectedOrigin += ":" + port
+
+	makeOrigin := func(d string) string {
+		if port == "" {
+			return fmt.Sprintf("%s://%s", protocol, d)
+		}
+		return fmt.Sprintf("%s://%s:%s", protocol, d, port)
 	}
+
+	allowed := []string{
+		makeOrigin(domain),
+		makeOrigin("www." + domain),
+	}
+
 	return wsCfg{
 		Protocol:       protocol,
 		Domain:         domain,
 		Port:           port,
-		ExpectedOrigin: expectedOrigin,
+		AllowedOrigins: allowed,
 	}
-
 }
 
 func getUserLanguage(r *http.Request) userLanguage {
