@@ -1,7 +1,6 @@
 #!/bin/bash
 
 trap '' INT
-clear -x
 sleep 0.001
 echo "SIG_DISABLE_TERMINAL_INPUT"
 sleep 0.001
@@ -18,6 +17,7 @@ YELLOW="\033[33m"
 RESET="\033[0m"
 
 sleep 2
+clear -x
 
 declare -A DESERT_BATTLE_TXT=(
   [EN]="Among the deserts of the Middle East, the greatest battle of history took place."
