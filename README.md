@@ -81,3 +81,19 @@ bash up-prod.sh
 ________________
 # Docker RAM usage
 `docker stats`
+
+________________
+# Clone Github ssh key from local machine to EC2
+```
+# On host machine
+scp -i ~/Downloads/test-terminal-app.pem ~/.ssh/id_ed25519 admin@ec2-18-208-62-86.compute-1.amazonaws.com:/home/admin/.ssh/id_ed25519_github
+
+# On EC2
+chmod 600 ~/.ssh/id_ed25519_github
+echo "Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519_github" >> ~/.ssh/config
+
+```
+
