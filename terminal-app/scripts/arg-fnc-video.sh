@@ -1,6 +1,7 @@
 #!/bin/bash
 
 trap '' INT
+clear -x
 sleep 0.001
 echo "SIG_DISABLE_TERMINAL_INPUT"
 sleep 0.001
@@ -78,6 +79,7 @@ while [ $SECONDS -lt $end ]; do
   sleep 0.4
 done
 
+clear -x
 sleep 0.001
 echo "SIG_REDUCE_FONT_SIZE"
 sleep 1
@@ -94,6 +96,7 @@ sleep 0.001
 echo "SIG_RESTORE_FONT_SIZE"
 sleep 0.001
 
+clear -x
 bash /app/scripts/messi.sh
 sleep 8
 
@@ -104,3 +107,4 @@ echo "SIG_ENABLE_TERMINAL_INPUT"
 sleep 0.001
 echo "SIG_DISPLAY_THEME_VOL_BTNS"
 sleep 0.001
+clear -x
