@@ -205,8 +205,8 @@ sleep 0.01
 
 read -r
 
+clear
 sleep 0.001
 echo "SIG_RESTORE_FONT_SIZE"
-sleep 0.001
-clear
+sleep 0.5
 bash /app/scripts/welcome-msg.sh
