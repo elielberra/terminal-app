@@ -75,4 +75,5 @@ declare -A WELCOME_MSG_TXT=(
 )
 
 sleep 0.300
+clear -x
 echo -e "${WELCOME_MSG_TXT[$USER_LANG]}" | fmt -w $(tput cols)
