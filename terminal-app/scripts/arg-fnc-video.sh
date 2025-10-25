@@ -94,7 +94,7 @@ echo "SIG_STOP_ARG_FNC_MUSIC"
 sleep 0.001
 echo "SIG_STOP_GLADIATOR_MUSIC"
 sleep 0.001
-echo "SIG_RESTORE_FONT_SIZE"
+echo "SIG_DEFAULT_FONT_SIZE"
 sleep 0.001
 
 clear -x
