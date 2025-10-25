@@ -41,9 +41,14 @@
       margin: 20px;
     }
 
+    #intro-btns {
+      margin: 20px;
+      display: flex;
+      gap: 20px;
+    }
+
     [id$="intro-btn"] {
       font-size: xx-large;
-      margin: 20px;
     }
 
     @media (max-width: 600px) {
@@ -84,8 +89,10 @@
 
 <body>
   <p id="inactive-msg">Your previous terminal session was closed due to inactivity</p>
-  <button id="access-intro-btn">Access Web Page</button>
-  <button id="skip-intro-btn">Skip Intro</button>
+  <div id="intro-btns">
+    <button id="access-intro-btn">Access Web Page</button>
+    <button id="skip-intro-btn">Skip Intro</button>
+  </div>
   <div id="terminal"></div>
   <img id="night-mode-icon" src="/images/night-mode.png" alt="Night theme icon">
   <img id="light-mode-icon" src="/images/light-mode.png" alt="Light theme icon">
@@ -195,7 +202,7 @@
 
     if (hasVisitedSitePreviously) {
       skipIntroBtn.style.display = "inline-block";
-      accessBtn.textContent += (isUserLangSpanish ? " con" : " with") + " Intro";
+      accessBtn.textContent += (isUserLangSpanish ? " con" : " w/") + " Intro";
     } else {
       skipIntroBtn.style.display = "none";
       localStorage.setItem("hasVisitedSitePreviously", "true");
