@@ -29,6 +29,7 @@ declare -A ALERT_TXT=(
   [ES]="ALERTA"
 )
 
+clear
 echo -e "${YELLOW}${ALERT_TXT[$USER_LANG]}!!!${RESET}"
 sleep 1
 echo -e "${YELLOW}${ALERT_TXT[$USER_LANG]}!!!${RESET}"
@@ -85,7 +86,7 @@ declare -A DELETING_HISTORY_TXT=(
 
 echo -e "${YELLOW}${DELETING_HISTORY_TXT[$USER_LANG]}${RESET}"
 
-print_progress_bar 0.022
+print_progress_bar 0.033
 
 sleep 0.001
 echo "SIG_REDUCE_FONT_SIZE"
