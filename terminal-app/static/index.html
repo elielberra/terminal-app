@@ -336,7 +336,12 @@
     }
 
     function createXtermTerminal() {
-      const terminal = new Terminal({ cursorBlink: true, fontSize: getDefaultFontSize() });
+      const terminal = new Terminal({
+        cursorBlink: true,
+        fontSize: getDefaultFontSize(),
+        cursorStyle: "underline",
+        cursorInactiveStyle: "none"
+      });
       terminal.open(terminalDiv);
       const scheme = location.protocol === 'https:' ? 'wss' : 'ws';
       const socket = new WebSocket(`${scheme}://${location.host}/ws`);
