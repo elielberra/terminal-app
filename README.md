@@ -23,6 +23,11 @@ __________________
 __________________
 # Install docker and git on AWS Debian machine
 ```
+# Enable EC2 Connect
+wget http://mirrors.kernel.org/ubuntu/pool/main/e/ec2-instance-connect/ec2-instance-connect_1.1.17-0ubuntu1_all.deb
+sudo apt install ./ec2-instance-connect_1.1.17-0ubuntu1_all.deb
+sudo service ssh restart
+
 # Update package list
 sudo apt update -y
 
