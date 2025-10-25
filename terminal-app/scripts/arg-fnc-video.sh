@@ -1,5 +1,6 @@
 #!/bin/bash
 
+clear -x
 trap '' INT
 sleep 0.001
 echo "SIG_DISABLE_TERMINAL_INPUT"
@@ -17,12 +18,12 @@ YELLOW="\033[33m"
 RESET="\033[0m"
 
 sleep 2
-clear -x
 
 declare -A DESERT_BATTLE_TXT=(
   [EN]="Among the deserts of the Middle East, the greatest battle of history took place."
   [ES]="Entre los desiertos de Medio Oriente, se libró la batalla más importante de la historia."
 )
+clear -x
 echo "${DESERT_BATTLE_TXT[$USER_LANG]}" | fmt -w $(tput cols)
 
 sleep 5
