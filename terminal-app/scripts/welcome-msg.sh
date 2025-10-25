@@ -14,7 +14,8 @@ WELCOME_MSG_ENG="Hello and welcome to my webpage!
 
 If you’re wondering why you’re seeing a terminal instead of a UI, it’s because I’m not great at designing things. "\
 "The last time I tried to use JavaScript I had a severe allergic reaction and my doctor told me to stay away from frontend development. "\
-"Besides, I think this is an interesting way for people to get to know who I am.
+"Besides, I have a severe allergic reaction to JavaScript and my doctor told me to stay away from frontend development. "\
+"On the other hand, I think this is an interesting way for people to get to know who I am.
 
 Like I said before, you have to type some commands in the terminal to use this webpage. "\
 "The base command is \`eliel\`, which lets you interact with this web app. "\
@@ -42,8 +43,8 @@ You can mute the background server noises and switch to a light theme using the 
 WELCOME_MSG_ESP="¡Hola y bienvenid@ a mi página web!
 
 Si te estás preguntando por qué ves una terminal en lugar de una interfaz, es porque no soy muy bueno diseñando cosas. "\
-"La última vez que intenté usar JavaScript tuve una reacción alérgica severa y el médico me dijo que me mantenga alejado del desarrollo frontend. "\
-"Además, esta me parece una forma alternativa interesante para que la gente me conozca un poco más.
+"Además, tengo una severa alergia a Javascript y el médico me dijo que me mantenga alejado del desarrollo frontend. "\
+"Por otra parte, esta me parece una forma alternativa interesante para que la gente me conozca un poco más.
 
 Como te dije antes, tenés que escribir algunos comandos en la terminal para usar esta página. "\
 "El comando base es \`eliel\`, que te permite interactuar con esta aplicación web. "\
