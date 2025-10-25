@@ -42,7 +42,7 @@ declare -A BEEN_HACKED_TXT=(
   [ES]="HAS SIDO HACKEADO"
 )
 
-end=$((SECONDS+4)) # run for num of seconds
+end=$((SECONDS+4))
 while [ $SECONDS -lt $end ]; do
   echo -ne "${RED}----- ${BEEN_HACKED_TXT[$USER_LANG]} -----${RESET}\r"
   sleep 0.5

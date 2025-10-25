@@ -71,7 +71,7 @@ echo -ne "${YELLOW}★${RESET}"
 sleep 0.9
 echo -ne "\r${YELLOW}★★${RESET}"
 sleep 0.9
-end=$((SECONDS+5)) # run for num of seconds
+end=$((SECONDS+5))
 while [ $SECONDS -lt $end ]; do
   echo -ne "\r${YELLOW}★★★${RESET}\r"
   sleep 0.4
