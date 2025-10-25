@@ -16,19 +16,14 @@ import (
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
-
 		reqOrigin := r.Header.Get("Origin")
-
 		var cfg = getWsConfig()
-		for _, origin := range cfg.DevExpectedOrigins {
-			if origin == reqOrigin {
-				return true
-			}
+		if reqOrigin == cfg.ExpectedOrigin {
+			return true
 		}
-
 		log.Printf(
 			"ERROR: Expected one of %v but received a connection from %s",
-			cfg.DevExpectedOrigins,
+			cfg.ExpectedOrigin,
 			reqOrigin,
 		)
 		return false
@@ -49,7 +44,6 @@ type wsCfg struct {
 	Domain             string
 	Port               string
 	ExpectedOrigin     string
-	DevExpectedOrigins [6]string
 }
 
 const (
@@ -61,24 +55,18 @@ func getWsConfig() wsCfg {
 	protocol := os.Getenv("WS_PROTOCOL")
 	domain := os.Getenv("WS_DOMAIN")
 	port := os.Getenv("WS_PORT")
-
 	if protocol == "" || domain == "" {
 		log.Fatal("Missing required environment variables: WS_PROTOCOL and/or WS_DOMAIN")
 	}
-
 	expectedOrigin := fmt.Sprintf("%s://%s", protocol, domain)
 	if port != "" {
 		expectedOrigin += ":" + port
 	}
-	// TODO: Separate into prod and dev origins
-	devExpectedOrigins := [...]string{expectedOrigin, "http://192.168.100.8", "http://localhost:8080", "http://98.91.239.194", "https://elielberra.com", "https://www.elielberra.com"}
-
 	return wsCfg{
-		Protocol:           protocol,
-		Domain:             domain,
-		Port:               port,
-		ExpectedOrigin:     expectedOrigin,
-		DevExpectedOrigins: devExpectedOrigins,
+		Protocol:       protocol,
+		Domain:         domain,
+		Port:           port,
+		ExpectedOrigin: expectedOrigin,
 	}
 
 }
@@ -112,13 +100,11 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		"TERM=xterm-256color",
 		"GNUPGHOME=/home/web-user/.gnupg",
 	)
-
 	webUserID := uint32(1001)
 	webGroupID := uint32(1001)
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		Credential: &syscall.Credential{Uid: webUserID, Gid: webGroupID},
 	}
-
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
@@ -149,7 +135,6 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			break
 		}
-
 		var messageJson wsMsg
 		if err := json.Unmarshal(messageData, &messageJson); err == nil && messageJson.Type == "resize" {
 			_ = pty.Setsize(ptmx, &pty.Winsize{
@@ -158,7 +143,6 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			continue
 		}
-
 		ptmx.Write(messageData)
 	}
 
