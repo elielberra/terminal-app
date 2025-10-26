@@ -73,6 +73,6 @@ declare -A WELCOME_MSG_TXT=(
   [ES]=${WELCOME_MSG_ESP}
 )
 
-sleep 0.300
+sleep 0.5
 clear -x
 echo -e "${WELCOME_MSG_TXT[$USER_LANG]}" | fmt -w $(tput cols)
