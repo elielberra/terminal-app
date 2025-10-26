@@ -64,6 +64,7 @@ profile terminal-app {
 	/usr/bin/gpg-agent      ix,
 	/usr/bin/fmt            ix,
 	/usr/bin/tput           ix,
+	/usr/bin/fold           ix,
 	/usr/bin/curl			ix, # TODO: Remove curl and ping for prod
 	/usr/bin/ping			ix,
 
