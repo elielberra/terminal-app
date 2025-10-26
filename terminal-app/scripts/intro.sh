@@ -118,20 +118,25 @@ echo "SIG_PLAY_MORSE_SOUND"
 sleep 0.001
 
 print_typing_effect() {
-  text="$*"
-  for ((i=0; i<${#text}; i++)); do
-    printf "%s" "${text:$i:1}"
+  local text="$*"
+  local cols
+  cols=$(tput cols 2>/dev/null || echo 80)
+  local wrapped
+  wrapped=$(printf "%s" "$text" | fold -s -w "$cols")
+  local i
+  for (( i=0; i<${#wrapped}; i++ )); do
+    printf "%s" "${wrapped:i:1}"
     sleep 0.05
   done
-  echo
+  printf "\n"
 }
-
+clear -x # TODO: Delete me
 declare -A DONT_WORRY_TXT=(
   [EN]="Don't worry, I was just kidding."
   [ES]="No te preocupes, era una broma nada más."
 )
 print_typing_effect "${DONT_WORRY_TXT[$USER_LANG]}"
-
+echo
 sleep 1
 
 declare -A MONEY_SAFE_TXT=(
@@ -140,7 +145,6 @@ declare -A MONEY_SAFE_TXT=(
 )
 print_typing_effect "${MONEY_SAFE_TXT[$USER_LANG]}"
 echo
-
 sleep 1
 
 declare -A TERMINAL_APPEAR_TXT_1=(
@@ -148,7 +152,7 @@ declare -A TERMINAL_APPEAR_TXT_1=(
   [ES]="En unos segundos va a aparecer una terminal."
 )
 print_typing_effect "${TERMINAL_APPEAR_TXT_1[$USER_LANG]}"
-
+echo
 sleep 1
 
 declare -A DIFFERENT_TRADITIONAL_UI_TXT=(
@@ -156,7 +160,15 @@ declare -A DIFFERENT_TRADITIONAL_UI_TXT=(
   [ES]="Esto va a ser distinto a la interfaz web tradicional a la que probablemente estás acostumbrado."
 )
 print_typing_effect "${DIFFERENT_TRADITIONAL_UI_TXT[$USER_LANG]}"
+echo
+sleep 1
 
+declare -A WONT_BE_CLICKING_TXT=(
+  [EN]="You won’t be clicking icons with your mouse like you usually do on websites."
+  [ES]="No vas a estar haciendo click en íconos con el mouse como hacés siempre en las páginas web."
+)
+print_typing_effect "${WONT_BE_CLICKING_TXT[$USER_LANG]}"
+echo
 sleep 1
 
 declare -A TERMINAL_COMUNICATE_PC_TXT_1=(
@@ -164,15 +176,15 @@ declare -A TERMINAL_COMUNICATE_PC_TXT_1=(
   [ES]="Una terminal es básicamente otra forma de comunicarse con la PC."
 )
 print_typing_effect "${TERMINAL_COMUNICATE_PC_TXT_1[$USER_LANG]}"
-
+echo
 sleep 1
 
-declare -A INSTEAD_CLICKING_ICONS_TXT=(
-  [EN]="Instead of clicking icons with your mouse, you type commands to interact and tell it what you want to do."
-  [ES]="En vez de hacer click en íconos con el mouse, tenés que escribir comandos para interactuar y darle instrucciones de lo que querés hacer."
+declare -A TYPE_COMMANDS_TXT=(
+  [EN]="You’ll type commands to interact with the app and tell it what you want to do."
+  [ES]="Vas a escribir comandos para interactuar con la app y decirle qué querés hacer."
 )
-print_typing_effect "${INSTEAD_CLICKING_ICONS_TXT[$USER_LANG]}"
-
+print_typing_effect "${TYPE_COMMANDS_TXT[$USER_LANG]}"
+echo
 sleep 1
 
 declare -A DETAILED_INSTRUCTIONS_TXT_1=(
@@ -180,7 +192,7 @@ declare -A DETAILED_INSTRUCTIONS_TXT_1=(
   [ES]="Te voy a dejar instrucciones detalladas sobre cómo usar esta terminal."
 )
 print_typing_effect "${DETAILED_INSTRUCTIONS_TXT_1[$USER_LANG]}"
-
+echo
 sleep 1
 
 declare -A READ_THEM_CAREFULLY_TXT=(
@@ -188,7 +200,7 @@ declare -A READ_THEM_CAREFULLY_TXT=(
   [ES]="Leelas con atención, ahí están los distintos comandos que podés usar."
 )
 print_typing_effect "${READ_THEM_CAREFULLY_TXT[$USER_LANG]}"
-
+echo
 sleep 1
 
 declare -A PRESS_ENTER_TXT=(
