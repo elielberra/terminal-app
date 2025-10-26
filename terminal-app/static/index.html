@@ -158,17 +158,22 @@
     const lightModeIcon = document.getElementById("light-mode-icon");
     const muteMusicIcon = document.getElementById("mute-music-icon");
     const unmuteMusicIcon = document.getElementById("unmute-music-icon");
-    const REDUCED_FONT_STATE = "REDUCED";
-    const DEFAULT_FONT_STATE = "DEFAULT";
-    const AUGMENTED_FONT_STATE = "AUGMENTED";
-    let terminalFontSizeState = DEFAULT_FONT_STATE;
-    const VIEWPORT_WIDTH_REFERENCE = 1950;
-    const REDUCED_PC_REFERENCE_FONT_SIZE = 14;
-    const DEFAULT_PC_REFERENCE_FONT_SIZE = 22;
-    const AUGMENTED_PC_REFERENCE_FONT_SIZE = 27;
-    const REDUCED_MOBILE_REFERENCE_FONT_SIZE = 20;
-    const DEFAULT_MOBILE_REFERENCE_FONT_SIZE = 22;
-    const AUGMENTED_MOBILE_REFERENCE_FONT_SIZE = 30;
+    const RED_FONT_STATE = "REDUCED";
+    const DEF_FONT_STATE = "DEFAULT";
+    const AUG_FONT_STATE = "AUGMENTED";
+    let terminalFontSizeState = DEF_FONT_STATE;
+    const PC_VIEWPORT_WIDTH_REF = 1950;
+    const MOBILE_PORTRAIT_VIEWPORT_WIDTH_REF = 431;
+    const MOBILE_LANDSCAPE_VIEWPORT_WIDTH_REF = 800;
+    const RED_PC_REF_FONT_SIZE = 17;
+    const DEF_PC_REF_FONT_SIZE = 22;
+    const AUG_PC_REF_FONT_SIZE = 29;
+    const RED_PORTRAIT_MOBILE_REF_FONT_SIZE = 10;
+    const DEF_PORTRAIT_MOBILE_REF_FONT_SIZE = 14;
+    const AUG_PORTRAIT_MOBILE_REF_FONT_SIZE = 17;
+    const RED_LANDSCAPE_MOBILE_REF_FONT_SIZE = 6;
+    const DEF_LANDSCAPE_MOBILE_REF_FONT_SIZE = 7;
+    const AUG_LANDSCAPE_MOBILE_REF_FONT_SIZE = 12;
     const fitAddon = new FitAddon.FitAddon();
     const ENG = "ENG";
     const ESP = "ESP";
@@ -208,48 +213,39 @@
       localStorage.setItem("hasVisitedSitePreviously", "true");
     }
 
-    function getReducedMobileFontSize() {
-      return (window.innerWidth / VIEWPORT_WIDTH_REFERENCE) * REDUCED_MOBILE_REFERENCE_FONT_SIZE;
-    }
-
-    function getReducedPcFontSize() {
-      return (window.innerWidth / VIEWPORT_WIDTH_REFERENCE) * REDUCED_PC_REFERENCE_FONT_SIZE;
-    }
-
-    function getReducedFontSize() {
-      return isMobileUser ? getReducedMobileFontSize() : getReducedPcFontSize();
-    }
-
-    function getDefaultMobileFontSize() {
-      return (window.innerWidth / VIEWPORT_WIDTH_REFERENCE) * DEFAULT_PC_REFERENCE_FONT_SIZE;
-    }
-
-    function getDefaultPcFontSize() {
-      return (window.innerWidth / VIEWPORT_WIDTH_REFERENCE) * DEFAULT_MOBILE_REFERENCE_FONT_SIZE;
-    }
-
-    function getDefaultFontSize() {
-      return isMobileUser ? getDefaultMobileFontSize() : getDefaultPcFontSize();
-    }
-
-    function getAugmentedMobileFontSize() {
-      return (window.innerWidth / VIEWPORT_WIDTH_REFERENCE) * AUGMENTED_MOBILE_REFERENCE_FONT_SIZE;
-    }
-
-    function getAugmentedPcFontSize() {
-      return (window.innerWidth / VIEWPORT_WIDTH_REFERENCE) * AUGMENTED_PC_REFERENCE_FONT_SIZE;
-    }
-
-    function getAugmentedFontSize() {
-      return isMobileUser ? getAugmentedMobileFontSize() : getAugmentedPcFontSize();
+    function isOrientationPortrait() {
+      return window.matchMedia("(orientation: portrait)").matches;
     }
 
     function setTerminalFontSize() {
-      let newFontSize;
-      if (terminalFontSizeState === DEFAULT_FONT_STATE) newFontSize = getDefaultFontSize();
-      if (terminalFontSizeState === AUGMENTED_FONT_STATE) newFontSize = getAugmentedFontSize();
-      if (terminalFontSizeState === REDUCED_FONT_STATE) newFontSize = getReducedFontSize();
-      terminal.options.fontSize = newFontSize;
+      let viewportRef;
+      if (isMobileUser) {
+        viewportRef = isOrientationPortrait() ? MOBILE_PORTRAIT_VIEWPORT_WIDTH_REF : MOBILE_LANDSCAPE_VIEWPORT_WIDTH_REF;
+      } else {
+        viewportRef = PC_VIEWPORT_WIDTH_REF;
+      }
+      let fontSizeRef;
+      if (terminalFontSizeState === RED_FONT_STATE) {
+        if (isMobileUser) {
+          fontSizeRef = isOrientationPortrait() ? RED_PORTRAIT_MOBILE_REF_FONT_SIZE : RED_LANDSCAPE_MOBILE_REF_FONT_SIZE;
+        } else {
+          fontSizeRef = RED_PC_REF_FONT_SIZE
+        }
+      } else if (terminalFontSizeState === DEF_FONT_STATE) {
+        if (isMobileUser) {
+          fontSizeRef = isOrientationPortrait() ? DEF_PORTRAIT_MOBILE_REF_FONT_SIZE : DEF_LANDSCAPE_MOBILE_REF_FONT_SIZE;
+        } else {
+          fontSizeRef = DEF_PC_REF_FONT_SIZE
+        }
+      } else if (terminalFontSizeState === AUG_FONT_STATE) {
+        if (isMobileUser) {
+          fontSizeRef = isOrientationPortrait() ? AUG_PORTRAIT_MOBILE_REF_FONT_SIZE : AUG_LANDSCAPE_MOBILE_REF_FONT_SIZE;
+        } else {
+          fontSizeRef = AUG_PC_REF_FONT_SIZE
+        }
+      }
+      const widthScale = window.innerWidth / viewportRef;
+      terminal.options.fontSize = widthScale * fontSizeRef;
     }
 
     function stripAnsi(text) {
@@ -300,19 +296,18 @@
       }
 
       if (output === "SIG_REDUCE_FONT_SIZE") {
-        terminalFontSizeState = "REDUCED";
+        terminalFontSizeState = RED_FONT_STATE;
         fitAndResize();
         return;
       }
       if (output === "SIG_DEFAULT_FONT_SIZE") {
-        terminalFontSizeState = "DEFAULT";
+        terminalFontSizeState = DEF_FONT_STATE;
         fitAndResize();
-
         return;
       }
 
       if (output === "SIG_AUGMENT_FONT_SIZE") {
-        terminalFontSizeState = "AUGMENTED";
+        terminalFontSizeState = AUG_FONT_STATE;
         fitAndResize();
         return;
       }
@@ -368,7 +363,6 @@
         muteMusicIcon.style.display = "none";
         return;
       }
-
     }
 
     function isSocketReady() {
@@ -397,7 +391,6 @@
     function createXtermTerminal() {
       const terminal = new Terminal({
         cursorBlink: true,
-        fontSize: getDefaultFontSize(),
         cursorStyle: "underline",
         cursorInactiveStyle: "none"
       });
