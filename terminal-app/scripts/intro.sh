@@ -130,7 +130,7 @@ print_typing_effect() {
   done
   printf "\n"
 }
-clear -x # TODO: Delete me
+
 declare -A DONT_WORRY_TXT=(
   [EN]="Don't worry, I was just kidding."
   [ES]="No te preocupes, era una broma nada más."
