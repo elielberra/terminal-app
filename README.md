@@ -11,7 +11,7 @@
 ---
 
 ## Overview
-The idea behind this project is to offer an alternative and more creative way for people to get to know who I am. The **terminal-app** is an interactive web application that looks and behaves like a real Linux terminal. Unlike a traditional web app with buttons or menus, the entire user experience happens inside the terminal. As the user types different commands, they can learn more about me and discover various hidden surprises built into the system. The app is hosted at [www.elielberra.com](https://elielberra.com).
+The idea behind this project is to offer an alternative and more creative way for people to get to know who I am. The **terminal-app** is an interactive web application that looks and behaves like a real Linux terminal. Unlike a traditional web app with buttons or menus, the entire user experience happens inside the terminal. As the user types different commands, they can learn more about me and discover various hidden surprises built into the system.The app is hosted at <a href="https://elielberra.com" target="_blank">www.elielberra.com</a>.
 
 ---
 
@@ -21,7 +21,7 @@ The backend is written in **Go** and handles the logic behind the terminal. It u
 ---
 
 ## Frontend
-The frontend is built with **HTML, CSS, and vanilla JavaScript**. There isn’t a typical user interface, so a framework wasn’t necessary — everything happens inside the terminal window. The frontend’s code is located inside the backend’s **static** folder, where it is served directly by the Go server. The terminal view is powered by [**xterm.js**](https://github.com/xtermjs/xterm.js), which handles user input, colors, and cursor movement. The connection to the backend through the WebSocket makes the terminal respond in real time. Different signals sent from the backend can change how the terminal looks or behaves — for example, enabling or disabling typing, blinking the cursor, or triggering sounds and animations.
+The frontend is built with **HTML, CSS, and vanilla JavaScript**. There isn’t a typical user interface, so a framework wasn’t necessary — everything happens inside the terminal window. The frontend’s code is located inside the backend’s **static** folder, where it is served directly by the Go server. The terminal view is powered by <a href="https://github.com/xtermjs/xterm.js" target="_blank">xterm js</a>, which handles user input, colors, and cursor movement. The connection to the backend through the WebSocket makes the terminal respond in real time. Different signals sent from the backend can change how the terminal looks or behaves — for example, enabling or disabling typing, blinking the cursor, or triggering sounds and animations.
 
 ---
 
