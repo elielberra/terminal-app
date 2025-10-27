@@ -16,6 +16,8 @@ sleep 0.001
 
 YELLOW="\033[33m"
 RESET="\033[0m"
+ITALIC="\e[3m"
+RESET_ITALIC="\e[0m"
 
 sleep 2
 
@@ -24,7 +26,7 @@ declare -A DESERT_BATTLE_TXT=(
   [ES]="Entre los desiertos de Medio Oriente, se libró la batalla más importante de la historia."
 )
 clear -x
-echo "${DESERT_BATTLE_TXT[$USER_LANG]}" | fmt -w $(tput cols)
+echo -e "${DESERT_BATTLE_TXT[$USER_LANG]}\n" | fmt -w $(tput cols)
 
 sleep 5
 
@@ -32,7 +34,7 @@ declare -A NATIONS_CLASH_TXT=(
   [EN]="Two nations clashed fiercely with one another in an epic combat."
   [ES]="Dos naciones se enfrentaron ferozmente en un épico combate."
 )
-echo "${NATIONS_CLASH_TXT[$USER_LANG]}" | fmt -w $(tput cols)
+echo -e "${NATIONS_CLASH_TXT[$USER_LANG]}\n" | fmt -w $(tput cols)
 
 sleep 5
 
@@ -40,7 +42,7 @@ declare -A GROUP_23_TXT=(
   [EN]="A group of 11 men, led by their humble messiah, put an end to a 28-year curse."
   [ES]="Un grupo de 11 hombres, liderados por su humilde mesías, puso fin a una maldición de 28 años."
 )
-echo "${GROUP_23_TXT[$USER_LANG]}" | fmt -w $(tput cols)
+echo -e "${GROUP_23_TXT[$USER_LANG]}\n" | fmt -w $(tput cols)
 
 sleep 5
 
@@ -48,7 +50,7 @@ declare -A HAPPINESS_STREETS_TXT=(
   [EN]="Happiness filled the country's streets."
   [ES]="La felicidad inundó las calles del país."
 )
-echo "${HAPPINESS_STREETS_TXT[$USER_LANG]}" | fmt -w $(tput cols)
+echo -e "${HAPPINESS_STREETS_TXT[$USER_LANG]}\n" | fmt -w $(tput cols)
 
 sleep 4
 
@@ -56,7 +58,7 @@ declare -A GLORY_HISTORY_TXT=(
   [EN]="Glory was found, a new legend was written..."
   [ES]="Se alcanzó la gloria, se escribió una nueva leyenda..."
 )
-echo "${GLORY_HISTORY_TXT[$USER_LANG]}" | fmt -w $(tput cols)
+echo -e "${GLORY_HISTORY_TXT[$USER_LANG]}\n" | fmt -w $(tput cols)
 
 sleep 4
 
@@ -64,7 +66,7 @@ declare -A LUSAIL_TIME_TXT=(
   [EN]="Lusail, Qatar — Saturday, December 18th, 2022 — 18:00 hs"
   [ES]="Lusail, Qatar — Sábado 18 de diciembre de 2022 — 18:00 hs"
 )
-echo -e "\n\n${LUSAIL_TIME_TXT[$USER_LANG]}\n\n" | fmt -w $(tput cols)
+echo -e "${ITALIC}${LUSAIL_TIME_TXT[$USER_LANG]}${RESET_ITALIC}\n" | fmt -w $(tput cols)
 
 sleep 5
 
