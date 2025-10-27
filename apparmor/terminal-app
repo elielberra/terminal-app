@@ -35,9 +35,9 @@ profile terminal-app {
 	# quest hints
 	/home/web-user/hint-1        r,
 	/hint-2                      r,
-	/tmp/.hint-3.gpg             r,
-	/tmp/.hint-2.5               r,
-	/var/log/gpg-passphrase      r,
+	/tmp/hint-3.gpg             r,
+	/tmp/hint-2.5               r,
+	/var/log/.hint-3-gpg-passphrase      r,
 	/                            r,
 	/tmp/                        r,
 	/var/log/                    r,
