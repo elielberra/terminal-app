@@ -5,8 +5,11 @@ profile terminal-app {
 	# web-user files
 	/home/web-user/                   r,
 	/home/web-user/**                 r,
+
+	# gpg pkg files
 	/home/web-user/.gnupg/            rw,
 	/home/web-user/.gnupg/**          rw,
+	/proc/[0-9]*/fd/                  r,
 
 	# terminal-app files
 	/app/terminal-app                 ix,
