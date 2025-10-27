@@ -84,6 +84,10 @@
     #light-mode-icon {
       background-color: rgba(255, 255, 255, 0.75);
     }
+
+    #close-icon {
+      right: 20px;
+    }
   </style>
 </head>
 
@@ -98,6 +102,7 @@
   <img id="light-mode-icon" src="/images/light-mode.png" alt="Light theme icon">
   <img id="mute-music-icon" src="/images/mute.png" alt="Mute music icon">
   <img id="unmute-music-icon" src="/images/unmute.png" alt="Unmute music icon">
+  <img id="close-icon" src="/images/close.png" alt="Close video icon">
   <audio id="intro-sound" src="/audios/intro.mp3" preload="auto"></audio>
   <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
   <audio id="bakground-sound" src="/audios/background-sound.mp3" preload="auto"></audio>
@@ -158,6 +163,7 @@
     const lightModeIcon = document.getElementById("light-mode-icon");
     const muteMusicIcon = document.getElementById("mute-music-icon");
     const unmuteMusicIcon = document.getElementById("unmute-music-icon");
+    const closeIcon = document.getElementById("close-icon");
     const RED_FONT_STATE = "REDUCED";
     const DEF_FONT_STATE = "DEFAULT";
     const AUG_FONT_STATE = "AUGMENTED";
@@ -253,6 +259,21 @@
       terminal.options.fontSize = widthScale * fontSizeRef;
     }
 
+    function enableTerminalInput() {
+      terminalDiv.style.pointerEvents = "auto";
+      terminal.focus();
+      terminal.options.disableStdin = false;
+      terminal.options.cursorBlink = true;
+      terminal.options.cursorInactiveStyle = "block";
+    }
+
+    function resumeBackgroundSound() {
+      if (!isBackgroundSoundMuted()) {
+        backgroundSound.play();
+        backgroundSound.volume = 0.4;
+      }
+    }
+
     function stripAnsi(text) {
       return text.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, "").trim();
     }
@@ -276,7 +297,7 @@
         }, 38000)
         return;
       }
-      if (output === "SIG_STOP_GLADIATOR_MUSIC") {
+      if (output === "SIG_STOP_GLADIATOR_MUSIC_FADE_OUT") {
         fadeOutAudio(gladiatorSound, 8000);
         return;
       }
@@ -293,10 +314,6 @@
 
       if (output === "SIG_PLAY_ARG_FNC_MUSIC") {
         argFncSound.play();
-        return;
-      }
-      if (output === "SIG_STOP_ARG_FNC_MUSIC") {
-        stopAudio(argFncSound);
         return;
       }
 
@@ -327,11 +344,8 @@
       }
 
       if (output === "SIG_PLAY_BACKGROUND_SOUND") {
-        if (!isBackgroundSoundMuted()) {
-          backgroundSound.play();
-          backgroundSound.volume = 0.4;
-          return;
-        }
+        resumeBackgroundSound();
+        return;
       }
 
       if (output === "SIG_PAUSE_BACKGROUND_SOUND") {
@@ -349,11 +363,7 @@
       }
 
       if (output === "SIG_ENABLE_TERMINAL_INPUT") {
-        terminalDiv.style.pointerEvents = "auto";
-        terminal.focus();
-        terminal.options.disableStdin = false;
-        terminal.options.cursorBlink = true;
-        terminal.options.cursorInactiveStyle = "block";
+        enableTerminalInput();
         return;
       }
 
@@ -362,10 +372,18 @@
         muteMusicIcon.style.display = "block";
         return;
       }
-
       if (output === "SIG_HIDE_THEME_VOL_BTNS") {
         lightModeIcon.style.display = "none";
         muteMusicIcon.style.display = "none";
+        return;
+      }
+
+      if (output === "SIG_SHOW_CLOSE_VIDEO_BTN") {
+        closeIcon.style.display = "inline-block";
+        return;
+      }
+      if (output === "SIG_HIDE_CLOSE_VIDEO_BTN") {
+        closeIcon.style.display = "none";
         return;
       }
 
@@ -418,7 +436,7 @@
         } else {
           terminal.write(text);
         }
-        console.log(cleanText); // TODO: Delete me
+        // console.log(cleanText); // TODO: Delete me
       };
       socket.onclose = function () {
         terminal.dispose();
@@ -530,6 +548,20 @@
       unmuteMusicIcon.style.display = "none";
       muteMusicIcon.style.display = "block";
       backgroundSound.play()
+    })
+
+    closeIcon.addEventListener("click", () => {
+      socket.send('printf \x03\r');
+      stopAudio(gladiatorSound);
+      stopAudio(argFncSound);
+      terminalFontSizeState = DEF_FONT_STATE;
+      fitAndResize();
+      resumeBackgroundSound();
+      enableTerminalInput();
+      lightModeIcon.style.display = "block";
+      muteMusicIcon.style.display = "block";
+      closeIcon.style.display = "none";
+      socket.send('clear -x\r');
     })
 
     if (!hasVisitedSitePreviously && isMobileUser) {
