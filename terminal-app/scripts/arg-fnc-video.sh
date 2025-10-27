@@ -1,13 +1,14 @@
 #!/bin/bash
 
 clear -x
-trap '' INT
 sleep 0.001
 echo "SIG_DISABLE_TERMINAL_INPUT"
 sleep 0.001
 echo "SIG_AUGMENT_FONT_SIZE"
 sleep 0.001
 echo "SIG_HIDE_THEME_VOL_BTNS"
+sleep 0.001
+echo "SIG_SHOW_CLOSE_VIDEO_BTN"
 sleep 0.001
 echo "SIG_PAUSE_BACKGROUND_SOUND"
 sleep 0.001
@@ -90,24 +91,26 @@ echo "SIG_PLAY_ARG_FNC_MUSIC"
 sleep 0.001
 
 mpv --vo=caca --no-audio --really-quiet /app/media/arg-fnc.mp4
+exit_code=$?
+if [ $exit_code -eq 4 ]; then
+  exit
+fi
 
 sleep 0.001
-echo "SIG_STOP_ARG_FNC_MUSIC"
+echo "SIG_STOP_GLADIATOR_MUSIC_FADE_OUT"
 sleep 0.001
-echo "SIG_STOP_GLADIATOR_MUSIC"
-sleep 0.001
-echo "SIG_DEFAULT_FONT_SIZE"
-sleep 0.001
-
 clear -x
 bash /app/scripts/messi.sh
 sleep 8
 
+echo "SIG_DEFAULT_FONT_SIZE"
 sleep 0.001
 echo "SIG_PLAY_BACKGROUND_SOUND"
 sleep 0.001
 echo "SIG_ENABLE_TERMINAL_INPUT"
 sleep 0.001
 echo "SIG_DISPLAY_THEME_VOL_BTNS"
+sleep 0.001
+echo "SIG_HIDE_CLOSE_VIDEO_BTN"
 sleep 0.001
 clear -x

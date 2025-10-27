@@ -1,7 +1,6 @@
 #!/bin/bash
 
-trap '' INT
-clear
+  clear
 sleep 0.001
 echo "SIG_DISABLE_TERMINAL_INPUT"
 sleep 0.001
