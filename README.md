@@ -37,3 +37,5 @@ While the backend server is written in **Go**, the actual logic of the terminal-
 
 ## Deployment
 Every service in the terminal-app runs inside its own **Docker container**. The **Go backend** and the **Nginx proxy** are all containerized. The entire application is deployed and managed using **Docker Compose**, which handles service orchestration, networking, and environment configuration automatically.
+
+A Bash script simplifies the deployment process for both development and production environments. In production, the app runs on an EC2 instance, where the script automatically sets up and launches all required services.

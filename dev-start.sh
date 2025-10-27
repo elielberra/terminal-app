@@ -4,7 +4,7 @@
 wmctrl -c "Web Terminal"
 
 # Remove pre existing containers
-docker compose down --remove-orphans
+docker compose -f docker-compose-dev.yaml down --remove-orphans
 
 # Build the Go App
 cd terminal-app
@@ -41,7 +41,7 @@ fi
 
 
 # Spawn new container
-if ! docker compose up --build; then
+if ! docker compose -f docker-compose-dev.yaml up --build; then
   echo "❌ Failed to spawn terminal-app container. Aborting."
   exit 1
 fi
