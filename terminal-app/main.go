@@ -99,18 +99,19 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		"--rcfile", "/home/web-user/.bashrc",
 		"-i",
 	)
+	webUserID := uint32(1001)
+	webGroupID := uint32(1001)
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Credential: &syscall.Credential{Uid: webUserID, Gid: webGroupID},
+	}
 	cmd.Env = append(os.Environ(),
 		"USER_LANG="+string(userLanguage),
 		"LC_ALL=C.UTF-8",
 		"LC_CTYPE=C.UTF-8",
 		"TERM=xterm-256color",
 		"GNUPGHOME=/home/web-user/.gnupg",
+		"HOME=/home/web-user",
 	)
-	webUserID := uint32(1001)
-	webGroupID := uint32(1001)
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Credential: &syscall.Credential{Uid: webUserID, Gid: webGroupID},
-	}
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
