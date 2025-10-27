@@ -23,12 +23,13 @@ services:
       - ./terminal-app/scripts:/app/scripts # TODO: Delete me
       - ./terminal-app/static:/app/static # TODO: Delete me
       - ./terminal-app/scripts/eliel.sh:/usr/bin/eliel
-      - ./quest-files/bitcoin-password.txt:/home/web-user/bitcoin-password.txt
+      - ./quest-files/bitcoin-password:/home/web-user/bitcoin-password
       - ./quest-files/hint-1:/home/web-user/hint-1
       - ./quest-files/hint-2:/hint-2
-      - ./quest-files/hint-3.gpg:/tmp/.hint-3.gpg
-      - ./quest-files/hint-2.5:/tmp/.hint-2.5
-      - ./quest-files/gpg-passphrase:/var/log/gpg-passphrase
+      - ./quest-files/hint-3.gpg:/tmp/hint-3.gpg
+      - ./quest-files/hint-3.gpg:/home/web-user/hint-3.gpg # TODO: Delete me
+      - ./quest-files/hint-2.5:/tmp/hint-2.5
+      - ./quest-files/.hint-3-gpg-passphrase:/var/log/.hint-3-gpg-passphrase
       - ./quest-files/easter-egg:/usr/bin/easter-egg
     networks:
       - private 
