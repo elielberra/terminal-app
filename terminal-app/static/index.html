@@ -98,27 +98,35 @@
     <button id="skip-intro-btn">Skip Intro</button>
   </div>
   <div id="terminal"></div>
+  <audio id="intro-sound" src="/audios/intro.mp3" preload="auto"></audio>
+  <audio id="bakground-sound" src="/audios/background-sound.mp3" preload="auto"></audio>
+  <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
+  <audio id="morse-sound" src="/audios/morse-sound.mp3" preload="auto"></audio>
+  <audio id="gladiator-sound" src="/audios/gladiator.mp3" preload="auto"></audio>
   <img id="night-mode-icon" src="/images/night-mode.png" alt="Night theme icon">
   <img id="light-mode-icon" src="/images/light-mode.png" alt="Light theme icon">
   <img id="mute-music-icon" src="/images/mute.png" alt="Mute music icon">
   <img id="unmute-music-icon" src="/images/unmute.png" alt="Unmute music icon">
   <img id="close-icon" src="/images/close.png" alt="Close video icon">
-  <audio id="intro-sound" src="/audios/intro.mp3" preload="auto"></audio>
-  <audio id="arg-fnc-sound" src="/audios/arg-fnc.mp3" preload="auto"></audio>
-  <audio id="bakground-sound" src="/audios/background-sound.mp3" preload="auto"></audio>
-  <audio id="morse-sound" src="/audios/morse-sound.mp3" preload="auto"></audio>
-  <audio id="gladiator-sound" src="/audios/gladiator.mp3" preload="auto"></audio>
   <script>
-    function downloadCv(lang) {
-      const driveCvFileId = lang == ENG ? engCvId : espCvId;
-      const url = `https://drive.usercontent.google.com/uc?id=${driveCvFileId}&authuser=0&export=download`
+
+    function openLinkNewTab(url, downloadFilename = null) {
       const a = document.createElement("a");
       a.href = url;
       a.target = "_blank";
-      a.download = `Eliel Berra CV ${lang}.pdf`;
+      if (downloadFilename) {
+        a.download = downloadFilename;
+      }
       document.body.appendChild(a);
       a.click();
       a.remove();
+    }
+
+    function downloadCv(lang) {
+      const driveCvFileId = lang == ENG ? engCvId : espCvId;
+      const cvUrl = `https://drive.usercontent.google.com/uc?id=${driveCvFileId}&authuser=0&export=download`
+      const cvFilename = `Eliel Berra CV ${lang}.pdf`;
+      openLinkNewTab(cvUrl, cvFilename)
     }
 
     function stopAudio(audio) {
@@ -390,6 +398,11 @@
       if (output === "SIG_COPY_BINARY_CLIPBOARD") {
         navigator.clipboard.writeText(binaryHint)
           .then(() => terminal.write((isUserLangSpanish ? clipboardTxtEs : clipboardTxtEn) + "\n\n\r"))
+      }
+
+      if (output === "SIG_PLAY_EASTER_EGG") {
+        const easterEggUrl = "https://www.youtube.com/watch?v=IfhMILe8C84";
+        openLinkNewTab(easterEggUrl)
       }
     }
 

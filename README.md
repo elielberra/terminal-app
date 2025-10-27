@@ -17,7 +17,17 @@ $HOME/repos/terminal-app/terminal-app
 ```
 __________________
 # Create compiled bash script
-`shc -r -f easter-egg.sh -o easter-egg`
+```
+sudo apt update
+sudo apt install -y build-essential
+wget https://github.com/neurobin/shc/archive/refs/tags/4.0.3.tar.gz
+tar -xvzf 4.0.3.tar.gz
+cd shc-4.0.3/
+./configure
+make
+sudo make install
+shc -r -f easter-egg.sh -o easter-egg
+```
 
 
 __________________
