@@ -53,7 +53,7 @@ All the services run inside Docker containers to keep them isolated. The contain
 An <a href="https://apparmor.net/" target="_blank">AppArmor</a> profile is applied through Docker’s security options to strictly control what the terminal can do. It heavily restricts access to the file system, allowing only specific files and directories to be read. It also defines a small set of permitted commands while blocking every other possible action. This ensures that even if a user tries to execute something unexpected, the command will be denied by the system.
 
 ### Restricted Bash (rbash)
-The terminal runs under **rbash**, a restricted version of the Bash shell. It prevents users from changing directories, setting environment variables, modifying the PATH, or running commands outside of approved locations. This keeps the user confined to a controlled environment where only safe, predefined actions are allowed.
+The terminal runs under <a href="https://www.gnu.org/software/bash/manual/html_node/The-Restricted-Shell.html" target="_blank">rbash</a>, a restricted version of the Bash shell. It prevents users from changing directories, setting environment variables, modifying the PATH, or running commands outside of approved locations. This keeps the user confined to a controlled environment where only safe, predefined actions are allowed.
 
 ### Networking
 The terminal-app is enclosed within a private internal network that has no direct access to the internet. This isolation ensures that even if someone tries to exploit the system from within the terminal, there is no route to reach external servers or services.  
