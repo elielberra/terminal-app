@@ -14,6 +14,7 @@ Commands:
   champion          Play a surprise video
   cv                Download a CV in PDF format
   hacker            Get hints for a scavenger hunt
+  docs              Open repository documentation
 Examples:
   eliel cv --language esp
 EOF
@@ -68,14 +69,21 @@ hacker_cmd() {
   echo "${binaryHint}" | fmt -w $(tput cols)
 }
 
+docs_cmd() {
+  sleep 0.001
+  echo "SIG_OPEN_CYBERSECURITY_DOCS"
+  sleep 0.001
+}
+
 main() {
   local cmd="${1:-}"
   [[ $# -gt 0 ]] && shift || true
 
   case "$cmd" in
-    cv)              cv_cmd "$@" ;;
+    cv)        cv_cmd "$@" ;;
     champion)  champion_cmd ;;
-    hacker)  hacker_cmd ;;
+    hacker)    hacker_cmd ;;
+    docs)      docs_cmd ;;
     -h|--help|help|"") print_help ;;
     *)
       echo "Unknown command: $cmd" >&2

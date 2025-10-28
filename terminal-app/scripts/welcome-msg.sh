@@ -29,7 +29,9 @@ Like I said before, you have to type some commands in the terminal to use this w
 "This downloads the latest PDF version of my CV in English by default. For Spanish, run ${BLUE}eliel cv --language esp${RESET}.
 
 - If you’re a ${VIOLET}hacker${RESET}, congrats — you've gotten access to the Web Server! "\
-"Sorry to disappoint you, but no Bitcoin passwords here (I wasn’t an early crypto genius). "\
+"Just so you know, I’ve implemented very strict cybersecurity measures, so there isn’t much you can do. "\
+"If you want to learn more about these measures, run ${BLUE}eliel docs${RESET}. "\
+"And sorry to disappoint you, but no Bitcoin passwords here (I wasn’t an early crypto genius). "\
 "However, in case you are a curious hacker instead of a cybercriminal, I left a scavenger hunt with a hidden easter egg. "\
 "Run ${BLUE}eliel hacker${RESET} to start the quest.
 
@@ -58,7 +60,9 @@ Como te dije antes, tenés que escribir algunos comandos en la terminal para usa
 "Esto descarga la última versión de mi CV en PDF en inglés por defecto. Si lo querés en español, corré ${BLUE}eliel cv --language esp${RESET}.
 
 - Si sos un ${VIOLET}hacker${RESET}, felicitaciones: lograste acceder al servidor web! "\
-"Disculpame si te decepciono, pero acá no vas a encontrar contraseñas de Bitcoin (no fui de los visionarios que invirtieron cuando estaba barato). "\
+"Te aviso igual que implementé medidas muy estrictas de ciberseguridad, así que no hay mucho que peudas hacer. "\
+"Si querés saber más sobre estas medidas, corré ${BLUE}eliel docs${RESET}. "\
+"Y disculpame si te decepciono, pero acá no vas a encontrar contraseñas de Bitcoin (no fui de los visionarios que invirtieron cuando estaba barato). "\
 "De todos modos, si en lugar de ciberdelincuente sos un hacker curioso, te dejé una búsqueda del tesoro para que te entretengas. "\
 "Corré ${BLUE}eliel hacker${RESET} para empezar la misión.
 
