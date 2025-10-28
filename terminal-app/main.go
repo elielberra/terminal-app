@@ -14,6 +14,27 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+type userLanguage string
+
+type wsMsg struct {
+	Type string `json:"type"`
+	Cols int    `json:"cols"`
+	Rows int    `json:"rows"`
+	Data string `json:"data,omitempty"`
+}
+
+type wsCfg struct {
+	Protocol       string
+	Domain         string
+	Port           string
+	AllowedOrigins []string
+}
+
+const (
+	SPANISH userLanguage = "ES"
+	ENGLISH userLanguage = "EN"
+)
+
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		reqOrigin := r.Header.Get("Origin")
@@ -27,27 +48,6 @@ var upgrader = websocket.Upgrader{
 		return false
 	},
 }
-
-type wsMsg struct {
-	Type string `json:"type"`
-	Cols int    `json:"cols"`
-	Rows int    `json:"rows"`
-	Data string `json:"data,omitempty"`
-}
-
-type userLanguage string
-
-type wsCfg struct {
-	Protocol       string
-	Domain         string
-	Port           string
-	AllowedOrigins []string
-}
-
-const (
-	SPANISH userLanguage = "ES"
-	ENGLISH userLanguage = "EN"
-)
 
 func getWsConfig() wsCfg {
 	protocol := os.Getenv("WS_PROTOCOL")
@@ -93,17 +93,19 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	userLanguage := getUserLanguage(r)
 	defer conn.Close()
+
 	cmd := exec.Command(
 		"/bin/rbash",
-		// "/bin/bash",
 		"--rcfile", "/home/web-user/.bashrc",
 		"-i",
 	)
+
 	webUserID := uint32(1001)
 	webGroupID := uint32(1001)
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		Credential: &syscall.Credential{Uid: webUserID, Gid: webGroupID},
 	}
+
 	cmd.Env = append(os.Environ(),
 		"USER_LANG="+string(userLanguage),
 		"LC_ALL=C.UTF-8",
@@ -112,6 +114,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		"GNUPGHOME=/home/web-user/.gnupg",
 		"HOME=/home/web-user",
 	)
+
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		log.Println("Error starting PTY:", err)
@@ -152,7 +155,6 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		ptmx.Write(messageData)
 	}
-
 }
 
 func main() {
