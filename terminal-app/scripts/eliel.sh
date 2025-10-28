@@ -3,6 +3,7 @@
 set -euo pipefail
 
 print_help() {
+  bash /app/scripts/instructions.sh
   cat <<'EOF'
 Usage:
   eliel champion
