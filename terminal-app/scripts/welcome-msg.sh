@@ -12,18 +12,14 @@ RESET="\033[0m"
 
 WELCOME_MSG_ENG="Hello and welcome to my webpage!
 
-If you’re wondering why you’re seeing a terminal instead of a UI, it’s because I’m not great at designing things. "\
-"Besides, I have a severe allergic reaction to JavaScript and my doctor told me to stay away from frontend development. "\
-"On the other hand, I think this is an interesting way for people to get to know who I am.
-
-Like I said before, you have to type some commands in the terminal to use this webpage. "\
-"The base command is \`eliel\`, which lets you interact with this web app. "\
-"The commands you can use are listed below and highlighted in blue. Type them exactly as shown and press Enter to execute them:
+If you’re wondering why you’re seeing a terminal instead of a UI, it’s because I’m not great at designing things "\
+"and I think this is an interesting way for people to get to know who I am. "\
+"The commands you can use to interact with this webpage are listed below and highlighted in blue. "\
+"Type them exactly as shown and press Enter to execute them:
 
 - If you’re a ${VIOLET}random user${RESET}, type ${BLUE}eliel champion${RESET}. "\
 "I have a surpise prepared for you. "\
-"First, a super ultra HD video will be displayed and let me warn you that you’ll need a powerful NVIDIA GPU to render those graphics. "\
-"Second... France.
+"First, a super ultra HD video will be displayed (you’ll need a powerful GPU to render those graphics). Second... France.
 
 - If you’re a ${VIOLET}recruiter${RESET}, run ${BLUE}eliel cv${RESET}. "\
 "This downloads the latest PDF version of my CV in English by default. For Spanish, run ${BLUE}eliel cv --language esp${RESET}.
@@ -35,8 +31,7 @@ Like I said before, you have to type some commands in the terminal to use this w
 "However, in case you are a curious hacker instead of a cybercriminal, I left a scavenger hunt with a hidden easter egg. "\
 "Run ${BLUE}eliel hacker${RESET} to start the quest.
 
-If you want to see the manual with the instructions on how to use the \`eliel\` program again, enter the command ${BLUE}eliel --help${RESET}. "\
-"Try to rembember this last command, you will probably need it later to refresh your memory on how to use this program.
+If you want to see the manual with the instructions, enter the command ${BLUE}eliel --help${RESET}.
 
 You can mute the background server noises and switch to a light theme using the two buttons in the top right corner.
 "
