@@ -54,7 +54,7 @@ A Bash script simplifies the deployment process for both development and product
 ---
 
 ## Cybersecurity
-Imagine you are a bank robber who is magically teleported straight into the vault without having to plan or break in. There is a big catch: your hands are tied, you cannot move, you cannot communicate with the outside world, and everything you try is strictly restricted. The biggest catch of all is that there is no money or database to steal. This is the idea behind the app: bring users directly into the web server while keeping them tightly confined. The challenge was to implement strict, draconian security controls but still allow the limited actions the user is supposed to perform.
+Imagine you are a bank robber who is magically teleported straight into the vault without having to break in. There is a big catch: your hands are tied, you cannot move, you cannot communicate with the outside world, and everything you try is strictly restricted. The biggest catch of all is that there is no money or database to steal. This is the idea behind the app: bring users directly into the web server while keeping them tightly confined. The challenge was to implement strict, draconian security controls but still allow the limited actions the user is supposed to perform.
 
 ### Containers
 All the services run inside Docker containers to keep them isolated. The containers are read-only so files cannot be changed at runtime. It is not possible to become root with sudo. Docker drops most Linux capabilities from processes inside the container, which prevents privileged actions like changing network interfaces, loading kernel modules, or switching user IDs. This limits what an attacker could do even if they run code inside the container.
