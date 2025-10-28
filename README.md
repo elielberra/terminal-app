@@ -12,7 +12,7 @@
 ---
 
 ## Overview
-The idea behind this project is to offer an alternative and more creative way for people to get to know who I am. The **terminal-app** is an interactive web application that looks and behaves like a real Linux terminal. Unlike a traditional web app with buttons or menus, the entire user experience happens inside the terminal. As the user types different commands, they can learn more about me and discover various hidden surprises built into the system.The app is hosted at <a href="https://elielberra.com" target="_blank">www.elielberra.com</a>.
+The idea behind this project is to offer an alternative and more creative way for people to get to know who I am. The **terminal-app** is an interactive web application that looks and behaves like a real Linux terminal. Unlike a traditional web app with buttons or menus, the entire user experience happens inside the terminal. As the user types different commands, they can learn more about me and discover various hidden surprises built into the system. The app is hosted at <a href="https://elielberra.com" target="_blank">www.elielberra.com</a>.
 
 ---
 
