@@ -1,0 +1,16 @@
+const accessBtn = document.getElementById("access-intro-btn");
+const skipIntroBtn = document.getElementById("skip-intro-btn");
+const inactiveMsg = document.getElementById("inactive-msg");
+const terminalDiv = document.getElementById("terminal");
+const introSound = document.getElementById("intro-sound");
+const argFncSound = document.getElementById("arg-fnc-sound");
+const backgroundSound = document.getElementById("bakground-sound");
+backgroundSound.loop = true;
+const gladiatorSound = document.getElementById("gladiator-sound");
+const morseSound = document.getElementById("morse-sound");
+morseSound.loop = true;
+const nightModeIcon = document.getElementById("night-mode-icon");
+const lightModeIcon = document.getElementById("light-mode-icon");
+const muteMusicIcon = document.getElementById("mute-music-icon");
+const unmuteMusicIcon = document.getElementById("unmute-music-icon");
+const closeIcon = document.getElementById("close-icon");
