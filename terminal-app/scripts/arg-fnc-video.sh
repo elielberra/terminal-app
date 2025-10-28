@@ -24,7 +24,7 @@ sleep 2
 
 declare -A DESERT_BATTLE_TXT=(
   [EN]="Among the deserts of the Middle East, the greatest battle of history took place."
-  [ES]="Entre los desiertos de Medio Oriente, se libró la batalla más importante de la historia."
+  [ES]="En los desiertos de Medio Oriente, se libró la batalla más importante de la historia."
 )
 clear -x
 echo -e "${DESERT_BATTLE_TXT[$USER_LANG]}\n" | fmt -w $(tput cols)
