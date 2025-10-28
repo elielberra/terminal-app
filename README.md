@@ -22,7 +22,7 @@ The backend is written in **Go** and handles the logic behind the terminal. It u
 ---
 
 ## Frontend
-The frontend is built with **HTML, CSS, and vanilla JavaScript**. There isn’t a typical user interface, so a framework wasn’t necessary — everything happens inside the terminal window. The frontend’s code is located inside the backend’s **static** folder, where it is served directly by the Go server. The terminal view is powered by <a href="https://github.com/xtermjs/xterm.js" target="_blank">xterm js</a>, which handles user input, colors, and cursor movement. The connection to the backend through the WebSocket makes the terminal respond in real time. Different signals sent from the backend can change how the terminal looks or behaves — for example, enabling or disabling typing, blinking the cursor, or triggering sounds and animations.
+There isn’t a typical user interface, everything happens inside the terminal window. Therefore, a frontend framework wasn’t really necessary and I ended up developing the UI using **vanilla JavaScript**. The frontend’s code is located inside the backend’s **static** folder, where it is served directly by the Go server. The terminal view is powered by <a href="https://github.com/xtermjs/xterm.js" target="_blank">xterm js</a>, which handles user input, colors, and cursor movement. The connection to the backend through the WebSocket makes the terminal respond in real time. Different signals sent from the backend can change how the terminal looks or behaves — for example, enabling or disabling typing, blinking the cursor, or triggering sounds and animations.
 
 ### Features
 - The terminal is fully responsive, and the text size automatically adjusts to different devices.
