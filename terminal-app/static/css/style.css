@@ -1,0 +1,66 @@
+html,
+body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: black;
+}
+
+#terminal {
+	display: none;
+	height: 100%;
+	width: 100%;
+	margin: 20px;
+}
+
+#intro-btns {
+	margin: 20px;
+	display: flex;
+	gap: 20px;
+}
+
+[id$="intro-btn"] {
+	font-size: xx-large;
+}
+
+@media (max-width: 600px) {
+	[id$="intro-btn"] {
+		font-size: small;
+	}
+}
+
+#inactive-msg {
+	color: yellow;
+	font-size: x-large;
+	display: none;
+}
+
+[id$="icon"] {
+	width: 40px;
+	position: fixed;
+	top: 10px;
+	z-index: 9999;
+	display: none;
+	cursor: pointer;
+}
+
+[id$="mode-icon"] {
+	right: 20px;
+}
+
+[id$="music-icon"] {
+	background-color: rgba(255, 255, 255, 0.75);
+	right: 70px;
+}
+
+#light-mode-icon {
+	background-color: rgba(255, 255, 255, 0.75);
+}
+
+#close-icon {
+	right: 20px;
+}
