@@ -24,6 +24,16 @@ The backend is written in **Go** and handles the logic behind the terminal. It u
 ## Frontend
 The frontend is built with **HTML, CSS, and vanilla JavaScript**. There isn’t a typical user interface, so a framework wasn’t necessary — everything happens inside the terminal window. The frontend’s code is located inside the backend’s **static** folder, where it is served directly by the Go server. The terminal view is powered by <a href="https://github.com/xtermjs/xterm.js" target="_blank">xterm js</a>, which handles user input, colors, and cursor movement. The connection to the backend through the WebSocket makes the terminal respond in real time. Different signals sent from the backend can change how the terminal looks or behaves — for example, enabling or disabling typing, blinking the cursor, or triggering sounds and animations.
 
+### Features
+- The terminal is fully responsive, and the text size automatically adjusts to different devices.
+- You can switch between dark and light themes at any time.  
+- Background server sounds create an immersive atmosphere and can be muted if preferred.
+- The interface supports real typing, cursor movement, and colorized output through **xterm.js**.
+- Commands trigger animations, music, or other effects, making the experience dynamic and interactive.
+
+### Limitations
+- A terminal is meant to be used on a PC. Using it from a phone is uncomfrotable. On top of that, the developers of xterm didn't provide a lot of support for mobile and that makes it posibilities limited, you might experience issues with scrolling or other features. As mentioned in a <a href="https://github.com/xtermjs/xterm.js/issues/5377#issuecomment-3094609703 " target="_blank">GitHub issue</a>, the xterm.js maintainers do not plan to address these mobile limitations in the future.
+
 ---
 
 ## Terminal Logic (Bash)
