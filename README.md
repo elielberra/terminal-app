@@ -7,6 +7,7 @@
 4. [Terminal Logic (Bash)](#terminal-logic-bash)  
 5. [Nginx Proxy](#nginx-proxy)  
 6. [Deployment](#deployment)
+7. [Cybersecurity](#cybersecurity)
 
 ---
 
@@ -39,3 +40,22 @@ While the backend server is written in **Go**, the actual logic of the terminal-
 Every service in the terminal-app runs inside its own **Docker container**. The **Go backend** and the **Nginx proxy** are all containerized. The entire application is deployed and managed using **Docker Compose**, which handles service orchestration, networking, and environment configuration automatically.
 
 A Bash script simplifies the deployment process for both development and production environments. In production, the app runs on an EC2 instance, where the script automatically sets up and launches all required services.
+
+---
+
+## Cybersecurity
+Imagine you are a bank robber who is magically teleported straight into the vault without having to plan or break in. There is a big catch: your hands are tied, you cannot move, you cannot communicate with the outside world, and everything you try is strictly restricted. The biggest catch of all is that there is no money or database to steal. This is the idea behind the app: bring users directly into the web server while keeping them tightly confined. The challenge was to implement strict, draconian security controls but still allow the limited actions the user is supposed to perform.
+
+### Containers
+All the services run inside Docker containers to keep them isolated. The containers are read-only so files cannot be changed at runtime. It is not possible to become root with sudo. Docker drops most Linux capabilities from processes inside the container, which prevents privileged actions like changing network interfaces, loading kernel modules, or switching user IDs. This limits what an attacker could do even if they run code inside the container.
+
+### AppArmor
+An <a href="https://apparmor.net/" target="_blank">AppArmor</a> profile is applied through Docker’s security options to strictly control what the terminal can do. It heavily restricts access to the file system, allowing only specific files and directories to be read. It also defines a small set of permitted commands while blocking every other possible action. This ensures that even if a user tries to execute something unexpected, the command will be denied by the system.
+
+### Restricted Bash (rbash)
+The terminal runs under **rbash**, a restricted version of the Bash shell. It prevents users from changing directories, setting environment variables, modifying the PATH, or running commands outside of approved locations. This keeps the user confined to a controlled environment where only safe, predefined actions are allowed.
+
+### Networking
+The terminal-app is enclosed within a private internal network that has no direct access to the internet. This isolation ensures that even if someone tries to exploit the system from within the terminal, there is no route to reach external servers or services.  
+In front of the application sits an **Nginx proxy**, which acts as the only entry and exit point. It filters all traffic, routes only the allowed requests, and adds another layer of protection between the user and the backend. This setup minimizes exposure and keeps the internal components completely unreachable from the outside world.
+This setup is probably overkill since the network is already private, but additional iptables rules are also in place to block any outgoing traffic to the external internet, ensuring that nothing inside the container can ever reach outside.
