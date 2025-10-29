@@ -19,12 +19,13 @@ body {
 
 #intro-btns {
 	margin: 20px;
-	display: flex;
+	display: none;
 	gap: 20px;
 }
 
 [id$="intro-btn"] {
 	font-size: xx-large;
+	cursor: pointer;
 }
 
 @media (max-width: 600px) {

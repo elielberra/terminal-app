@@ -1,10 +1,10 @@
 [terminal, socket] = createXtermTerminal();
 
-if (isUserLangSpanish) {
-	accessBtn.textContent = "Acceder a la Página Web";
-	skipIntroBtn.textContent = "Saltar Introducción";
-	inactiveMsg.textContent = "Tu sesión anterior de la terminal se cerró por inactividad";
-}
+
+accessBtn.textContent = isUserLangSpanish ? accessWebTxtEs : accessWebTxtEn;
+skipIntroBtn.textContent = isUserLangSpanish ? skipIntroTxtEs : skipIntroTxtEn;
+inactiveMsg.textContent = isUserLangSpanish ? inactiveTxtEs : inactiveTxtEn;
+
 
 if (hasVisitedSitePreviously) {
 	skipIntroBtn.style.display = "inline-block";
@@ -13,6 +13,8 @@ if (hasVisitedSitePreviously) {
 	skipIntroBtn.style.display = "none";
 	localStorage.setItem("hasVisitedSitePreviously", "true");
 }
+
+introBtns.style.display = "flex";
 
 if (!hasVisitedSitePreviously && isMobileUser) {
 	alert(isUserLangSpanish ? alertMobileTxtEs : alertMobileTxtEn)
