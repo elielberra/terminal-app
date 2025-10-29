@@ -25,6 +25,12 @@ const transparent = "rgba(255, 255, 255, 0)";
 const lightThemeBackgroundColor = "#fdf2e1";
 let resizeTimer;
 const hasVisitedSitePreviously = localStorage.getItem("hasVisitedSitePreviously") === "true";
+const inactiveTxtEn = "Your previous terminal session was closed due to inactivity";
+const inactiveTxtEs = "Tu sesión anterior de la terminal se cerró por inactividad";
+const accessWebTxtEn = "Access Web Page";
+const accessWebTxtEs = "Acceder a la Página Web";
+const skipIntroTxtEn = "Skip Intro";
+const skipIntroTxtEs = "Saltar Introducción";
 const alertMobileTxtEn =
     "It’s recommended to open this webpage on a computer rather than a mobile phone. " +
     "Although the page is responsive and works on mobile devices, " +

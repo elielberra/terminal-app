@@ -28,7 +28,7 @@ INSTRUCTIONS_ESP="- Si sos un ${CYAN}usuario random${RESET}, escribí ${GREEN}el
 "Primero, se va a mostrar un video en super ultra HD (vas a necesitar una muy buena GPU para renderizar esos gráficos). "\
 "Segundo... Francia.
 
-- Si sos un ${CYAN}reclutador${RESET}, ejecutá ${GREEN}eliel cv${RESET}. "\
+- Si sos un ${CYAN}recruiter${RESET}, ejecutá ${GREEN}eliel cv${RESET}. "\
 "Esto descarga la última versión de mi CV en PDF en inglés por defecto. Si lo querés en español, corré ${GREEN}eliel cv --language esp${RESET}.
 
 - Si sos un ${CYAN}hacker${RESET}, felicitaciones: lograste acceder al servidor web! "\
