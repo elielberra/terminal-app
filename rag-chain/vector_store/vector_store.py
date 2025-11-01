@@ -113,8 +113,6 @@ def search(query: str, model, X: np.ndarray, chunks, k: int = 5):
 
     # 3️⃣ Sort and select top-k
     idx = np.argsort(-scores)[:k]
-    print(f"results:\n{[(float(scores[i]), chunks[i]) for i in idx]}\n")
-
     return [(float(scores[i]), chunks[i]) for i in idx]
 
 def query(q: str, k: int = 5):
