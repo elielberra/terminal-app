@@ -141,7 +141,6 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 
 	for {
 		_, messageData, err := conn.ReadMessage()
-		log.Printf("Received from client: %q\n", messageData) // TODO: Delete me
 		if err != nil {
 			break
 		}

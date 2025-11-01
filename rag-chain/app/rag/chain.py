@@ -4,7 +4,6 @@ import os
 from langgraph.graph import StateGraph, END
 from app.vector_store import vector_store as vs
 import google.generativeai as genai
-from time import time
 
 
 # ---------- RAG State ----------
@@ -38,7 +37,6 @@ def generate(state: RAGState) -> RAGState:
     Sends a minimal prompt with the captured context to Gemini 2.0 Flash Lite.
     Requires GOOGLE_API_KEY in environment.
     """
-    start_generate = time()
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
         raise RuntimeError("GOOGLE_API_KEY is not set in environment.")
@@ -57,8 +55,6 @@ def generate(state: RAGState) -> RAGState:
 
     resp = model.generate_content(prompt)
     answer_text = getattr(resp, "text", "").strip() if resp else ""
-    end_generate = time()
-    print(f"Total generate:   {end_generate - start_generate:.4f} s")
 
     return {
         "question": state["question"],
