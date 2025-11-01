@@ -1,4 +1,10 @@
+# rag-chain/main.py
+import os
 import uvicorn
 
+SOCKET_PATH = "/sockets/rag.sock"
+
 if __name__ == "__main__":
-    uvicorn.run("app.api.server:app", host="0.0.0.0", port=5000, reload=False)
+    if os.path.exists(SOCKET_PATH):
+        os.remove(SOCKET_PATH)
+    uvicorn.run("app.api.server:app", uds=SOCKET_PATH, reload=False, workers=1)
