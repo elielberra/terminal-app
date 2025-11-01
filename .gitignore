@@ -15,3 +15,6 @@ rag-chain/store/**
 
 # python cache
 **/__pycache__/
+
+# .env files
+rag-chain/.env

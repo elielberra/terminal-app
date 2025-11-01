@@ -1,45 +1,61 @@
 services:
-  nginx:
-    image: nginx:1.29.1
-    ports:
-      - "80:80"
+  # nginx:
+  #   image: nginx:1.29.1
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./nginx/nginx.conf.dev:/etc/nginx/nginx.conf:ro
+  #   logging:
+  #     driver: "none"
+  #   networks:
+  #     - public
+  #     - private
+  # terminal-app:
+  #   container_name: terminal-app
+  #   build:
+  #     context: ./terminal-app
+  #     dockerfile: Dockerfile.dev
+  #   env_file:
+  #     - ./terminal-app/.env.dev
+  #   volumes:
+  #     - ./terminal-app/:/app
+  #     - ./terminal-app/scripts/eliel.sh:/usr/bin/eliel
+  #     - ./quest-files/bitcoin-password:/home/web-user/bitcoin-password
+  #     - ./quest-files/hint-1:/home/web-user/hint-1
+  #     - ./quest-files/hint-2:/hint-2
+  #     - ./quest-files/hint-3.gpg:/tmp/hint-3.gpg
+  #     - ./quest-files/hint-2.5:/tmp/hint-2.5
+  #     - ./quest-files/.hint-3-gpg-passphrase:/var/log/.hint-3-gpg-passphrase
+  #     - ./quest-files/easter-egg:/usr/bin/easter-egg
+  #   networks:
+  #     - private 
+  #   security_opt:
+  #     - apparmor:terminal-app
+  #     - no-new-privileges:true
+  #   read_only: true
+  #   tmpfs:
+  #    - /home/web-user/.gnupg:rw,uid=1001,gid=1001,mode=700,nosuid,nodev,noexec
+  #   cap_drop:
+  #     - ALL
+  #   cap_add:
+  #     - SETUID
+  #     - SETGID
+  rag-chain:
+    container_name: rag-chain
+    build:
+      context: ./rag-chain
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./rag-chain/.env
     volumes:
-      - ./nginx/nginx.conf.dev:/etc/nginx/nginx.conf:ro
-    logging:
-      driver: "none"
+      - ./rag-chain/main.py:/rag-chain/main.py
+      - ./rag-chain/app:/rag-chain/app
+      - ./rag-chain/vector_store:/rag-chain/vector_store
+      - ./rag-chain/data:/rag-chain/data
+      - ./rag-chain/store:/rag-chain/store
     networks:
       - public
       - private
-  terminal-app:
-    container_name: terminal-app
-    build:
-      context: ./terminal-app
-      dockerfile: Dockerfile.dev
-    env_file:
-      - ./terminal-app/.env.dev
-    volumes:
-      - ./terminal-app/:/app
-      - ./terminal-app/scripts/eliel.sh:/usr/bin/eliel
-      - ./quest-files/bitcoin-password:/home/web-user/bitcoin-password
-      - ./quest-files/hint-1:/home/web-user/hint-1
-      - ./quest-files/hint-2:/hint-2
-      - ./quest-files/hint-3.gpg:/tmp/hint-3.gpg
-      - ./quest-files/hint-2.5:/tmp/hint-2.5
-      - ./quest-files/.hint-3-gpg-passphrase:/var/log/.hint-3-gpg-passphrase
-      - ./quest-files/easter-egg:/usr/bin/easter-egg
-    networks:
-      - private 
-    security_opt:
-      - apparmor:terminal-app
-      - no-new-privileges:true
-    read_only: true
-    tmpfs:
-     - /home/web-user/.gnupg:rw,uid=1001,gid=1001,mode=700,nosuid,nodev,noexec
-    cap_drop:
-      - ALL
-    cap_add:
-      - SETUID
-      - SETGID
 
 networks:
   public: {}
