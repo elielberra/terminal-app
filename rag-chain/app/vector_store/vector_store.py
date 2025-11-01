@@ -67,7 +67,6 @@ def make_chunks(text: str):
 
     return chunks
 
-
 def embed_chunks(chunks):
     X = MODEL.encode(chunks, normalize_embeddings=True)
     return MODEL, X.astype("float32")
@@ -82,7 +81,6 @@ def load_store():
     chunks = json.load(open(TXT_FILE, encoding="utf-8"))
     return chunks, X
 
-# ---------- CLI ----------
 def build():
     if not os.path.exists(INPUT_FILE):
         print(f"Missing {INPUT_FILE}")
@@ -106,9 +104,6 @@ def query(q: str, k: int = 5):
 
 
 if __name__ == "__main__":
-    # Usage:
-    #   python vector_store.py build
-    #   python vector_store.py query "your question" 5
     if len(sys.argv) < 2:
         print("Usage: python vector_store.py build | query 'text' [k]")
         sys.exit(1)
@@ -124,4 +119,3 @@ if __name__ == "__main__":
     else:
         print("Unknown command.")
         sys.exit(1)
-
