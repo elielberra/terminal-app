@@ -1,0 +1,4 @@
+sentence-transformers
+numpy
+langgraph==1.0.2
+google-generativeai
