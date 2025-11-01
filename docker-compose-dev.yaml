@@ -56,7 +56,6 @@ services:
       - rag_sock:/sockets
     networks:
       - public
-      - private
     user: "0:0"
     command: >
       /bin/sh -lc
