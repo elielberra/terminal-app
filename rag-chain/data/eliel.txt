@@ -1,23 +1,23 @@
 # Work Experience
 
 ## AI Engineer – Lovelytics  
-**May 2025 – Present**  
+**Current role — This is his current job, it started on May 2025 and continues on the present**
 Built and deployed retrieval-augmented generation (RAG) agents using LangGraph and LangChain.  
 Created CI/CD pipelines with Azure DevOps, versioned models with MLflow, and managed scalable data pipelines on Databricks for production AI systems.
 
 ## Cloud Engineer (Gen AI Infrastructure) – Avature  
-**July 2024 – May 2025**  
+This role was held from July 2024 until May 2025.  
 Implemented and maintained infrastructure for large language model (LLM) deployments and RAG systems.  
 Worked with Kubernetes, Helm, and Flux to orchestrate scalable deployments.  
 Configured environments on AWS (Bedrock, SageMaker, EKS) and performed GPU benchmarking for model performance optimization.
 
 ## Software Developer – Avature  
-**January 2023 – June 2024**  
+This role was held from January 2023 until June 2024.  
 Developed full-stack web applications using Python, React, and PHP.  
 Automated deployment processes with Bash scripting to improve efficiency and reduce manual overhead.
 
 ## Integration Analyst & Developer – Avature  
-**February 2022 – December 2022**  
+This role was held from February 2022 until December 2022.  
 Designed and implemented data integration pipelines using Apache NiFi.  
 Focused on automating data flows and maintaining reliability between internal systems.
 
