@@ -6,12 +6,14 @@ print_help() {
   bash /app/scripts/instructions.sh
   cat <<'EOF'
 Usage:
+  eliel chatbot
   eliel champion
   eliel cv --language <esp|eng>
   eliel hacker
   eliel -h | --help
 
 Commands:
+  chatbot           Start an AI chatbot
   champion          Play a surprise video
   cv                Download a CV in PDF format
   hacker            Get hints for a scavenger hunt
