@@ -78,6 +78,8 @@ function createXtermTerminal() {
 		nightModeIcon.style.display = "none";
 		muteMusicIcon.style.display = "none";
 		unmuteMusicIcon.style.display = "none";
+		terminal.options.theme = {};
+		document.body.style.backgroundColor = "black";
 		backgroundSound.pause()
 	};
 	terminal.onData(data => {

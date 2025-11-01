@@ -22,7 +22,7 @@ const espCvId = "13b17AyMQMklVygE6MSf32GRAD5P9UNfT";
 const userLang = getUserLanguageCode()
 const semiOpaqueWhite = "rgba(255, 255, 255, 0.75)";
 const transparent = "rgba(255, 255, 255, 0)";
-const lightThemeBackgroundColor = "#fdf2e1";
+const lightThemeBackgroundColor = "#f7e3c7";
 let resizeTimer;
 const hasVisitedSitePreviously = localStorage.getItem("hasVisitedSitePreviously") === "true";
 const inactiveTxtEn = "Your previous terminal session was closed due to inactivity";
