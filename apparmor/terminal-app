@@ -68,6 +68,7 @@ profile terminal-app {
 	/usr/bin/fmt            ix,
 	/usr/bin/tput           ix,
 	/usr/bin/fold           ix,
+	/usr/bin/jq           ix,
 	/usr/bin/curl			ix, # TODO: Remove curl and ping for prod
 	/usr/bin/ping			ix,
 

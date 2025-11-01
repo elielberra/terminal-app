@@ -21,6 +21,10 @@ Examples:
 EOF
 }
 
+chatbot_cmd() {
+  bash /app/scripts/chatbot.sh
+}
+
 cv_cmd() {
   local lang=""
   while [[ $# -gt 0 ]]; do
@@ -81,6 +85,7 @@ main() {
   [[ $# -gt 0 ]] && shift || true
 
   case "$cmd" in
+    chatbot)   chatbot_cmd ;;
     cv)        cv_cmd "$@" ;;
     champion)  champion_cmd ;;
     hacker)    hacker_cmd ;;
