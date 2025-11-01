@@ -1,28 +1,22 @@
-# -*- coding: utf-8 -*-
-# Minimal NumPy vector store: build + search
+print("Loading vector_store.py file")
 import os, sys, json, numpy as np
 from sentence_transformers import SentenceTransformer
 from pathlib import Path
+from time import time
 
-# Base directory → project root (two levels up from this file)
-BASE_DIR = Path(__file__).resolve().parents[1]
-
+BASE_DIR = Path(__file__).resolve().parents[2]
 INPUT_FILE = BASE_DIR / "data" / "eliel.txt"
 STORE_DIR = BASE_DIR / "store"
 EMB_FILE  = STORE_DIR / "store_embeddings.npy"
 TXT_FILE  = STORE_DIR / "store_chunks.json"
+print("Loading model")
+MODEL_NAME = "sentence-transformers/all-mpnet-base-v2"
+MODEL = SentenceTransformer(MODEL_NAME)
 
-# INPUT_FILE = "eliel.txt"
-MODEL_NAME = "sentence-transformers/all-mpnet-base-v2"  # small, 384-d
-# EMB_FILE = "store_embeddings.npy"
-# TXT_FILE = "store_chunks.json"
-
-# ---------- step 1: read ----------
 def read_text(path: str) -> str:
     with open(path, "r", encoding="utf-8") as f:
         return f.read()
 
-# ---------- step 2: chunk (simple, robust) ----------
 def make_chunks(text: str):
     """
     Chunk a Markdown CV into one chunk per '##' subsection, grouped under its '#' section.
@@ -76,13 +70,10 @@ def make_chunks(text: str):
     return chunks
 
 
-# ---------- step 3: embed + normalize ----------
-def embed_chunks(chunks, model_name=MODEL_NAME):
-    model = SentenceTransformer(model_name)
-    X = model.encode(chunks, normalize_embeddings=True)  # already unit-length
-    return model, X.astype("float32")
+def embed_chunks(chunks):
+    X = MODEL.encode(chunks, normalize_embeddings=True)
+    return MODEL, X.astype("float32")
 
-# ---------- step 4: persist ----------
 def save_store(chunks, X):
     np.save(EMB_FILE, X)
     with open(TXT_FILE, "w", encoding="utf-8") as f:
@@ -105,27 +96,17 @@ def build():
     print(f"Built store: {len(chunks)} chunks")
 
 def search(query: str, model, X: np.ndarray, chunks, k: int = 5):
-    # 1️⃣ Encode the query
     q = model.encode([query], normalize_embeddings=True)[0].astype("float32")
-
-    # 2️⃣ Compute cosine similarity (dot product)
     scores = X @ q
-
-    # 3️⃣ Sort and select top-k
     idx = np.argsort(-scores)[:k]
     return [(float(scores[i]), chunks[i]) for i in idx]
 
 def query(q: str, k: int = 5):
-    # 1️⃣ Load stored data
+    start_query = time()
     chunks, X = load_store()
-
-    # 2️⃣ Load the model
-    model = SentenceTransformer(MODEL_NAME)
-
-    # 3️⃣ Perform the search
-    results = search(q, model, X, chunks, k=k)
-
-    # ✅ 4️⃣ Return results instead of printing
+    results = search(q, MODEL, X, chunks, k=k)
+    end_query = time()
+    print(f"Total query:   {end_query - start_query:.4f} s")
     return [(float(s), t) for s, t in results]
 
 
