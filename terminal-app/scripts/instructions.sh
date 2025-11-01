@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RESET="\033[0m"
-GREEN="\033[0;32m"
+GREEN="\033[1;32m"
 CYAN="\033[1;36m"
 
 INSTRUCTIONS_ENG="- If you’re a ${CYAN}curious visitor${RESET}, type ${GREEN}eliel chatbot${RESET} to ask me questions using AI. "\
@@ -18,12 +18,11 @@ INSTRUCTIONS_ENG="- If you’re a ${CYAN}curious visitor${RESET}, type ${GREEN}e
 "However, in case you are a curious hacker instead of a cybercriminal, I left a scavenger hunt with a hidden easter egg. "\
 "Run ${GREEN}eliel hacker${RESET} to start the quest.
 
-If you want to see the manual with the instructions, enter the command ${GREEN}eliel --help${RESET}.
-
-You can mute the background server noises and switch to a light theme using the two buttons in the top right corner.
+If you want to see the manual with this instructions again, enter the command ${GREEN}eliel${RESET}. "\
+"You can mute the background server noises and switch to a light theme using the two buttons in the top right corner.
 "
 
-INSTRUCTIONS_ESP="- Si sos un ${CYAN}visitante curioso${RESET}, escribí ${GREEN}eliel chatbot${RESET} to ask me questions using AI. "\
+INSTRUCTIONS_ESP="- Si sos un ${CYAN}visitante curioso${RESET}, escribí ${GREEN}eliel chatbot${RESET} para hacerme preguntas usando IA. "\
 "También una sorpresa preparada para vos, escribí ${GREEN}eliel champion${RESET}. "\
 "Primero, se va a mostrar un video en super ultra HD (vas a necesitar una muy buena GPU para renderizar esos gráficos). "\
 "Segundo... Francia.
@@ -38,9 +37,8 @@ INSTRUCTIONS_ESP="- Si sos un ${CYAN}visitante curioso${RESET}, escribí ${GREEN
 "De todos modos, si en lugar de ciberdelincuente sos un hacker curioso, te dejé una búsqueda del tesoro para que te entretengas. "\
 "Corré ${GREEN}eliel hacker${RESET} para empezar la misión.
 
-Si querés volver a ver el manual con las instrucciones, escribí el comando ${GREEN}eliel --help${RESET}.
-
-Podés silenciar los ruidos de fondo del servidor y cambiar al tema claro con los dos botones en la esquina superior derecha.
+Si querés volver a ver el manual con estas instrucciones, escribí el comando ${GREEN}eliel${RESET}. "\
+"Podés silenciar los ruidos de fondo del servidor y cambiar al tema claro con los dos botones en la esquina superior derecha.
 "
 
 declare -A INSTRUCTIONS_TXT=(
