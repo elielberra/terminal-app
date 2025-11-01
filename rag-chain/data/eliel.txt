@@ -1,0 +1,63 @@
+# Work Experience
+
+## AI Engineer – Lovelytics  
+**May 2025 – Present**  
+Built and deployed retrieval-augmented generation (RAG) agents using LangGraph and LangChain.  
+Created CI/CD pipelines with Azure DevOps, versioned models with MLflow, and managed scalable data pipelines on Databricks for production AI systems.
+
+## Cloud Engineer (Gen AI Infrastructure) – Avature  
+**July 2024 – May 2025**  
+Implemented and maintained infrastructure for large language model (LLM) deployments and RAG systems.  
+Worked with Kubernetes, Helm, and Flux to orchestrate scalable deployments.  
+Configured environments on AWS (Bedrock, SageMaker, EKS) and performed GPU benchmarking for model performance optimization.
+
+## Software Developer – Avature  
+**January 2023 – June 2024**  
+Developed full-stack web applications using Python, React, and PHP.  
+Automated deployment processes with Bash scripting to improve efficiency and reduce manual overhead.
+
+## Integration Analyst & Developer – Avature  
+**February 2022 – December 2022**  
+Designed and implemented data integration pipelines using Apache NiFi.  
+Focused on automating data flows and maintaining reliability between internal systems.
+
+# Education
+
+## Universidad del Salvador (USAL)  
+**Bachelor’s Degree in Psychology | August 2014 – June 2019**  
+Graduated with an average GPA of 9.1/10.  
+Developed strong analytical, communication, and problem-solving skills that supported a later transition into technology and AI.
+
+# Skills and Courses
+
+## Cloud  
+- Networking and infrastructure design for distributed systems  
+- Terraform and Infrastructure as Code (IaC) practices  
+- Virtualization and cloud automation  
+- AWS environment management  
+- RabbitMQ for message brokering and async workflows  
+
+## Observability  
+- Prometheus for monitoring and alerting  
+- ELK stack for centralized logging and data visualization  
+
+## Development  
+- TypeScript for scalable front-end development  
+- Go for efficient backend services and concurrent processing  
+
+## Databases  
+- MySQL and PostgreSQL for relational data modeling  
+- Redis for caching and real-time data handling  
+
+## Artificial Intelligence  
+- LangGraph and LangChain for agent and RAG system orchestration  
+- Neural Networks and model fine-tuning  
+- Machine Learning fundamentals applied to NLP  
+
+## English  
+- Certificate in Advanced English – CEFR Level C1  
+- Intensive English course at Hampstead School of English (London)  
+
+## Other Knowledge  
+- Graphic Design Seminar – UTN  
+- Negotiation Course – UTN

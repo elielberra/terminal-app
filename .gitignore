@@ -6,3 +6,12 @@ terminal-app/terminal-app
 
 # test files
 terminal-app/scripts/test.sh
+
+# venv
+rag-chain/venv
+
+# vector store files
+rag-chain/store/**
+
+# python cache
+**/__pycache__/
