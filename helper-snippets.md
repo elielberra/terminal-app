@@ -108,3 +108,9 @@ git config --global user.name "Eli"
 git config --global user.email "berraeliel@gmail.com"
 ```
 
+________________
+# Troubleshoot apparmor restrictions
+```
+# Run on host machine
+sudo dmesg | grep -i 'apparmor' | grep -i 'denied' | tail -n 10
+```
