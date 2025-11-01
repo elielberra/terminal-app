@@ -1,19 +1,10 @@
-# app/rag/chain.py
 from __future__ import annotations
 from typing import TypedDict
-import io
 import os
-import contextlib
-
-# LangGraph
 from langgraph.graph import StateGraph, END
-
-# Vector store (your existing module)
-# We will call its `query()` and capture the printed context.
-from vector_store import vector_store as vs
-
-# Google AI Studio (Gemini 2.0 Flash Lite)
+from app.vector_store import vector_store as vs
 import google.generativeai as genai
+from time import time
 
 
 # ---------- RAG State ----------
@@ -47,6 +38,7 @@ def generate(state: RAGState) -> RAGState:
     Sends a minimal prompt with the captured context to Gemini 2.0 Flash Lite.
     Requires GOOGLE_API_KEY in environment.
     """
+    start_generate = time()
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
         raise RuntimeError("GOOGLE_API_KEY is not set in environment.")
@@ -65,6 +57,8 @@ def generate(state: RAGState) -> RAGState:
 
     resp = model.generate_content(prompt)
     answer_text = getattr(resp, "text", "").strip() if resp else ""
+    end_generate = time()
+    print(f"Total generate:   {end_generate - start_generate:.4f} s")
 
     return {
         "question": state["question"],
@@ -82,13 +76,3 @@ def build_app():
     graph.add_edge("retrieve", "generate")
     graph.add_edge("generate", END)
     return graph.compile()
-
-
-# ---------- Convenience runner ----------
-# Example usage:
-#   from app.rag.chain import run_once
-#   print(run_once("Who is Eliel?"))
-def run_once(question: str) -> str:
-    app = build_app()
-    final_state = app.invoke({"question": question, "context": "", "answer": ""})
-    return final_state["answer"]
