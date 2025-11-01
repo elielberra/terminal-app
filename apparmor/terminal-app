@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile terminal-app {
+profile terminal-app flags=(attach_disconnected) {
 
 	# web-user files
 	/home/web-user/                   r,
@@ -44,7 +44,19 @@ profile terminal-app {
 	/                            r,
 	/tmp/                        r,
 	/var/log/                    r,
+	
+	# Unix socket rag chain files
+	/sockets/            r,
+	/sockets/rag.sock    rw,
 
+	# DNS files
+	/etc/nsswitch.conf   r,
+	/etc/hosts           r,
+	/etc/resolv.conf     r,
+
+	# Profile files
+	/etc/profile         r,
+	/home/app-user/.profile r,
 
 	# gpg config files
 	/etc/gnupg/        r,

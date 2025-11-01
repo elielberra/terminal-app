@@ -13,9 +13,12 @@ while true; do
     echo -e "${BLUE}Chatbot:${RESET} Goodbye!"
     break
   fi
-  response=$(curl -s -X POST http://rag-chain:5000/ask \
+   payload=$(jq -nc --arg q "$user_input" '{question:$q}')
+
+  response=$(curl -sS --unix-socket /sockets/rag.sock \
+    -X POST http://localhost/ask \
     -H "Content-Type: application/json" \
-    -d "{\"question\": \"${user_input}\"}")    
+    -d "$payload")
   answer=$(echo "$response" | jq -r '.answer')
   echo -e "${BLUE}Chatbot:${RESET} $answer"
 done
