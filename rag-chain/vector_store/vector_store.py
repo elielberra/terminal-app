@@ -100,12 +100,9 @@ def build():
         sys.exit(1)
     text = read_text(str(INPUT_FILE))
     chunks = make_chunks(text)
-    model, X = embed_chunks(chunks)
+    _, X = embed_chunks(chunks)
     save_store(chunks, X)
     print(f"Built store: {len(chunks)} chunks")
-    # optional quick smoke test
-    for s, t in search("AWS Kubernetes", model, X, chunks, k=3):
-        print(f"{s:.3f}\n---\n{t[:300]}\n")
 
 def search(query: str, model, X: np.ndarray, chunks, k: int = 5):
     # 1️⃣ Encode the query
@@ -120,7 +117,7 @@ def search(query: str, model, X: np.ndarray, chunks, k: int = 5):
 
     return [(float(scores[i]), chunks[i]) for i in idx]
 
-def query(q: str, k: int = 3):
+def query(q: str, k: int = 5):
     # 1️⃣ Load stored data
     chunks, X = load_store()
 
