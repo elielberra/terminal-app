@@ -51,7 +51,6 @@ services:
     volumes:
       - ./rag-chain/main.py:/rag-chain/main.py
       - ./rag-chain/app:/rag-chain/app
-      - ./rag-chain/vector_store:/rag-chain/vector_store
       - ./rag-chain/data:/rag-chain/data
       - ./rag-chain/store:/rag-chain/store
       - rag_sock:/sockets

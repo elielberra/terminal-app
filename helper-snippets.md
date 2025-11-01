@@ -114,3 +114,9 @@ ________________
 # Run on host machine
 sudo dmesg | grep -i 'apparmor' | grep -i 'denied' | tail -n 10
 ```
+
+________________
+# Build vector store and chunks
+```
+docker exec -it rag-chain python /rag-chain/app/vector_store/vector_store.py build
+```
