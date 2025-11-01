@@ -7,7 +7,8 @@ http {
 
     server {
         listen 443 ssl;
-        server_name elielberra.com www.elielberra.com;
+        server_name www.elielberra.com;
+        return 301 https://elielberra.com$request_uri;
 
         ssl_certificate     /etc/ssl/certs/elielberra.crt;
         ssl_certificate_key /etc/ssl/private/elielberra.key;
