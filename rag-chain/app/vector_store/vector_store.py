@@ -1,15 +1,13 @@
-print("Loading vector_store.py file")
 import os, sys, json, numpy as np
 from sentence_transformers import SentenceTransformer
 from pathlib import Path
-from time import time
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 INPUT_FILE = BASE_DIR / "data" / "eliel.txt"
 STORE_DIR = BASE_DIR / "store"
 EMB_FILE  = STORE_DIR / "store_embeddings.npy"
 TXT_FILE  = STORE_DIR / "store_chunks.json"
-print("Loading model")
+
 MODEL_NAME = "sentence-transformers/all-mpnet-base-v2"
 MODEL = SentenceTransformer(MODEL_NAME)
 
@@ -102,11 +100,8 @@ def search(query: str, model, X: np.ndarray, chunks, k: int = 5):
     return [(float(scores[i]), chunks[i]) for i in idx]
 
 def query(q: str, k: int = 5):
-    start_query = time()
     chunks, X = load_store()
     results = search(q, MODEL, X, chunks, k=k)
-    end_query = time()
-    print(f"Total query:   {end_query - start_query:.4f} s")
     return [(float(s), t) for s, t in results]
 
 
