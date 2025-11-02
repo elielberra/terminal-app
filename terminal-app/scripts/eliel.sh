@@ -10,7 +10,7 @@ Usage:
   eliel champion
   eliel cv --language <esp|eng>
   eliel hacker
-  eliel -h | --help
+  eliel --help
 
 Commands:
   chatbot           Start an AI chatbot
@@ -38,7 +38,7 @@ cv_cmd() {
       --language=*|--lang=*)
         lang="${1#*=}"; shift
         ;;
-      -h|--help)
+      --help)
         print_help; exit 0
         ;;
       *)
@@ -92,7 +92,7 @@ main() {
     champion)  champion_cmd ;;
     hacker)    hacker_cmd ;;
     docs)      docs_cmd ;;
-    -h|--help|help|"") print_help ;;
+    --help|"") print_help ;;
     *)
       echo "Unknown command: $cmd" >&2
       print_help
