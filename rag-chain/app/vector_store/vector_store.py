@@ -78,6 +78,7 @@ def save_store(chunks, X):
         json.dump(chunks, f, ensure_ascii=False)
 
 def load_store():
+    # TODO: Raise error if embeddings or chunk files are not present
     X = np.load(EMB_FILE)
     chunks = json.load(open(TXT_FILE, encoding="utf-8"))
     return chunks, X
