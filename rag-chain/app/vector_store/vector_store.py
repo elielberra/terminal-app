@@ -84,6 +84,7 @@ def load_store():
     return chunks, X
 
 def build():
+    print("Building vector store and chunks")
     if not os.path.exists(INPUT_FILE):
         print(f"Missing {INPUT_FILE}")
         sys.exit(1)

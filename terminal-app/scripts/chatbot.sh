@@ -20,8 +20,28 @@ declare -A INTERACTIVE_CHATBOT_TXT=(
   [ES]=${INTERACTIVE_CHATBOT_ESP}
 )
 
-EXAMPLE_QUESTIONS_EN="- Where are you from?\n- What technologies do you use?\n- What projects have you built?\n- What is your experience with Python?\n- Can you describe your background?"
-EXAMPLE_QUESTIONS_ES="- ¿De dónde sos?\n- ¿Qué tecnologías usás?\n- ¿Qué proyectos creaste?\n- ¿Cuál es tu experiencia con Python?\n- ¿Podés contarme tu trayectoria?"
+EXAMPLE_QUESTIONS_EN="
+- What is your favourite movie, TV series, music, book, or ice cream?
+- What are your hobbies?
+- Have you ever worked with Python? What about other programming languages?
+- What are your cloud engineering and infrastructure skills?
+- What is your professional experience with Artificial Intelligence?
+- If you had to defect from North Korea, which escape route would you use?
+- Which football club are you a fan of? Who is your favourite football player?
+- Give me a summary of your academic background.
+- Can you speak English?
+"
+EXAMPLE_QUESTIONS_ES="
+- ¿Cuál es tu película, serie, música, libro o helado favorito?
+- ¿Cuáles son tus hobbies?
+- ¿Alguna vez trabajaste con Python? ¿Y con otros lenguajes de programación?
+- ¿Cuáles son tus habilidades trabajando con la nube y con infraestructura?
+- ¿Cuál es tu experiencia profesional con Inteligencia Artificial?
+- Si tuvieras que escapar de Corea del Norte, ¿qué ruta usarías?
+- ¿De qué club de fútbol sos hincha? ¿Quién es tu jugador favorito?
+- Dame un resumen de tu formación académica.
+- ¿Sabés hablar inglés?
+"
 
 declare -A EXAMPLE_QUESTIONS_TXT=(
   [EN]=${EXAMPLE_QUESTIONS_EN}
