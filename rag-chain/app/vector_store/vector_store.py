@@ -9,6 +9,7 @@ EMB_FILE  = STORE_DIR / "store_embeddings.npy"
 TXT_FILE  = STORE_DIR / "store_chunks.json"
 
 MODEL_NAME = "sentence-transformers/all-mpnet-base-v2"
+print("Loading the embedding model...")
 MODEL = SentenceTransformer(MODEL_NAME)
 
 def read_text(path: str) -> str:
