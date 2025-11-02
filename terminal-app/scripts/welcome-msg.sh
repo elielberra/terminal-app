@@ -6,17 +6,15 @@ sleep 0.001
 echo "SIG_PLAY_BACKGROUND_SOUND"
 sleep 0.001
 
-WELCOME_MSG_ENG="Hello and welcome to my webpage!
-
-If you’re wondering why you’re seeing a terminal instead of a UI, it is because "\
+WELCOME_MSG_ENG="Hello and welcome to my webpage! "\
+"If you’re wondering why you’re seeing a terminal instead of a UI, it is because "\
 "I thought this would be an interesting way for people to get to know who I am. "\
 "The commands you can use to interact with this webpage are listed below and highlighted in green. "\
 "Type them exactly as shown and press Enter to execute them:
 "
 
-WELCOME_MSG_ESP="¡Hola y bienvenid@ a mi página web!
-
-Si te estás preguntando por qué ves una terminal en lugar de una interfaz, es porque "\
+WELCOME_MSG_ESP="¡Hola y bienvenid@ a mi página web! "\
+"Si te estás preguntando por qué ves una terminal en lugar de una interfaz, es porque "\
 "me pareció que sería una forma alternativa interesante para que la gente me conozca un poco más. "\
 "Los comandos que podés usar están detallados acá abajo y coloreados en verde. "\
 "Escribilos exactamente como están y presioná Enter para ejecutarlos:
