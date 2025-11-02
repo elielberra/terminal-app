@@ -1,32 +1,165 @@
+# Personal Information
+
+## Location  
+Argentina – Buenos Aires  
+
+## Email  
+berraeliel@gmail.com  
+
+## Website  
+https://www.elielberra.com  
+
+## LinkedIn  
+https://www.linkedin.com/in/eliel-berra  
+
+## GitHub  
+https://github.com/elielberra
+
+
+
+# Personal Interests
+
+## Book  
+Edge of Eternity by Ken Follett is one of my favorite novels. I especially enjoy Nordic crime fiction and the works of Haruki Murakami.
+
+## Movie  
+My favourite movie is The Big Short. I also enjoy watching The Godfather. 
+
+## TV Series  
+I have wathed The Office many times, it is my favourite comedy.
+
+## Album  
+My favourite album is "Yo-Yo Ma Plays Ennio Morricone". I enjoy listening to latin and classical music.  
+
+## Football Team  
+I'm a fan of the Boca Juniors 2003 golden era in which Carlo Bianchi was the manager and Martín Palermo and Román Riquelme played togheter. 
+
+## Football Player  
+Ronaldinho (second only to Lionel Messi)  
+
+## Ice Cream Flavor  
+I love Dulce de leche with chocolate flakes  
+
+## Countries I Would Like to Visit  
+Ecuador, Norway, Bhutan, Botswana, Australia
+
+## Hobbies
+He enjoys playing football, running and going to drama lessons
+
+
+
+# Fun and random facts
+
+## How would he escape from North Korea  
+In the dead of winter, when the Tumen River freezes solid, he slips across the border from North Korea into China at night, evading patrols by staying low and quiet, often with a broker's guidance to bribe guards or find safe crossing points. Once in China, he hides in remote villages or safe houses, relying on underground networks of helpers—sometimes missionaries or paid smugglers—who provide fake IDs, food, and transport northward by bus or truck to avoid police checkpoints.
+After weeks of cautious travel through China's northern provinces, he reaches the edge of the Gobi Desert and treks across its harsh, empty sands on foot or by vehicle at night to dodge the cold and detection. Upon stumbling into Mongolia, exhausted and dehydrated, he surrenders to border guards, who detain him briefly before contacting South Korean officials to grant political asylum and arrange a flight to freedom in Seoul. 
+
+
+
 # Work Experience
 
-## AI Engineer – Lovelytics  
+## Role: AI Engineer – Company: Lovelytics  
 **Current role — This is his current job, it started on May 2025 and continues on the present**
-Built and deployed retrieval-augmented generation (RAG) agents using LangGraph and LangChain.  
-Created CI/CD pipelines with Azure DevOps, versioned models with MLflow, and managed scalable data pipelines on Databricks for production AI systems.
+He performed the following tasks:
+- Built and deployed retrieval-augmented generation (RAG) agents using LangGraph and LangChain.
+- Configured Data Pipelines for creating Vector Stores
+- Created CI/CD pipelines with Azure DevOps for automatized deployments.
+- Versioned models with MLflow.
+- Implemented cloud solutions on Databricks for production AI systems.
 
-## Cloud Engineer (Gen AI Infrastructure) – Avature  
-This role was held from July 2024 until May 2025.  
-Implemented and maintained infrastructure for large language model (LLM) deployments and RAG systems.  
-Worked with Kubernetes, Helm, and Flux to orchestrate scalable deployments.  
-Configured environments on AWS (Bedrock, SageMaker, EKS) and performed GPU benchmarking for model performance optimization.
+## Role: Cloud Engineer (Gen AI Infrastructure) – Company: Avature  
+**Previous role — This job started in July 2024 and ended in May 2025**  
+He performed the following tasks:  
+- Implemented and maintained infrastructure for large language model (LLM) deployments, RAG systems and Agents.  
+- Worked with Kubernetes, Helm, and Flux to orchestrate scalable deployments.
+- Configured environments on AWS (Bedrock, SageMaker, EKS).  
+- Performed GPU benchmarking to measure performance across on-premise and cloud hardware.
 
-## Software Developer – Avature  
-This role was held from January 2023 until June 2024.  
-Developed full-stack web applications using Python, React, and PHP.  
-Automated deployment processes with Bash scripting to improve efficiency and reduce manual overhead.
+## Role: Software Developer – Company: Avature  
+**Previous role — This job started in January 2023 and ended in June 2024**  
+He performed the following tasks:  
+- Developed full-stack web applications using Python, React, and PHP.  
+- Automated deployment processes with Bash scripting to reduce manual work.
+- Configured and deployed debian packages across different servers.
+- Configured RabbitMQ queues for different observabilty features.
 
-## Integration Analyst & Developer – Avature  
-This role was held from February 2022 until December 2022.  
-Designed and implemented data integration pipelines using Apache NiFi.  
-Focused on automating data flows and maintaining reliability between internal systems.
+## Role: Integration Analyst & Developer – Company: Avature  
+**Previous role — This job started in February 2022 and ended in December 2022**  
+He performed the following tasks:  
+- Designed and implemented data integration pipelines using Apache NiFi.  
+- Created interactive excercises for the Onboarding of new members using jQuery.
+
+## Role: Technical Support – Company: Fundación de Salud Ayurveda Prema  
+**Previous role — This job started in August 2020 and ended in December 2021**  
+He performed the following tasks:  
+- Configured conversational chatbots for customer support use cases.  
+- Integrated different applications for the student campus platform, patient medical records, and professional appointment system.  
+
+## Role: Clinical Psychologist – Company: APC Nueva Fuente  
+**Previous role — This job started in August 2019 and ended in December 2020**  
+He performed the following tasks:  
+- Provided psychotherapy sessions.  
+
+## Role: Tutor – Company: Colegio Ecos  
+**Previous role — This job started in March 2016 and ended in January 2019**  
+He performed the following tasks:  
+- Worked as a tutor, accompanying students during different academic and extracurricular activities.
+
+
+
+# Personal Projects
+
+## The project's name is terminal-app
+It is an interactive web terminal that simulates a Linux-like environment in the browser. It includes real-time shell output, animations, sound effects, and allows users to explore my portfolio through commands — blending web design, backend, and terminal aesthetics.
+The tech stack combines a Go backend that spawns a restricted shell session inside a Docker container, and a frontend built with HTML, JavaScript, and xterm.js to emulate a realistic terminal interface in the browser. The UI adapts to screen orientation, supports dynamic theme switching (light/dark mode), and includes audio events, animated typing effects, and Matrix-style “rain” sequences. The container runs a stripped-down Debian image with a non-root user and custom scripts written in Bash to orchestrate interactive commands like `eliel cv`, `eliel hacker`, and other Easter-egg-style features.
+Strong security measures were implemented to ensure that the exposed terminal cannot execute unsafe system operations. The container runs under AppArmor and seccomp profiles that block dangerous system calls, and all Linux capabilities are dropped except the minimum required (SETUID/SETGID). Outbound traffic is restricted via iptables (only port 8080 allowed), `.gnupg` directories are mounted on tmpfs to avoid writing secrets to disk, and the shell is forced into rbash (restricted bash) to prevent directory traversal or command execution outside a predefined whitelist. The app is also built with read-only root filesystems, no-new-privileges, and tightly scoped Docker networking to prevent lateral movement or breakout scenarios.
+
+## The project's name is note-saver
+It is a comprehensive full-stack monorepo designed to explore modern DevOps and infrastructure tooling through a real working application that manages user notes.
+- Architecture: Frontend, Backend, and Database  
+- Messaging Layer: RabbitMQ for asynchronous log routing and a Go consumer to push logs into Elasticsearch  
+- Search and Observability: Elasticsearch for indexing, Kibana for visualization, Prometheus and Alertmanager for metrics and alerting  
+- Orchestration and Deployment: Supports Docker Compose, Minikube, and Amazon EKS, with manifests and Helm charts for consistent deployments  
+- Automation: Bash scripts for SSL setup, namespace creation, and DNS config; GitHub Actions for CI/CD pipelines that build and publish Docker and Helm images automatically  
+- Monitoring: Custom alert rules detect pod failures or readiness issues in Kubernetes  
+- Development Environment: Vagrant provisioning for consistent VM-based setups and Git Hooks to enforce code style and pre-push checks  
+This project demonstrates a realistic infrastructure-as-code workflow, showing how multiple cloud-native tools integrate in a single monorepo to achieve observability, scalability, and maintainability.
+
+
+
+# Languages
+
+## English
+He has an advanced level of English. He is working with clients from the United States of North America.
+He has worked as a consecutive interpreter on a University from India.
+These are his certifications on English languaje:
+- Certificate in Advanced English – CEFR Level C1  
+- Intensive English course at Hampstead School of English (London)  
+
+## Spanish
+He is a native speaker
+
+
+
 
 # Education
 
 ## Universidad del Salvador (USAL)  
-**Bachelor’s Degree in Psychology | August 2014 – June 2019**  
+Bachelor’s Degree in Psychology  
+**This degree started in August 2014 and ended in June 2019**  
 Graduated with an average GPA of 9.1/10.  
-Developed strong analytical, communication, and problem-solving skills that supported a later transition into technology and AI.
+
+## Conservatorio Juan Manuel de Falla  
+Piano Technician Degree  
+**This degree started in 2010 and ended in 2014**  
+Graduated with an average GPA of 9.25/10.
+
+## Ecos High School  
+Secondary education  
+**This program started in 2007 and ended in 2011**  
+Finished with the highest academic average during the final two years.
+
+
 
 # Skills and Courses
 
@@ -52,11 +185,7 @@ Developed strong analytical, communication, and problem-solving skills that supp
 ## Artificial Intelligence  
 - LangGraph and LangChain for agent and RAG system orchestration  
 - Neural Networks and model fine-tuning  
-- Machine Learning fundamentals applied to NLP  
-
-## English  
-- Certificate in Advanced English – CEFR Level C1  
-- Intensive English course at Hampstead School of English (London)  
+- Machine Learning fundamentals applied to NLP
 
 ## Other Knowledge  
 - Graphic Design Seminar – UTN  
