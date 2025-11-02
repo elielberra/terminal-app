@@ -1,5 +1,4 @@
 - Detail all the info on eliel.txt. Review logic of vector store creation through .md
-- Enhance the System Prompt
 - Review and understand the logic of chain.py
 - Add retry logic and error handling on requests to socket and to Google Studio API
 - Deploy app on the dark web
