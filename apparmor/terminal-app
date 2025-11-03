@@ -81,9 +81,8 @@ profile terminal-app flags=(attach_disconnected) {
 	/usr/bin/fmt            ix,
 	/usr/bin/tput           ix,
 	/usr/bin/fold           ix,
-	/usr/bin/jq           ix,
-	/usr/bin/curl			ix, # TODO: Remove curl and ping for prod
-	/usr/bin/ping			ix,
+	/usr/bin/jq             ix,
+	/usr/bin/curl			ix,
 
 	# MPV files
 	/etc/fonts/fonts.conf      r,

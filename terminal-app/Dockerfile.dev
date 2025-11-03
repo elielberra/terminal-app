@@ -3,7 +3,7 @@ FROM debian:bookworm
 WORKDIR /app
 
 RUN apt update \
- && apt install -y --no-install-recommends mpv libcaca0 ncurses-term curl iputils-ping gnupg jq\
+ && apt install -y --no-install-recommends mpv libcaca0 ncurses-term curl gnupg jq\
  && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -u 1000 -s /usr/sbin/nologin app-user \

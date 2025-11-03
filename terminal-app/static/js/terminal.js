@@ -66,7 +66,6 @@ function createXtermTerminal() {
 		} else {
 			terminal.write(text);
 		}
-		// console.log(cleanText); // TODO: Delete me
 	};
 	socket.onclose = function () {
 		terminal.dispose();
