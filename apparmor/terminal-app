@@ -2,96 +2,96 @@
 
 profile terminal-app flags=(attach_disconnected) {
 
-	# web-user files
-	/home/web-user/                   r,
-	/home/web-user/**                 r,
+  # web-user files
+  /home/web-user/                         r,
+  /home/web-user/**                       r,
 
-	# gpg pkg files
-	/home/web-user/.gnupg/            rw,
-	/home/web-user/.gnupg/**          rw,
-	/proc/[0-9]*/fd/                  r,
+  # gpg pkg files
+  /home/web-user/.gnupg/                  rw,
+  /home/web-user/.gnupg/**                rw,
+  /proc/[0-9]*/fd/                        r,
 
-	# terminal-app files
-	/app/terminal-app                 ix,
-	/app/**                           r,
-	/app/                             r,
+  # terminal-app files
+  /app/terminal-app                       ix,
+  /app/**                                 r,
+  /app/                                   r,
 
-	# shared libraries
-	/lib/**                           mr,
-	/usr/lib/**                       mr,
+  # shared libraries
+  /lib/**                                 mr,
+  /usr/lib/**                             mr,
 
-	# terminals
-	/dev/ptmx           rw,
-	/dev/pts/**         rw,
-	/usr/bin/rbash      rmix,
-	/usr/bin/bash       rmix,
-	/usr/bin/dircolors  ix,
+  # terminals
+  /dev/ptmx                               rw,
+  /dev/pts/**                             rw,
+  /usr/bin/rbash                          rmix,
+  /usr/bin/bash                           rmix,
+  /usr/bin/dircolors                      ix,
 
-	# bash files
-	/etc/bash.bashrc        r,
-	/home/web-user/.bashrc  r,
-	/home/app-user/.bashrc  r,
+  # bash files
+  /etc/bash.bashrc                        r,
+  /home/web-user/.bashrc                  r,
+  /home/app-user/.bashrc                  r,
 
-	# sockets
-	network inet stream,
-	network unix stream,
+  # sockets
+  network inet stream,
+  network unix stream,
 
-	# quest hints
-	/home/web-user/hint-1        r,
-	/hint-2                      r,
-	/tmp/hint-3.gpg             r,
-	/tmp/hint-2.5               r,
-	/var/log/.hint-3-gpg-passphrase      r,
-	/                            r,
-	/tmp/                        r,
-	/var/log/                    r,
-	
-	# Unix socket rag chain files
-	/sockets/            r,
-	/sockets/rag.sock    rw,
+  # quest hints
+  /home/web-user/hint-1                   r,
+  /hint-2                                 r,
+  /tmp/hint-3.gpg                         r,
+  /tmp/hint-2.5                           r,
+  /var/log/.hint-3-gpg-passphrase         r,
+  /                                       r,
+  /tmp/                                   r,
+  /var/log/                               r,
+  
+  # Unix socket rag chain files
+  /sockets/                               r,
+  /sockets/rag.sock                       rw,
 
-	# DNS files
-	/etc/nsswitch.conf   r,
-	/etc/hosts           r,
-	/etc/resolv.conf     r,
+  # DNS files
+  /etc/nsswitch.conf                      r,
+  /etc/hosts                              r,
+  /etc/resolv.conf                        r,
 
-	# Profile files
-	/etc/profile         r,
-	/home/app-user/.profile r,
+  # Profile files
+  /etc/profile                            r,
+  /home/app-user/.profile                 r,
 
-	# gpg config files
-	/etc/gnupg/        r,
-	/etc/gnupg/**      r,
+  # gpg config files
+  /etc/gnupg/                             r,
+  /etc/gnupg/**                           r,
 
-	# Only allow Docker (unconfined) to stop this app with TERM or KILL
-	signal (receive) set=(term,kill) peer=unconfined,
+  # Whitelisted commands
+  /usr/bin/cat                            ix,
+  /usr/bin/ls                             ix,
+  /usr/bin/mpv                            ix,
+  /usr/bin/sleep                          ix,
+  /usr/bin/tr                             ix,
+  /usr/bin/clear                          ix,
+  /usr/bin/date                           ix,
+  /usr/bin/eliel                          rix,
+  /usr/bin/easter-egg                     ix,
+  /usr/bin/gpg                            ix,
+  /usr/bin/gpg-agent                      ix,
+  /usr/bin/fmt                            ix,
+  /usr/bin/tput                           ix,
+  /usr/bin/fold                           ix,
+  /usr/bin/jq                             ix,
+  /usr/bin/curl                           ix,
 
-	# ---- Permit running ONLY a few commands
-	/usr/bin/cat            ix,
-	/usr/bin/ls             ix,
-	/usr/bin/mpv			ix,
-	/usr/bin/sleep          ix,
-	/usr/bin/tr	            ix,
-	/usr/bin/clear          ix,
-	/usr/bin/date 			ix,
-	/usr/bin/eliel			rix,
-	/usr/bin/easter-egg  	ix,
-	/usr/bin/gpg            ix,
-	/usr/bin/gpg-agent      ix,
-	/usr/bin/fmt            ix,
-	/usr/bin/tput           ix,
-	/usr/bin/fold           ix,
-	/usr/bin/jq             ix,
-	/usr/bin/curl			ix,
+  # MPV files
+  /etc/fonts/fonts.conf                   r,
 
-	# MPV files
-	/etc/fonts/fonts.conf      r,
+  # devices
+  /dev/null                               rw,
+  /dev/tty                                rw,
 
-	# devices
-	/dev/null			rw,
-	/dev/tty            rw,
+  # Allow temporarily change of user or group ID
+  capability                              setuid,
+  capability                              setgid,
 
-	# Allow temporarily change of user or group ID
-	capability			setuid,
-	capability			setgid,
+  # Only allow Docker (unconfined) to stop this app with TERM or KILL
+  signal (receive) set=(term,kill) peer=unconfined,
 }
