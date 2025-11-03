@@ -15,7 +15,14 @@ class RAGState(TypedDict):
     error: bool
 
 def retrieve(state: RAGState) -> RAGState:
-    results = vs.query(state["question"], k=5)
+    try:
+        results = vs.query(state["question"], k=5)
+    except:
+        traceback.print_exc(file=sys.stderr)
+        return {
+            **state,
+            "error": True
+        }
     context_text = "\n\n".join([text for _, text in results])
     return {
         **state,
@@ -64,6 +71,9 @@ def build_app():
     graph.add_node("retrieve", retrieve)
     graph.add_node("generate", generate)
     graph.set_entry_point("retrieve")
-    graph.add_edge("retrieve", "generate")
+    graph.add_conditional_edges(
+        "retrieve",
+        lambda s: "generate" if not s.get("error") else END
+    )
     graph.add_edge("generate", END)
     return graph.compile()
