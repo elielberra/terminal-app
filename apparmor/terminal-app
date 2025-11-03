@@ -30,6 +30,7 @@ profile terminal-app flags=(attach_disconnected) {
 	# bash files
 	/etc/bash.bashrc        r,
 	/home/web-user/.bashrc  r,
+	/home/app-user/.bashrc  r,
 
 	# sockets
 	network inet stream,
