@@ -1,4 +1,3 @@
-# rag-chain/main.py
 import os
 import uvicorn
 
