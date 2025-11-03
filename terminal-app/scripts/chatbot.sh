@@ -3,6 +3,7 @@
 YELLOW="\033[1;38;5;136m"
 BLUE="\033[1;34m"
 GREEN="\033[1;32m"
+RED="\033[31m"
 RESET="\033[0m"
 
 INTERACTIVE_CHATBOT_ENG="This is an interactive chatbot powered by AI. "\
@@ -66,6 +67,14 @@ declare -A GOODBYE_TXT=(
   [ES]=${GOODBYE_ES}
 )
 
+SERVER_ERROR_EN="It wasn't possible to process your question due to an internal server error. Please try again later."
+SERVER_ERROR_ES="No fue posible procesar tu pregunta debido a un error interno del servidor. Por favor, intentá de nuevo más tarde."
+
+declare -A SERVER_ERROR_TXT=(
+  [EN]="${SERVER_ERROR_EN}"
+  [ES]="${SERVER_ERROR_ES}"
+)
+
 clear -x
 echo -e "${INTERACTIVE_CHATBOT_TXT[$USER_LANG]}" | fmt -w $(tput cols)
 
@@ -84,6 +93,11 @@ while true; do
     -X POST http://localhost/ask \
     -H "Content-Type: application/json" \
     -d "$payload")
+  error=$(echo "$response" | jq -r '.error')
+  if [[ "$error" == "true" ]]; then
+    echo -e "${RED}${SERVER_ERROR_TXT[$USER_LANG]}${RESET}" | fmt -w "$(tput cols)"
+    continue
+  fi
   answer=$(echo "$response" | jq -r '.answer')
   echo -e "${BLUE}Eliel:${RESET} $answer" | fmt -w "$(tput cols)"
 done
