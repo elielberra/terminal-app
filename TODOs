@@ -1,5 +1,4 @@
 - Review logic of vector store creation through .md
-- Handle permissions for the store dir (admin owns it on EC2 but rag-chain-user can't write on it)
 - Evaluate using an embedding model from Google studio to avoid RAM issues
 - Review and understand the logic of chain.py
 - Add retry logic and error handling on requests to socket and to Google Studio API
