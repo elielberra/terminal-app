@@ -1,6 +1,4 @@
-from __future__ import annotations
 from typing import TypedDict
-import os
 from langgraph.graph import StateGraph, END
 from app.vector_store import vector_store as vs
 import google.generativeai as genai
@@ -8,37 +6,25 @@ from app.utils.google_api import configure_google_api
 import sys
 import traceback
 
+configure_google_api()
 
-# ---------- RAG State ----------
 class RAGState(TypedDict):
     question: str
     context: str
     answer: str
     error: bool
 
-# ---------- Nodes ----------
 def retrieve(state: RAGState) -> RAGState:
-    """
-    Calls your vector store's `query()` and uses the returned chunks
-    as retrieval context.
-    """
-    # Perform similarity search
     results = vs.query(state["question"], k=5)
-
-    # Join the text chunks into a single context string
-    context_text = "\n\n".join([t for _, t in results])
-
+    context_text = "\n\n".join([text for _, text in results])
     return {
         **state,
         "context": context_text,
     }
 
-
 def generate(state: RAGState) -> RAGState:
-    configure_google_api()
     try:
         model = genai.GenerativeModel("gemini-2.0-flash-lite")
-
         prompt = (
             "You are a conversational assistant that answers questions about a person named Eliel Berra. "
             "Answer in the first person, as if you were Eliel Berra. "
@@ -62,7 +48,6 @@ def generate(state: RAGState) -> RAGState:
         )
         resp = model.generate_content(prompt)
         answer_text = getattr(resp, "text", "").strip()
-
     except Exception as e:
         traceback.print_exc(file=sys.stderr)
         return {
@@ -70,12 +55,10 @@ def generate(state: RAGState) -> RAGState:
             "error": True
         }
     return {
-        "question": state["question"],
-        "context": state["context"],
+        **state,
         "answer": answer_text,
     }
 
-# ---------- Graph Builder ----------
 def build_app():
     graph = StateGraph(RAGState)
     graph.add_node("retrieve", retrieve)
