@@ -10,8 +10,9 @@ class AskRequest(BaseModel):
 
 class AskResponse(BaseModel):
     answer: str
+    error: bool
 
 @app.post("/ask", response_model=AskResponse)
 def ask(req: AskRequest):
-    state = rag.invoke({"question": req.question, "context": "", "answer": ""})
-    return AskResponse(answer=state["answer"])
+    state = rag.invoke({"question": req.question, "context": "", "answer": "", "error": False})
+    return AskResponse(answer=state["answer"], error=state["error"])
