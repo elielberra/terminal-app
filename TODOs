@@ -1,6 +1,4 @@
 - Review logic of vector store creation through .md
 - Review and understand the logic of chain.py
-- Add retry logic and error handling on requests to socket and to Google Studio API
-- Add rag chain info on README
 - Deploy app on the dark web
 - Change captcha text
