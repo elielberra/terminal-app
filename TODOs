@@ -5,5 +5,4 @@
 - Add retry logic and error handling on requests to socket and to Google Studio API
 - Add rag chain info on README
 - Deploy app on the dark web
-- Download font for terminal on html
 - Change captcha text
