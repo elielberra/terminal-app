@@ -30,6 +30,7 @@ EXAMPLE_QUESTIONS_EN="
 - Which football club are you a fan of? Who is your favourite football player?
 - Give me a summary of your academic background.
 - Can you speak English?
+- How can I try to contact you?
 "
 EXAMPLE_QUESTIONS_ES="
 - ¿Cuál es tu película, serie, música, libro o helado favorito?
@@ -41,6 +42,7 @@ EXAMPLE_QUESTIONS_ES="
 - ¿De qué club de fútbol sos hincha? ¿Quién es tu jugador favorito?
 - Dame un resumen de tu formación académica.
 - ¿Sabés hablar inglés?
+- ¿Cómo te puedo contactar?
 "
 
 declare -A EXAMPLE_QUESTIONS_TXT=(
