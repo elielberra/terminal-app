@@ -10,7 +10,10 @@ WORKDIR /rag-chain
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-RUN useradd -m app-rag-chain
+RUN useradd -m -u 1001 app-rag-chain
+
+RUN mkdir -p /rag-chain/store && chown -R app-rag-chain:app-rag-chain /rag-chain
+
 USER app-rag-chain
 
 EXPOSE 5000
