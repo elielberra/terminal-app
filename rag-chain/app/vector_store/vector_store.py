@@ -17,10 +17,6 @@ def read_text(path: str) -> str:
         return f.read()
 
 def make_chunks(text: str):
-    """
-    Chunk a Markdown CV into one chunk per '##' subsection, grouped under its '#' section.
-    If no markdown headings are found, falls back to paragraph-based chunks.
-    """
     lines = text.splitlines()
     chunks = []
     current_section = None
@@ -48,13 +44,10 @@ def make_chunks(text: str):
             continue
         if current_sub:
             buf.append(line)
-
     flush()
-
     if not chunks:
         paras = [p.strip() for p in text.split("\n\n") if p.strip()]
         return paras
-
     return chunks
 
 def embed_texts(texts):
