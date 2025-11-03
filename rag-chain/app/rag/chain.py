@@ -4,6 +4,7 @@ import os
 from langgraph.graph import StateGraph, END
 from app.vector_store import vector_store as vs
 import google.generativeai as genai
+from app.utils.google_api import configure_google_api
 
 
 # ---------- RAG State ----------
@@ -36,10 +37,7 @@ def generate(state: RAGState) -> RAGState:
     """
     Sends a minimal prompt with the captured context to a model using Google AI Studio's API.
     """
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        raise RuntimeError("GOOGLE_API_KEY is not set in environment.")
-    genai.configure(api_key=api_key)
+    configure_google_api()
 
     model = genai.GenerativeModel("gemini-2.0-flash-lite")
 

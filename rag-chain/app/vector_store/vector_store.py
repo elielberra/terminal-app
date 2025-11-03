@@ -1,16 +1,16 @@
 import os, sys, json, numpy as np
-from sentence_transformers import SentenceTransformer
 from pathlib import Path
+import google.generativeai as genai
+from app.utils.google_api import configure_google_api
+
+configure_google_api()
+EMBED_MODEL = "text-embedding-004"
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 INPUT_FILE = BASE_DIR / "data" / "eliel.txt"
 STORE_DIR = BASE_DIR / "store"
 EMB_FILE  = STORE_DIR / "store_embeddings.npy"
 TXT_FILE  = STORE_DIR / "store_chunks.json"
-
-MODEL_NAME = "sentence-transformers/all-mpnet-base-v2"
-print("Loading the embedding model...")
-MODEL = SentenceTransformer(MODEL_NAME)
 
 def read_text(path: str) -> str:
     with open(path, "r", encoding="utf-8") as f:
@@ -23,54 +23,52 @@ def make_chunks(text: str):
     """
     lines = text.splitlines()
     chunks = []
-    current_section = None   # e.g., "Work Experience"
-    current_sub = None       # e.g., "AI Engineer – Lovelytics"
+    current_section = None
+    current_sub = None
     buf = []
 
     def flush():
         if current_sub and buf:
             body = "\n".join(buf).strip()
             if body:
-                # Include headers so the chunk has context
                 header = f"# {current_section}\n## {current_sub}"
                 chunks.append(f"{header}\n\n{body}")
         buf.clear()
 
     for raw in lines:
         line = raw.rstrip()
-
-        # Top-level section (e.g., "# Work Experience")
         if line.startswith("# ") and not line.startswith("## "):
-            # new section: flush any open subsection
             flush()
             current_section = line[2:].strip()
             current_sub = None
             continue
-
-        # Subsection (e.g., "## AI Engineer – Lovelytics")
         if line.startswith("## "):
-            # starting a new subsection: flush previous one
             flush()
             current_sub = line[3:].strip()
             continue
-
-        # Accumulate body lines only if we are inside a subsection
         if current_sub:
             buf.append(line)
 
-    # Flush last subsection
     flush()
 
-    # Fallback if no markdown structure was detected
     if not chunks:
         paras = [p.strip() for p in text.split("\n\n") if p.strip()]
         return paras
 
     return chunks
 
+def embed_texts(texts):
+    vecs = []
+    for t in texts:
+        r = genai.embed_content(model=EMBED_MODEL, content=t)
+        v = np.array(r["embedding"], dtype="float32")
+        n = np.linalg.norm(v)
+        vecs.append(v / n if n else v)
+    return np.vstack(vecs)
+
 def embed_chunks(chunks):
-    X = MODEL.encode(chunks, normalize_embeddings=True)
-    return MODEL, X.astype("float32")
+    X = embed_texts(chunks)
+    return X
 
 def save_store(chunks, X):
     np.save(EMB_FILE, X)
@@ -78,7 +76,6 @@ def save_store(chunks, X):
         json.dump(chunks, f, ensure_ascii=False)
 
 def load_store():
-    # TODO: Raise error if embeddings or chunk files are not present
     X = np.load(EMB_FILE)
     chunks = json.load(open(TXT_FILE, encoding="utf-8"))
     return chunks, X
@@ -90,21 +87,20 @@ def build():
         sys.exit(1)
     text = read_text(str(INPUT_FILE))
     chunks = make_chunks(text)
-    _, X = embed_chunks(chunks)
+    X = embed_chunks(chunks)
     save_store(chunks, X)
     print(f"Built store: {len(chunks)} chunks")
 
-def search(query: str, model, X: np.ndarray, chunks, k: int = 5):
-    q = model.encode([query], normalize_embeddings=True)[0].astype("float32")
+def search(query: str, X: np.ndarray, chunks, k: int = 5):
+    q = embed_texts([query])[0]
     scores = X @ q
     idx = np.argsort(-scores)[:k]
     return [(float(scores[i]), chunks[i]) for i in idx]
 
 def query(q: str, k: int = 5):
     chunks, X = load_store()
-    results = search(q, MODEL, X, chunks, k=k)
+    results = search(q, X, chunks, k=k)
     return [(float(s), t) for s, t in results]
-
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
