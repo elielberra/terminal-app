@@ -79,3 +79,12 @@ The terminal runs under <a href="https://www.gnu.org/software/bash/manual/html_n
 The terminal-app is enclosed within a private internal network that has no direct access to the internet. This isolation ensures that even if someone tries to exploit the system from within the terminal, there is no route to reach external servers or services.  
 In front of the application sits an **Nginx proxy**, which acts as the only entry and exit point. It filters all traffic, routes only the allowed requests, and adds another layer of protection between the user and the backend. This setup minimizes exposure and keeps the internal components completely unreachable from the outside world.
 This setup is probably overkill since the network is already private, but additional iptables rules are also in place to block any outgoing traffic to the external internet, ensuring that nothing inside the container can ever reach outside.
+
+---
+
+## Dark Web
+This web page is also available on the dark web through the TOR browser at:
+
+http://varayg7x6dwre6i5hbcyoxa5zi3t766lnlszvqawhmi6hdfx4c4dyxqd.onion
+
+The TOR hidden service is hosted on an EC2 instance, where a TOR daemon exposes the `.onion` address. Requests to this address are routed by the same NGINX container that serves the clear-web version of the site, forwarding traffic to the terminal backend in both cases. This means the app works the same whether you access it from the regular internet or over the TOR network — only the entry point changes.
