@@ -125,24 +125,16 @@ print_typing_effect() {
   local i
   for (( i=0; i<${#wrapped}; i++ )); do
     printf "%s" "${wrapped:i:1}"
-    sleep 0.05
+    sleep 0.03
   done
   printf "\n"
 }
 
-declare -A DONT_WORRY_TXT=(
-  [EN]="Don't worry, I was just kidding."
-  [ES]="No te preocupes, era una broma nada más."
+declare -A JUST_KDDING_TXT=(
+  [EN]="I was just kidding, your money is safe."
+  [ES]="Era una broma nada más, tu plata está a salvo."
 )
-print_typing_effect "${DONT_WORRY_TXT[$USER_LANG]}"
-echo
-sleep 1
-
-declare -A MONEY_SAFE_TXT=(
-  [EN]="Your money is safe, nobody hacked into your bank accounts."
-  [ES]="Tu plata está a salvo, nadie hackeó tus cuentas bancarias."
-)
-print_typing_effect "${MONEY_SAFE_TXT[$USER_LANG]}"
+print_typing_effect "${JUST_KDDING_TXT[$USER_LANG]}"
 echo
 sleep 1
 
@@ -183,22 +175,6 @@ declare -A TYPE_COMMANDS_TXT=(
   [ES]="Vas a escribir comandos para interactuar con la app y decirle qué querés hacer."
 )
 print_typing_effect "${TYPE_COMMANDS_TXT[$USER_LANG]}"
-echo
-sleep 1
-
-declare -A DETAILED_INSTRUCTIONS_TXT_1=(
-  [EN]="I will leave you detailed instructions on how to use this terminal."
-  [ES]="Te voy a dejar instrucciones detalladas sobre cómo usar esta terminal."
-)
-print_typing_effect "${DETAILED_INSTRUCTIONS_TXT_1[$USER_LANG]}"
-echo
-sleep 1
-
-declare -A READ_THEM_CAREFULLY_TXT=(
-  [EN]="Read them carefully, they contain the different commands you can use."
-  [ES]="Leelas con atención, ahí están los distintos comandos que podés usar."
-)
-print_typing_effect "${READ_THEM_CAREFULLY_TXT[$USER_LANG]}"
 echo
 sleep 1
 
