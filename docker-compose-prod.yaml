@@ -3,6 +3,7 @@ services:
     image: nginx:1.29.1
     ports:
       - "443:443"
+      - "127.0.0.1:80:80"
     volumes:
       - ./nginx/nginx.conf.prod:/etc/nginx/nginx.conf:ro
       - /etc/letsencrypt/live/elielberra.com/fullchain.pem:/etc/ssl/certs/elielberra.crt:ro

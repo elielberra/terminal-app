@@ -120,3 +120,15 @@ ________________
 ```
 docker exec -it rag-chain python /rag-chain/app/vector_store/vector_store.py build
 ```
+________________
+# Deploy app to the dark web
+```
+sudo apt update
+sudo apt install -y tor nginx
+sudo vi /etc/tor/torrc
+# Uncomment HiddenService lines
+# Copy private and secret keys to /var/lib/tor/hidden_service
+sudo service tor restart
+sudo cat /var/lib/tor/hidden_service/hostname
+
+```
