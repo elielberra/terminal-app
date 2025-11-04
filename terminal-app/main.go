@@ -69,6 +69,11 @@ func getWsConfig() wsCfg {
 		makeOrigin("www." + domain),
 	}
 
+	onionDomain := os.Getenv("ONION_DOMAIN")
+	if onionDomain != "" {
+		allowed = append(allowed, makeOrigin(onionDomain))
+	}
+
 	return wsCfg{
 		Protocol:       protocol,
 		Domain:         domain,
