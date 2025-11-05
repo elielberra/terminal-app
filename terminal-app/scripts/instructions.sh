@@ -9,7 +9,7 @@ INSTRUCTIONS_ENG="- If you’re a ${CYAN}curious visitor${RESET}, type ${GREEN}e
 "First, a super ultra HD video will be displayed (you’ll need a powerful GPU to render those graphics). Second... France.
 
 - If you’re a ${CYAN}recruiter${RESET}, run ${GREEN}eliel cv${RESET}. "\
-"This downloads the latest PDF version of my CV in English by default. For Spanish, run ${GREEN}eliel cv --language esp${RESET}.
+"This opens the latest PDF version of my CV in English by default. For Spanish, run ${GREEN}eliel cv --language esp${RESET}.
 
 - If you’re a ${CYAN}hacker${RESET}, congrats — you've gotten access to the Web Server! "\
 "Just so you know, I’ve implemented very strict cybersecurity measures, so there isn’t much you can do. "\
@@ -28,7 +28,7 @@ INSTRUCTIONS_ESP="- Si sos un ${CYAN}visitante curioso${RESET}, escribí ${GREEN
 "Segundo... Francia.
 
 - Si sos un ${CYAN}recruiter${RESET}, ejecutá ${GREEN}eliel cv${RESET}. "\
-"Esto descarga la última versión de mi CV en PDF en inglés por defecto. Si lo querés en español, corré ${GREEN}eliel cv --language esp${RESET}.
+"Esto va a abrir la última versión de mi CV en PDF en inglés por defecto. Si lo querés en español, corré ${GREEN}eliel cv --language esp${RESET}.
 
 - Si sos un ${CYAN}hacker${RESET}, felicitaciones: lograste acceder al servidor web! "\
 "Te aviso igual que implementé medidas muy estrictas de ciberseguridad, así que no hay mucho que puedas hacer. "\

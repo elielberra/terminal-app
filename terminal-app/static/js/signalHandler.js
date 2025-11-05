@@ -54,12 +54,12 @@ function handleTerminalOutput(output, terminal) {
 		return;
 	}
 
-	if (output === "SIG_DOWNLOAD_CV_ENG") {
-		downloadCv(ENG)
+	if (output === "SIG_OPEN_CV_ENG") {
+		openCv(ENG)
 		return;
 	}
-	if (output === "SIG_DOWNLOAD_CV_ESP") {
-		downloadCv(ESP)
+	if (output === "SIG_OPEN_CV_ESP") {
+		openCv(ESP)
 		return;
 	}
 
