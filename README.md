@@ -5,9 +5,11 @@
 2. [Backend](#backend)  
 3. [Frontend](#frontend)  
 4. [Terminal Logic (Bash)](#terminal-logic-bash)  
-5. [Nginx Proxy](#nginx-proxy)  
-6. [Deployment](#deployment)
-7. [Cybersecurity](#cybersecurity)
+5. [Rag Chain](#rag-chain)
+6. [Nginx Proxy](#nginx-proxy)
+7. [Deployment](#deployment)
+8. [Cybersecurity](#cybersecurity)
+9. [Dark Web](#dark-web)
 
 ---
 
