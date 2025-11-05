@@ -1,10 +1,7 @@
-function openLinkNewTab(url, downloadFilename = null) {
+function openLinkNewTab(url) {
 	const a = document.createElement("a");
 	a.href = url;
 	a.target = "_blank";
-	if (downloadFilename) {
-		a.download = downloadFilename;
-	}
 	document.body.appendChild(a);
 	a.click();
 	a.remove();
@@ -42,11 +39,9 @@ function fitAndResize() {
 	resizeTimer = setTimeout(sendResize, 250);
 }
 
-function downloadCv(lang) {
-	const driveCvFileId = lang == ENG ? engCvId : espCvId;
-	const cvUrl = `https://drive.usercontent.google.com/uc?id=${driveCvFileId}&authuser=0&export=download`
-	const cvFilename = `Eliel Berra CV ${lang}.pdf`;
-	openLinkNewTab(cvUrl, cvFilename)
+function openCv(lang) {
+	const cvUrl = lang == ENG ? engCvUrl : espCvUrl;
+	openLinkNewTab(cvUrl)
 }
 
 function waitSocketSendCmd(command) {

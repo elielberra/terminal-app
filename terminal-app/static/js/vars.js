@@ -17,8 +17,8 @@ const AUG_LANDSCAPE_MOBILE_REF_FONT_SIZE = 13;
 const fitAddon = new FitAddon.FitAddon();
 const ENG = "ENG";
 const ESP = "ESP";
-const engCvId = "1a8X9yvlBTIq26kV4W8PqGr5lLiDhqKai";
-const espCvId = "13b17AyMQMklVygE6MSf32GRAD5P9UNfT";
+const engCvUrl = "https://www.canva.com/design/DAFb6MvnBv4/ipzbfJ6fAykrDj9Qi1cApQ/view?utm_content=DAFb6MvnBv4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9a3c14187c";
+const espCvUrl = "https://www.canva.com/design/DAE8A0OVbeM/AMw15SufwB-2_5YphghBXQ/view?utm_content=DAE8A0OVbeM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd068bcd41f";
 const userLang = getUserLanguageCode()
 const semiOpaqueWhite = "rgba(255, 255, 255, 0.75)";
 const transparent = "rgba(255, 255, 255, 0)";

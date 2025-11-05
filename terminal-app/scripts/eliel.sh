@@ -32,13 +32,13 @@ cv_cmd() {
 
   case "${lang,,}" in
     esp|es|español|spanish)
-      bash /app/scripts/download-cv.sh ESP
+      bash /app/scripts/open-cv.sh ESP
       ;;
     eng|en|english|ingles|inglés)
-      bash /app/scripts/download-cv.sh ENG
+      bash /app/scripts/open-cv.sh ENG
       ;;
     "")
-      bash /app/scripts/download-cv.sh ENG
+      bash /app/scripts/open-cv.sh ENG
       ;;
     *)
       echo "Error: unsupported language '$lang' (use esp|eng)" >&2; exit 2
