@@ -51,40 +51,46 @@ while [ $SECONDS -lt $end ]; do
 done
 echo -ne "${RED}----- ${BEEN_HACKED_TXT[$USER_LANG]} -----${RESET}\n"
 
+declare -A BRUTE_FORCING_TXT=(
+  [EN]="Brute forcing access to your banking system"
+  [ES]="Forzando el acceso a tu sistema bancario"
+)
+echo -e "${YELLOW}${BRUTE_FORCING_TXT[$USER_LANG]}${RESET}"
+print_progress_bar 0.025
+
 declare -A EMPTYING_BANK_TXT=(
   [EN]="Emptying your bank account"
   [ES]="Vaciando tu cuenta bancaria"
 )
-
 echo -e "${YELLOW}${EMPTYING_BANK_TXT[$USER_LANG]}${RESET}"
-
-print_progress_bar 0.05
+print_progress_bar 0.025
 
 declare -A TRANSFERING_MONEY_TXT=(
   [EN]="Transfering money to the Cayman Islands"
   [ES]="Transfiriendo los fondos a las Islas Caiman"
 )
-
 echo -e "${YELLOW}${TRANSFERING_MONEY_TXT[$USER_LANG]}${RESET}"
-
 print_progress_bar 0.01
 
 declare -A CONVERTING_USD_TXT=(
   [EN]="Converting u\$D to Bitcoin"
   [ES]="Convirtiendo los Dólares a Bitcoin"
 )
-
 echo -e "${YELLOW}${CONVERTING_USD_TXT[$USER_LANG]}${RESET}"
+print_progress_bar 0.015
 
-print_progress_bar 0.04
+declare -A SENDING_BTC_TXT=(
+  [EN]="Sending Bitcoin to a crypto wallet in Pyongyang"
+  [ES]="Enviando Bitcoin a una billetera cripto en Pyongyang"
+)
+echo -e "${YELLOW}${SENDING_BTC_TXT[$USER_LANG]}${RESET}"
+print_progress_bar 0.02
 
 declare -A DELETING_HISTORY_TXT=(
   [EN]="Deleting transactions from Log History"
   [ES]="Borrando las transacciones del historial"
 )
-
 echo -e "${YELLOW}${DELETING_HISTORY_TXT[$USER_LANG]}${RESET}"
-
 print_progress_bar 0.033
 
 sleep 0.001
