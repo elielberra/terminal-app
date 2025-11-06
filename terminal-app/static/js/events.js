@@ -49,7 +49,7 @@ closeIcon.addEventListener("click", () => {
 	lightModeIcon.style.display = "block";
 	muteMusicIcon.style.display = "block";
 	closeIcon.style.display = "none";
-	socket.send('clear -x\r');
+	socket.send('clear && bash /app/scripts/instructions.sh\r');
 })
 
 window.addEventListener("resize", fitAndResize);
