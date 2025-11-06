@@ -5,7 +5,7 @@ GREEN="\033[1;32m"
 CYAN="\033[1;36m"
 
 INSTRUCTIONS_ENG="- If you’re a ${CYAN}curious visitor${RESET}, type ${GREEN}eliel chatbot${RESET} to ask me questions using AI. "\
-"I also have a surpise prepared for you, type ${GREEN}eliel champion${RESET} to watch it. "\
+"I also have a surprise prepared for you, type ${GREEN}eliel champion${RESET} to watch it. "\
 "First, a super ultra HD video will be displayed (you’ll need a powerful GPU to render those graphics). Second... France.
 
 - If you’re a ${CYAN}recruiter${RESET}, run ${GREEN}eliel cv${RESET}. "\
