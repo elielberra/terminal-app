@@ -10,6 +10,11 @@ body {
 	background-color: black;
 }
 
+* {
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0;
+}
+
 #terminal {
 	display: none;
 	height: 100%;
