@@ -71,8 +71,8 @@ SERVER_ERROR_EN="It wasn't possible to process your question due to an internal 
 SERVER_ERROR_ES="No fue posible procesar tu pregunta debido a un error interno del servidor. Por favor, intentá de nuevo más tarde."
 
 declare -A SERVER_ERROR_TXT=(
-  [EN]="${SERVER_ERROR_EN}"
-  [ES]="${SERVER_ERROR_ES}"
+  [EN]=${SERVER_ERROR_EN}
+  [ES]=${SERVER_ERROR_ES}
 )
 
 clear
