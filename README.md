@@ -85,7 +85,7 @@ This setup is probably overkill since the network is already private, but additi
 ---
 
 ## Dark Web
-This web page is also available on the dark web through the TOR browser at:
+This web page is also available on the dark web through the <a href="https://www.torproject.org/es/download/" target="_blank">TOR browser</a> at:
 
 http://varayg7x6dwre6i5hbcyoxa5zi3t766lnlszvqawhmi6hdfx4c4dyxqd.onion
 
