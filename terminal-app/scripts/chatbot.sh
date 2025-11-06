@@ -75,7 +75,7 @@ declare -A SERVER_ERROR_TXT=(
   [ES]="${SERVER_ERROR_ES}"
 )
 
-clear -x
+clear
 echo -e "${INTERACTIVE_CHATBOT_TXT[$USER_LANG]}" | fmt -w $(tput cols)
 
 while true; do
@@ -101,3 +101,5 @@ while true; do
   answer=$(echo "$response" | jq -r '.answer')
   echo -e "${BLUE}Eliel:${RESET} $answer" | fmt -w "$(tput cols)"
 done
+clear
+bash /app/scripts/instructions.sh
