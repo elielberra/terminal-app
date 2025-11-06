@@ -1,6 +1,6 @@
 #!/bin/bash
 
-clear -x
+clear
 sleep 0.001
 echo "SIG_DISABLE_TERMINAL_INPUT"
 sleep 0.001
@@ -26,7 +26,7 @@ declare -A DESERT_BATTLE_TXT=(
   [EN]="Among the deserts of the Middle East, the greatest battle of history took place."
   [ES]="En los desiertos de Medio Oriente, se libró la batalla más importante de la historia."
 )
-clear -x
+clear
 echo -e "${DESERT_BATTLE_TXT[$USER_LANG]}\n" | fmt -w $(tput cols)
 
 sleep 5
@@ -114,3 +114,4 @@ sleep 0.001
 echo "SIG_HIDE_CLOSE_VIDEO_BTN"
 sleep 0.001
 clear -x
+bash /app/scripts/instructions.sh
