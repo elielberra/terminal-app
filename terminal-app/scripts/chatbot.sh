@@ -81,7 +81,9 @@ echo -e "${INTERACTIVE_CHATBOT_TXT[$USER_LANG]}" | fmt -w $(tput cols)
 while true; do
   echo -ne "${YELLOW}${YOU_TXT[$USER_LANG]}:${RESET} "
   read user_input
-  if [[ "${user_input,,}" == "exit" || "${user_input,,}" == "salir" ]]; then
+  if [[ -z "${user_input// }" ]]; then
+    continue
+  elif [[ "${user_input,,}" == "exit" || "${user_input,,}" == "salir" ]]; then
     echo -e "${BLUE}Eliel:${RESET} ${GOODBYE_TXT[$USER_LANG]}"
     break
   elif [[ "${user_input,,}" == "questions" || "${user_input,,}" == "preguntas" ]]; then
