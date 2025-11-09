@@ -1,13 +1,4 @@
 function handleTerminalOutput(output, terminal) {
-	if (output === "SIG_PLAY_INTRO_MUSIC") {
-		introSound.volume = 1;
-		introSound.play();
-		return;
-	}
-	if (output === "SIG_STOP_INTRO_MUSIC") {
-		fadeOutAudio(introSound, 5000);
-		return;
-	}
 
 	if (output === "SIG_PLAY_GLADIATOR_MUSIC") {
 		gladiatorSound.volume = 0.3;
@@ -19,16 +10,6 @@ function handleTerminalOutput(output, terminal) {
 	}
 	if (output === "SIG_STOP_GLADIATOR_MUSIC_FADE_OUT") {
 		fadeOutAudio(gladiatorSound, 8000);
-		return;
-	}
-
-	if (output === "SIG_PLAY_MORSE_SOUND") {
-		morseSound.volume = 0.05;
-		morseSound.play();
-		return;
-	}
-	if (output === "SIG_STOP_MORSE_SOUND") {
-		fadeOutAudio(morseSound, 500)
 		return;
 	}
 
