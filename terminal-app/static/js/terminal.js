@@ -71,8 +71,6 @@ function createXtermTerminal() {
 		terminal.dispose();
 		terminalDiv.style.display = "none";
 		inactiveMsg.style.display = "block";
-		accessBtn.style.display = "inline-block";
-		skipIntroBtn.style.display = "inline-block";
 		lightModeIcon.style.display = "none";
 		nightModeIcon.style.display = "none";
 		muteMusicIcon.style.display = "none";
@@ -90,8 +88,6 @@ function createXtermTerminal() {
 
 function displayTerminal() {
 	inactiveMsg.style.display = "none";
-	accessBtn.style.display = "none";
-	skipIntroBtn.style.display = "none";
 	terminalDiv.style.display = "block";
 	terminal.focus();
 	fitAndResize();

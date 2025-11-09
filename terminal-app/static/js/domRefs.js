@@ -1,6 +1,3 @@
-const introBtns = document.getElementById("intro-btns");
-const accessBtn = document.getElementById("access-intro-btn");
-const skipIntroBtn = document.getElementById("skip-intro-btn");
 const inactiveMsg = document.getElementById("inactive-msg");
 const terminalDiv = document.getElementById("terminal");
 const introSound = document.getElementById("intro-sound");
