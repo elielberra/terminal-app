@@ -32,6 +32,7 @@ There isn’t a typical user interface, everything happens inside the terminal w
 - Background server sounds create an immersive atmosphere and can be muted if preferred.
 - The interface supports real typing, cursor movement, and colorized output through **xterm.js**.
 - Commands trigger animations, music, or other effects, making the experience dynamic and interactive.
+- The web app detects the browser’s language settings and displays the text in Spanish if the language is set to Spanish, or in English for any other language. It does this by reading the browser’s language from the request and setting an environment variable on the backend, which is then passed to the Bash scripts.
 
 ### Limitations
 - A terminal is meant to be used on a PC. Using it from a phone is uncomfrotable. On top of that, the developers of xterm didn't provide a lot of support for mobile and that makes it posibilities limited, you might experience issues with scrolling or other features. As mentioned in a <a href="https://github.com/xtermjs/xterm.js/issues/5377#issuecomment-3094609703 " target="_blank">GitHub issue</a>, the xterm.js maintainers do not plan to address these mobile limitations in the future.
