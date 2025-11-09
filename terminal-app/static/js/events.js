@@ -1,13 +1,3 @@
-accessBtn.addEventListener("click", () => {
-	const cmd = "bash /app/scripts/intro.sh\r";
-	sendInitialCmd(cmd);
-})
-
-skipIntroBtn.addEventListener("click", () => {
-	const cmd = "bash /app/scripts/welcome-msg.sh\r";
-	sendInitialCmd(cmd);
-})
-
 nightModeIcon.addEventListener("click", () => {
 	nightModeIcon.style.display = "none";
 	lightModeIcon.style.display = "block";

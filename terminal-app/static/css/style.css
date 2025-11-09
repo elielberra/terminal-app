@@ -22,23 +22,6 @@ body {
 	margin: 20px;
 }
 
-#intro-btns {
-	margin: 20px;
-	display: none;
-	gap: 20px;
-}
-
-[id$="intro-btn"] {
-	font-size: xx-large;
-	cursor: pointer;
-}
-
-@media (max-width: 600px) {
-	[id$="intro-btn"] {
-		font-size: small;
-	}
-}
-
 #inactive-msg {
 	color: yellow;
 	font-size: x-large;
