@@ -44,15 +44,6 @@ function handleTerminalOutput(output, terminal) {
 		return;
 	}
 
-	if (output === "SIG_PLAY_BACKGROUND_SOUND") {
-		resumeBackgroundSound();
-		return;
-	}
-	if (output === "SIG_PAUSE_BACKGROUND_SOUND") {
-		backgroundSound.pause();
-		return;
-	}
-
 	if (output === "SIG_DISABLE_TERMINAL_INPUT") {
 		terminalDiv.style.pointerEvents = "none";
 		terminal.blur();
@@ -66,14 +57,12 @@ function handleTerminalOutput(output, terminal) {
 		return;
 	}
 
-	if (output === "SIG_DISPLAY_THEME_VOL_BTNS") {
+	if (output === "SIG_DISPLAY_THEME_BTN") {
 		lightModeIcon.style.display = "block";
-		muteMusicIcon.style.display = "block";
 		return;
 	}
-	if (output === "SIG_HIDE_THEME_VOL_BTNS") {
+	if (output === "SIG_HIDE_THEME_BTN") {
 		lightModeIcon.style.display = "none";
-		muteMusicIcon.style.display = "none";
 		return;
 	}
 

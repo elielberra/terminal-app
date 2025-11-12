@@ -7,10 +7,6 @@ function openLinkNewTab(url) {
 	a.remove();
 }
 
-function isBackgroundSoundMuted() {
-	return muteMusicIcon.style.display === "none" ? true : false;
-}
-
 function getUserLanguageCode() {
 	const lang = navigator.language || navigator.userLanguage || "en";
 	return lang.split("-")[0];

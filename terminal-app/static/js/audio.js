@@ -16,10 +16,3 @@ function fadeOutAudio(audio, duration) {
 		}
 	}, stepTime);
 }
-
-function resumeBackgroundSound() {
-	if (!isBackgroundSoundMuted()) {
-		backgroundSound.play();
-		backgroundSound.volume = 0.4;
-	}
-}

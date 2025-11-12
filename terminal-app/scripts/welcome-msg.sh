@@ -1,9 +1,7 @@
 #!/bin/bash
 
 sleep 0.001
-echo "SIG_DISPLAY_THEME_VOL_BTNS"
-sleep 0.001
-echo "SIG_PLAY_BACKGROUND_SOUND"
+echo "SIG_DISPLAY_THEME_BTN"
 sleep 0.001
 
 WELCOME_MSG_ENG="Hello and welcome to my webpage! "\
