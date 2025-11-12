@@ -71,7 +71,7 @@ func getWsConfig() wsCfg {
 
 	onionDomain := os.Getenv("ONION_DOMAIN")
 	if onionDomain != "" {
-		allowed = append(allowed, makeOrigin(onionDomain))
+		allowed = append(allowed, onionDomain)
 	}
 
 	return wsCfg{
