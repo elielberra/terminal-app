@@ -28,8 +28,7 @@ There isn’t a typical user interface, everything happens inside the terminal w
 
 ### Features
 - The terminal is fully responsive, and the text size automatically adjusts to different devices.
-- You can switch between dark and light themes at any time.  
-- Background server sounds create an immersive atmosphere and can be muted if preferred.
+- You can switch between dark and light themes at any time.
 - The interface supports real typing, cursor movement, and colorized output through **xterm.js**.
 - Commands trigger animations, music, or other effects, making the experience dynamic and interactive.
 - The web app detects the browser’s language settings and displays the text in Spanish if the language is set to Spanish, or in English for any other language. It does this by reading the browser’s language from the request and setting an environment variable on the backend, which is then passed to the Bash scripts.

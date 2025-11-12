@@ -41,11 +41,6 @@ body {
 	right: 20px;
 }
 
-[id$="music-icon"] {
-	background-color: rgba(255, 255, 255, 0.75);
-	right: 70px;
-}
-
 #light-mode-icon {
 	background-color: rgba(255, 255, 255, 0.75);
 }

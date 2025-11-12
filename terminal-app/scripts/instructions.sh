@@ -19,7 +19,7 @@ INSTRUCTIONS_ENG="- If you’re a ${CYAN}curious visitor${RESET}, type ${GREEN}e
 "Run ${GREEN}eliel hacker${RESET} to start the quest.
 
 If you want to see the manual with this instructions again, enter the command ${GREEN}eliel${RESET}. "\
-"You can mute the background server noises and switch to a light theme using the two buttons in the top right corner.
+"You can switch to a light theme using the button in the top right corner.
 "
 
 INSTRUCTIONS_ESP="- Si sos un ${CYAN}visitante curioso${RESET}, escribí ${GREEN}eliel chatbot${RESET} para hacerme preguntas usando IA. "\
@@ -38,7 +38,7 @@ INSTRUCTIONS_ESP="- Si sos un ${CYAN}visitante curioso${RESET}, escribí ${GREEN
 "Corré ${GREEN}eliel hacker${RESET} para empezar la misión.
 
 Si querés volver a ver el manual con estas instrucciones, escribí el comando ${GREEN}eliel${RESET}. "\
-"Podés silenciar los ruidos de fondo del servidor y cambiar al tema claro con los dos botones en la esquina superior derecha.
+"Podés cambiar al tema claro con el botón en la esquina superior derecha.
 "
 
 declare -A INSTRUCTIONS_TXT=(

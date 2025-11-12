@@ -73,11 +73,8 @@ function createXtermTerminal() {
 		inactiveMsg.style.display = "block";
 		lightModeIcon.style.display = "none";
 		nightModeIcon.style.display = "none";
-		muteMusicIcon.style.display = "none";
-		unmuteMusicIcon.style.display = "none";
 		terminal.options.theme = {};
 		document.body.style.backgroundColor = "black";
-		backgroundSound.pause()
 	};
 	terminal.onData(data => {
 		socket.send(data);
