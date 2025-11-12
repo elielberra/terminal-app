@@ -39,7 +39,6 @@ fi
   done
 ) &
 
-
 # Spawn new container
 if ! docker compose -f docker-compose-dev.yaml up --build; then
   echo "❌ Failed to spawn terminal-app container. Aborting."
