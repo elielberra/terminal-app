@@ -35,10 +35,12 @@ const (
 	ENGLISH userLanguage = "EN"
 )
 
+var wsConfig = getWsConfig()
+
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		reqOrigin := r.Header.Get("Origin")
-		cfg := getWsConfig()
+		cfg := wsConfig
 		for _, o := range cfg.AllowedOrigins {
 			if reqOrigin == o {
 				return true
