@@ -145,3 +145,16 @@ Host terminal-app
     User admin
     IdentityFile ~/.ssh/terminal-app.pem
 EOF
+________________
+#  Reclaim space if it is not enough avaialble on the EC2
+sudo docker system prune -a --volumes -f
+________________
+# Automatically renew the certs
+# 1. Ensure the authenticator is set to standalone
+sudo sed -i 's/authenticator = .*/authenticator = standalone/' /etc/letsencrypt/renewal/elielberra.com.conf
+
+# 2. Append the hooks using the absolute path to the project directory
+sudo tee -a /etc/letsencrypt/renewal/elielberra.com.conf <<EOF
+pre_hook = systemctl stop nginx || true; pkill -9 nginx || true; cd /home/admin/terminal-app && docker compose -f docker-compose-prod.yaml down
+post_hook = cd /home/admin/terminal-app && bash prod-restart.sh
+EOF
