@@ -132,3 +132,16 @@ sudo service tor restart
 sudo cat /var/lib/tor/hidden_service/hostname
 
 ```
+________________
+# Relocate ssh key and configure the server connection alias
+mkdir -p ~/.ssh && \
+mv ~/Downloads/terminal-app.pem ~/.ssh/terminal-app.pem && \
+chmod 700 ~/.ssh && \
+chmod 400 ~/.ssh/terminal-app.pem && \
+cat <<EOF >> ~/.ssh/config
+
+Host terminal-app
+    HostName ec2-18-208-62-86.compute-1.amazonaws.com
+    User admin
+    IdentityFile ~/.ssh/terminal-app.pem
+EOF
