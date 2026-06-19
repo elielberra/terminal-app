@@ -1,10 +1,7 @@
 import os, sys, json, numpy as np
 from pathlib import Path
-import google.generativeai as genai
-from app.utils.google_api import configure_google_api
-
-configure_google_api()
-EMBED_MODEL = "text-embedding-004"
+from app.utils.google_api import get_client
+EMBED_MODEL = "gemini-embedding-2"
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 INPUT_FILE = BASE_DIR / "data" / "eliel.txt"
@@ -55,10 +52,11 @@ def make_chunks(text: str):
     return chunks
 
 def embed_texts(texts):
+    client = get_client()
     vecs = []
     for t in texts:
-        r = genai.embed_content(model=EMBED_MODEL, content=t)
-        v = np.array(r["embedding"], dtype="float32")
+        r = client.models.embed_content(model=EMBED_MODEL, contents=t)
+        v = np.array(r.embeddings[0].values, dtype="float32")
         n = np.linalg.norm(v)
         vecs.append(v / n if n else v)
     return np.vstack(vecs)
