@@ -1,12 +1,9 @@
 from typing import TypedDict
 from langgraph.graph import StateGraph, END
 from app.vector_store import vector_store as vs
-import google.generativeai as genai
-from app.utils.google_api import configure_google_api
+from app.utils.google_api import get_client
 import sys
 import traceback
-
-configure_google_api()
 
 class RAGState(TypedDict):
     question: str
@@ -31,7 +28,7 @@ def retrieve(state: RAGState) -> RAGState:
 
 def generate(state: RAGState) -> RAGState:
     try:
-        model = genai.GenerativeModel("gemini-2.0-flash-lite")
+        client = get_client()
         prompt = (
             "You are a conversational assistant that answers questions about a person named Eliel Berra. "
             "Answer in the first person, as if you were Eliel Berra. "
@@ -53,8 +50,8 @@ def generate(state: RAGState) -> RAGState:
             f"Question:\n{state['question']}\n\n"
             "Answer:"
         )
-        resp = model.generate_content(prompt)
-        answer_text = getattr(resp, "text", "").strip()
+        resp = client.models.generate_content(model="gemini-2.5-flash-lite", contents=prompt)
+        answer_text = (resp.text or "").strip()
     except Exception as e:
         traceback.print_exc(file=sys.stderr)
         return {
