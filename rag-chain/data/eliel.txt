@@ -58,8 +58,16 @@ After weeks of cautious travel through China's northern provinces, he reaches th
 
 # Work Experience
 
-## Role: AI Engineer – Company: Lovelytics  
-**Current role — This is his current job, it started on May 2025 and continues on the present**
+## Role: AI Engineer – Company: TELUS Digital
+**Current role — This is his current job, it started in December 2025 and continues to the present**
+He performed the following tasks:
+- Built Evaluation Pipelines for different AI Agents.
+- Implemented Data Pipelines.
+- Cloud configurations with GCP and Pulumi.
+Skills: Google Cloud, Pulumi.
+
+## Role: AI Engineer – Company: Lovelytics LATAM (ex Datalytics)
+**Previous role — This job started in June 2025 and ended in December 2025**
 He performed the following tasks:
 - Built and deployed retrieval-augmented generation (RAG) agents using LangGraph and LangChain.
 - Configured Data Pipelines for creating Vector Stores
@@ -114,6 +122,12 @@ It is an interactive web terminal that simulates a Linux-like environment in the
 The tech stack combines a Go backend that spawns a restricted shell session inside a Docker container, and a frontend built with HTML, JavaScript, and xterm.js to emulate a realistic terminal interface in the browser. The UI adapts to screen orientation, supports dynamic theme switching (light/dark mode), and includes audio events, animated typing effects, and Matrix-style “rain” sequences. The container runs a stripped-down Debian image with a non-root user and custom scripts written in Bash to orchestrate interactive commands like `eliel cv`, `eliel hacker`, and other Easter-egg-style features.
 Strong security measures were implemented to ensure that the exposed terminal cannot execute unsafe system operations. The container runs under AppArmor and seccomp profiles that block dangerous system calls, and all Linux capabilities are dropped except the minimum required (SETUID/SETGID). Outbound traffic is restricted via iptables (only port 8080 allowed), `.gnupg` directories are mounted on tmpfs to avoid writing secrets to disk, and the shell is forced into rbash (restricted bash) to prevent directory traversal or command execution outside a predefined whitelist. The app is also built with read-only root filesystems, no-new-privileges, and tightly scoped Docker networking to prevent lateral movement or breakout scenarios.
 
+## The project's name is http-server
+It is a custom HTTP server written in Go that avoids the standard `net` library and manages all network communication via direct syscalls.
+
+## The project's name is casm-curl
+It is a curl-like HTTP client implemented in C and Assembly that communicates with servers via direct system calls, without relying on standard networking libraries.
+
 ## The project's name is note-saver
 It is a comprehensive full-stack monorepo designed to explore modern DevOps and infrastructure tooling through a real working application that manages user notes.
 - Architecture: Frontend, Backend, and Database  
@@ -163,12 +177,13 @@ Finished with the highest academic average during the final two years.
 
 # Skills and Courses
 
-## Cloud  
-- Networking and infrastructure design for distributed systems  
-- Terraform and Infrastructure as Code (IaC) practices  
-- Virtualization and cloud automation  
-- AWS environment management  
-- RabbitMQ for message brokering and async workflows  
+## Cloud
+- Networking and infrastructure design for distributed systems
+- Terraform and Pulumi for Infrastructure as Code (IaC) practices
+- Virtualization and cloud automation
+- AWS, GCP, and Databricks cloud environments
+- Azure DevOps for CI/CD pipelines
+- RabbitMQ for message brokering and async workflows
 
 ## Observability  
 - Prometheus for monitoring and alerting  
