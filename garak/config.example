@@ -1,0 +1,25 @@
+# Copy this file and save it as config.json
+{
+  "run": {
+    "soft_probe_prompt_cap": 0, # Limit on how many probes will be sent - 0 will default to all availables probes
+    "generations": 5 # How many interations of each prompt will be run (to take into consideration random generative output)
+  },
+  "reporting": {
+    "report_dir": "" # Insert the path where you want the report files to be outputed
+  },
+  "plugins": {
+    "target_type": "rest",
+    "generators": {
+      "rest": {
+        "uri": "http://localhost:5000/ask",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "req_template": "{\"question\": \"$INPUT\"}",
+        "response_json": true,
+        "response_json_field": "answer"
+      }
+    }
+  }
+}

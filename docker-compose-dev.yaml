@@ -56,6 +56,8 @@ services:
       - rag_sock:/sockets
     networks:
       - public
+    ports:
+      - "127.0.0.1:5000:5000"
     user: "0:0"
     command: >
       /bin/sh -lc
