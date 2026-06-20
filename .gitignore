@@ -15,3 +15,12 @@ rag-chain/store/**
 
 # .env files
 rag-chain/.env
+
+# garak files
+garak/.venv
+garak/*.jsonl
+garak/*.html
+garak/*.json
+
+# Claude
+.claude/settings.local.json
