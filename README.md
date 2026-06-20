@@ -47,8 +47,8 @@ While the backend server is written in **Go**, the actual logic of the terminal-
 A separate **Python microservice** was built to power the conversational chatbot.  
 It uses a manually created **vector store**, where embeddings and text chunks are stored in NumPy and JSON files.  
 A **Retrieval-Augmented Generation (RAG) chain** was implemented using the **LangGraph** framework. This chain performs a similarity search between the user’s query and the stored embeddings. The retrieved context is then passed to a **Google AI Studio** language model, which generates the final response.  
-
-A **Bash script** inside the `terminal-app` container manages the interaction between the user and the RAG backend.  
+A **Bash script** inside the `terminal-app` container manages the interaction between the user and the RAG backend.
+Each conversation is persisted in a simple **SQLite database** using Python's built-in `sqlite3` standard library.
 The `terminal-app` and `rag-chain` containers communicate through a **Unix socket**. I chose to use a Unix socket instead of a TCP connection as a way to experiment with alternative inter-container communication, but also because it is more secure and prevents the `terminal-app` from making any TCP connections at all, even inside the private internal Docker network.
 
 ---
