@@ -61,6 +61,7 @@ services:
       /bin/sh -lc
       "mkdir -p /sockets &&
       chown -R app-rag-chain:app-rag-chain /sockets &&
+      chown -R app-rag-chain:app-rag-chain /rag-chain/store &&
       exec su -s /bin/sh -c 'python main.py' app-rag-chain"
 
 networks:
