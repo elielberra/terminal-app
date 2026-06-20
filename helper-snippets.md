@@ -158,3 +158,14 @@ sudo tee -a /etc/letsencrypt/renewal/elielberra.com.conf <<EOF
 pre_hook = systemctl stop nginx || true; pkill -9 nginx || true; cd /home/admin/terminal-app && docker compose -f docker-compose-prod.yaml down
 post_hook = cd /home/admin/terminal-app && bash prod-restart.sh
 EOF
+
+________________
+# Get all chatbot session convsations formatted
+docker exec rag-chain python3 -c "
+import sqlite3
+con = sqlite3.connect('/rag-chain/store/conversations.db')
+for row in con.execute('SELECT created_at, content FROM conversations ORDER BY created_at'):
+    print(f'--- {row[0]} ---')
+    print(row[1])
+    print()
+"
