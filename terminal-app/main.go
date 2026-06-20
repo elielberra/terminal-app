@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/exec"
@@ -84,6 +85,14 @@ func getWsConfig() wsCfg {
 	}
 }
 
+func getUserIP(r *http.Request) string {
+	if ip := r.Header.Get("X-Real-IP"); ip != "" {
+		return ip
+	}
+	ip, _, _ := net.SplitHostPort(r.RemoteAddr)
+	return ip
+}
+
 func getUserLanguage(r *http.Request) userLanguage {
 	lang := r.Header.Get("Accept-Language")
 	if len(lang) >= 2 && lang[:2] == "es" {
@@ -99,6 +108,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	userLanguage := getUserLanguage(r)
+	userIP := getUserIP(r)
 	defer conn.Close()
 
 	cmd := exec.Command(
@@ -115,6 +125,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 
 	cmd.Env = append(os.Environ(),
 		"USER_LANG="+string(userLanguage),
+		"USER_IP="+userIP,
 		"LC_ALL=C.UTF-8",
 		"LC_CTYPE=C.UTF-8",
 		"TERM=xterm-256color",
