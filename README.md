@@ -77,6 +77,9 @@ An <a href="https://apparmor.net/" target="_blank">AppArmor</a> profile is appli
 ### Restricted Bash (rbash)
 The terminal runs under <a href="https://www.gnu.org/software/bash/manual/html_node/The-Restricted-Shell.html" target="_blank">rbash</a>, a restricted version of the Bash shell. It prevents users from changing directories, setting environment variables, modifying the PATH, or running commands outside of approved locations. This keeps the user confined to a controlled environment where only safe, predefined actions are allowed.
 
+### Garak
+The AI copilot is tested against prompt injection and jailbreak attacks using <a href="https://github.com/NVIDIA/garak" target="_blank">Garak</a>, an open-source LLM vulnerability scanner developed by NVIDIA. It sends adversarial probes covering DAN jailbreaks, role-play persona hijacks, latent injection hidden inside retrieved documents, and system prompt extraction attempts. Each run produces a hit log with the exact prompt and model output for every successful attack, which directly informs the system prompt rules to harden the model against those specific weaknesses.
+
 ### Networking
 The terminal-app is enclosed within a private internal network that has no direct access to the internet. This isolation ensures that even if someone tries to exploit the system from within the terminal, there is no route to reach external servers or services.  
 In front of the application sits an **Nginx proxy**, which acts as the only entry and exit point. It filters all traffic, routes only the allowed requests, and adds another layer of protection between the user and the backend. This setup minimizes exposure and keeps the internal components completely unreachable from the outside world.
