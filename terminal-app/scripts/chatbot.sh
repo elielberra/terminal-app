@@ -78,7 +78,6 @@ declare -A SERVER_ERROR_TXT=(
 SESSION_ID="$$${RANDOM}${RANDOM}"
 LOCATION=$(curl -sS --unix-socket /sockets/rag.sock \
   "http://localhost/locate?ip=${USER_IP:-}" | jq -r '.location // ""')
-CONVERSATION=""
 
 clear
 echo -e "${INTERACTIVE_CHATBOT_TXT[$USER_LANG]}" | fmt -w $(tput cols)
@@ -107,19 +106,16 @@ while true; do
   fi
   answer=$(echo "$response" | jq -r '.answer')
   echo -e "${BLUE}Eliel:${RESET} $answer" | fmt -w "$(tput cols)"
-  CONVERSATION+="${YOU_TXT[$USER_LANG]}: ${user_input}
+  exchange="${YOU_TXT[$USER_LANG]}: ${user_input}
 Eliel: ${answer}
 "
-done
-
-if [[ -n "$CONVERSATION" ]]; then
-  payload=$(jq -nc --arg s "$SESSION_ID" --arg ip "${USER_IP:-}" --arg loc "${LOCATION:-}" --arg conv "$CONVERSATION" \
+  payload=$(jq -nc --arg s "$SESSION_ID" --arg ip "${USER_IP:-}" --arg loc "${LOCATION:-}" --arg conv "$exchange" \
     '{session_id:$s,user_ip:$ip,location:$loc,content:$conv}')
   curl -sS --unix-socket /sockets/rag.sock \
     -X POST http://localhost/conversation \
     -H "Content-Type: application/json" \
     -d "$payload" > /dev/null
-fi
+done
 
 clear
 bash /app/scripts/instructions.sh
