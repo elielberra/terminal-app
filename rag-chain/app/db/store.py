@@ -18,9 +18,14 @@ def init_db():
             )
         """)
 
-def save_conversation(session_id: str, content: str, ip: str = None, location: str = None):
+def upsert_message(session_id: str, content: str, ip: str = None, location: str = None):
     with _conn() as con:
         con.execute(
-            "INSERT INTO conversations (session_id, content, ip, location) VALUES (?, ?, ?, ?)",
+            """
+            INSERT INTO conversations (session_id, content, ip, location)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(session_id) DO UPDATE SET
+                content = content || excluded.content
+            """,
             (session_id, content, ip, location),
         )

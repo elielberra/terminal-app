@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from app.rag.chain import build_app
-from app.db.store import init_db, save_conversation
+from app.db.store import init_db, upsert_message
 from app.utils.geo import get_location
 
 app = FastAPI()
@@ -38,4 +38,4 @@ def ask(req: AskRequest):
 
 @app.post("/conversation")
 def conversation(req: ConversationRequest):
-    save_conversation(req.session_id, req.content, req.user_ip, req.location)
+    upsert_message(req.session_id, req.content, req.user_ip, req.location)
