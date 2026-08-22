@@ -81,7 +81,7 @@ jobs:
     name: Deploy to production
     needs: build-and-push
     runs-on: ubuntu-latest
-    if: ${{ !cancelled() && needs.build-and-push.result != 'failure' && github.ref == 'refs/heads/main' }}
+    if: ${{ needs.build-and-push.result == 'success' && github.ref == 'refs/heads/main' }}
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
