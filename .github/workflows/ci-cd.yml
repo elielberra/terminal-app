@@ -41,10 +41,6 @@ jobs:
             context: ./rag-chain
             dockerfile: ./rag-chain/Dockerfile.prod
             image: elober/rag-chain
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      (matrix.service == 'terminal-app' && needs.changes.outputs.terminal-app == 'true') ||
-      (matrix.service == 'rag-chain' && needs.changes.outputs.rag-chain == 'true')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -62,6 +58,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push ${{ matrix.service }}
+        if: |
+          github.event_name == 'workflow_dispatch' ||
+          (matrix.service == 'terminal-app' && needs.changes.outputs.terminal-app == 'true') ||
+          (matrix.service == 'rag-chain' && needs.changes.outputs.rag-chain == 'true')
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
