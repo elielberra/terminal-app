@@ -16,6 +16,11 @@ jobs:
       terminal-app: ${{ steps.filter.outputs.terminal-app }}
       rag-chain: ${{ steps.filter.outputs.rag-chain }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Detect changed modules
         uses: dorny/paths-filter@v3
         id: filter
