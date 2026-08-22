@@ -15,9 +15,7 @@ services:
       - private
   terminal-app:
     container_name: terminal-app
-    build:
-      context: ./terminal-app
-      dockerfile: Dockerfile.prod
+    image: elober/terminal-app:latest
     env_file:
       - ./terminal-app/.env.prod
     volumes:
@@ -47,9 +45,7 @@ services:
       - SETGID
   rag-chain:
     container_name: rag-chain
-    build:
-      context: ./rag-chain
-      dockerfile: Dockerfile.prod
+    image: elober/rag-chain:latest
     env_file:
       - ./rag-chain/.env
     volumes:
