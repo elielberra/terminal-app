@@ -16,6 +16,11 @@ jobs:
       terminal-app: ${{ steps.filter.outputs.terminal-app }}
       rag-chain: ${{ steps.filter.outputs.rag-chain }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Detect changed modules
         uses: dorny/paths-filter@v3
         id: filter
@@ -72,11 +77,10 @@ jobs:
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
 
-  deploy:
-    name: Deploy to production
+  deploy-to-prod:
     needs: build-and-push
     runs-on: ubuntu-latest
-    if: ${{ !cancelled() && needs.build-and-push.result != 'failure' && github.ref == 'refs/heads/main' }}
+    if: ${{ needs.build-and-push.result == 'success' && github.ref == 'refs/heads/main' }}
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
