@@ -202,6 +202,10 @@ Avoid comments unless strictly necessary. When one is warranted, keep it to a si
 
 PR descriptions: simple, high-level, concrete, and short — a few bullets on what/why, not an exhaustive walkthrough.
 
+## Git Operations
+
+Never run `git add`, `git commit`, or `git push` unless explicitly told to in that turn. A request that merely implies it ("create a PR", "ship this", "merge it") is NOT authorization — do everything else, then stop and ask before the git-mutating part.
+
 ---
 
 ## No Tests
