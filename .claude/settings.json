@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(terraform/*.tfvars)",
+      "Read(terraform/*.tfstate*)",
+      "Read(terraform/.terraform/**)",
+      "Grep(**/.env)",
+      "Grep(**/.env.*)",
+      "Grep(terraform/*.tfvars)",
+      "Grep(terraform/*.tfstate*)",
+      "Grep(terraform/.terraform/**)",
+      "Glob(terraform/.terraform/**)",
+      "Bash(cat *.env)",
+      "Bash(cat *.env.*)",
+      "Bash(cat rag-chain/.env)",
+      "Bash(cat terminal-app/.env.prod)",
+      "Bash(cat terraform/*.tfvars)",
+      "Bash(cat terraform/*.tfstate*)",
+      "Bash(cat terraform/.terraform/**)",
+      "Bash(head *.env)",
+      "Bash(head *.env.*)",
+      "Bash(tail *.env)",
+      "Bash(tail *.env.*)",
+      "Bash(less *.env)",
+      "Bash(less *.env.*)",
+      "Bash(more *.env)",
+      "Bash(more *.env.*)"
+    ],
+    "allow": [
+      "Read(**/.env-dummy)",
+      "Grep(**/.env-dummy)",
+      "Bash(cat **/.env-dummy)",
+      "Read(**/.env.dev)",
+      "Grep(**/.env.dev)",
+      "Bash(cat **/.env.dev)"
+    ]
+  }
+}
