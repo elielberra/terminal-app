@@ -77,8 +77,7 @@ jobs:
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
 
-  deploy:
-    name: Deploy to production
+  deploy-to-prod:
     needs: build-and-push
     runs-on: ubuntu-latest
     if: ${{ needs.build-and-push.result == 'success' && github.ref == 'refs/heads/main' }}
