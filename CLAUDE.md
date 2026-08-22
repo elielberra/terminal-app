@@ -200,6 +200,8 @@ The frontend is served directly by the Go HTTP server (`http.FileServer`). No bu
 
 Avoid comments unless strictly necessary. When one is warranted, keep it to a single short line explaining *what*/*why*, not *how*.
 
+PR descriptions: simple, high-level, concrete, and short — a few bullets on what/why, not an exhaustive walkthrough.
+
 ---
 
 ## No Tests
