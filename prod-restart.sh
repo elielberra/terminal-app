@@ -10,14 +10,8 @@ if ! sudo apparmor_parser -r -W /etc/apparmor.d/terminal-app; then
   exit 1
 fi
 
-# Pull latest images
-if ! docker compose -f docker-compose-prod.yaml pull; then
-  echo "❌ Failed to pull images. Aborting."
-  exit 1
-fi
-
-# Spawn new container
-if ! docker compose -f docker-compose-prod.yaml up; then
+# Pull latest images and spawn new container
+if ! docker compose -f docker-compose-prod.yaml up --pull always; then
   echo "❌ Failed to spawn terminal-app container. Aborting."
   exit 1
 fi
