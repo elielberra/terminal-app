@@ -34,7 +34,7 @@ terminal-app/
 │       └── utils/         # Gemini client, IP geolocation
 ├── nginx/                 # nginx.conf.dev / nginx.conf.prod
 ├── apparmor/terminal-app  # AppArmor security profile
-├── .github/workflows/     # CI: docker-publish.yml (build & push to Docker Hub)
+├── .github/workflows/     # CI/CD: ci-cd.yml (build, push, deploy)
 ├── docker-compose-dev.yaml
 ├── docker-compose-prod.yaml
 ├── dev-restart.sh         # Full dev rebuild + browser launch
@@ -196,6 +196,18 @@ The frontend is served directly by the Go HTTP server (`http.FileServer`). No bu
 
 ---
 
+## Code Style
+
+Avoid comments unless strictly necessary. When one is warranted, keep it to a single short line explaining *what*/*why*, not *how*.
+
+PR descriptions: simple, high-level, concrete, and short — a few bullets on what/why, not an exhaustive walkthrough.
+
+## Git Operations
+
+Never run `git add`, `git commit`, or `git push` unless explicitly told to in that turn. A request that merely implies it ("create a PR", "ship this", "merge it") is NOT authorization — do everything else, then stop and ask before the git-mutating part.
+
+---
+
 ## No Tests
 
 The project has no automated test suite. Manual testing via the browser is the only way to verify changes. Use `./dev-restart.sh` and test in the terminal at http://localhost.
@@ -204,12 +216,13 @@ The project has no automated test suite. Manual testing via the browser is the o
 
 ## CI/CD
 
-GitHub Actions workflow: `.github/workflows/docker-publish.yml`.
+GitHub Actions workflow: `.github/workflows/ci-cd.yml`.
 
 - **Trigger**: push to `main`, or manual dispatch (the "Run workflow" button in the Actions tab).
 - **Path-filtered builds**: a `changes` job (`dorny/paths-filter`) checks whether `terminal-app/**` or `rag-chain/**` changed. On a push, each image is only built/pushed if its own module changed. A manual `workflow_dispatch` run ignores the filter and always builds/pushes **both** images.
 - **Images**: builds `linux/arm64` only (matches the prod EC2 host) and pushes to Docker Hub as `elober/terminal-app:latest` and `elober/rag-chain:latest`. `nginx` is excluded — it's the stock `nginx:1.29.1` image, no custom Dockerfile.
-- **Required repo secrets**: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN` (a Docker Hub access token, not the account password).
+- **Auto-deploy**: a `deploy` job (`needs: build-and-push`) runs after the build whenever the ref is `main` and the build didn't fail — it SSHs into the EC2 host via `appleboy/ssh-action` and runs `git pull --ff-only origin main && bash prod-restart.sh` in `/home/admin/terminal-app`. It always runs on a `main` push/dispatch (even if neither image changed) because `prod-restart.sh` also picks up bind-mounted non-image changes (scripts, static assets, `docker-compose-prod.yaml`, the AppArmor profile).
+- **Required repo secrets**: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN` (a Docker Hub access token, not the account password); `EC2_HOST` (the prod instance's SSH host) and `EC2_SSH_KEY` (private key for a deploy-only keypair authorized on the `admin` user, not the personal `test-terminal-app` key) for the deploy job.
 
 ---
 
