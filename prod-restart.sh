@@ -15,7 +15,7 @@ OLD_TERMINAL_APP_ID=$(docker images -q elober/terminal-app:latest)
 OLD_RAG_CHAIN_ID=$(docker images -q elober/rag-chain:latest)
 
 # Pull latest images and spawn new container
-if ! docker compose -f docker-compose-prod.yaml up --pull always; then
+if ! docker compose -f docker-compose-prod.yaml up -d --pull always; then
   echo "❌ Failed to spawn terminal-app container. Aborting."
   exit 1
 fi
