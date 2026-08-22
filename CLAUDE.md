@@ -34,6 +34,7 @@ terminal-app/
 │       └── utils/         # Gemini client, IP geolocation
 ├── nginx/                 # nginx.conf.dev / nginx.conf.prod
 ├── apparmor/terminal-app  # AppArmor security profile
+├── terraform/             # AWS monitoring: Route 53 health check, CloudWatch alarm, SNS email alert
 ├── .github/workflows/     # CI/CD: ci-cd.yml (build, push, deploy)
 ├── docker-compose-dev.yaml
 ├── docker-compose-prod.yaml
@@ -208,6 +209,12 @@ Never run `git add`, `git commit`, or `git push` unless explicitly told to in th
 
 ---
 
+## Sensitive Files — Do Not Access
+
+Claude must never read, cat, grep into, or otherwise open: `.env` / `.env.*` files (e.g. `rag-chain/.env`, `terminal-app/.env.prod`), or Terraform state/vars files (`terraform/*.tfvars`, `terraform/*.tfstate*`, `terraform/.terraform/`). These hold live secrets (API keys, AWS resource details). Work around them — e.g. reference `.env-dummy` for expected keys instead of the real file — and ask the user directly if their contents are needed.
+
+---
+
 ## No Tests
 
 The project has no automated test suite. Manual testing via the browser is the only way to verify changes. Use `./dev-restart.sh` and test in the terminal at http://localhost.
@@ -238,6 +245,12 @@ Runs on an AWS EC2 instance (Debian, ARM64). `docker-compose-prod.yaml` pulls th
 5. Compares each service's image ID before/after; if a service's image actually changed, removes the superseded image (`docker rmi`) so old images don't pile up on disk. If nothing changed, nothing is pruned.
 
 The Go binary is cross-compiled for ARM64 in `terminal-app/Dockerfile.prod`'s builder stage.
+
+---
+
+## Infrastructure Monitoring (Terraform)
+
+`terraform/` provisions AWS-side monitoring for elielberra.com, independent of the app deploy: a Route 53 HTTPS health check, a CloudWatch alarm on that health check's status, and an SNS topic emailing `berraeliel@gmail.com` on ALARM/OK transitions. Not applied by CI — run manually (`terraform init && terraform apply`) with AWS credentials that can manage Route 53/CloudWatch/SNS. See `terraform/README.md`.
 
 ---
 
