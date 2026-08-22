@@ -1,4 +1,4 @@
-name: Docker Build & Push
+name: CI/CD
 
 on:
   push:
@@ -41,9 +41,6 @@ jobs:
             context: ./rag-chain
             dockerfile: ./rag-chain/Dockerfile.prod
             image: elober/rag-chain
-    # Manually triggering the workflow (the "Run workflow" button in the
-    # GitHub Actions UI) always builds and pushes every image. A push to
-    # main only builds the image(s) whose module directory changed.
     if: |
       github.event_name == 'workflow_dispatch' ||
       (matrix.service == 'terminal-app' && needs.changes.outputs.terminal-app == 'true') ||
@@ -74,3 +71,21 @@ jobs:
           tags: ${{ matrix.image }}:latest
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
+
+  deploy:
+    name: Deploy to production
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() && needs.build-and-push.result != 'failure' && github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: admin
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+            cd /home/admin/terminal-app
+            git pull --ff-only origin main
+            bash prod-restart.sh
