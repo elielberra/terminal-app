@@ -4,12 +4,30 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: {}
 
 permissions:
   contents: read
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      terminal-app: ${{ steps.filter.outputs.terminal-app }}
+      rag-chain: ${{ steps.filter.outputs.rag-chain }}
+    steps:
+      - name: Detect changed modules
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            terminal-app:
+              - 'terminal-app/**'
+            rag-chain:
+              - 'rag-chain/**'
+
   build-and-push:
+    needs: changes
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -23,6 +41,13 @@ jobs:
             context: ./rag-chain
             dockerfile: ./rag-chain/Dockerfile.prod
             image: elober/rag-chain
+    # Manually triggering the workflow (the "Run workflow" button in the
+    # GitHub Actions UI) always builds and pushes every image. A push to
+    # main only builds the image(s) whose module directory changed.
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (matrix.service == 'terminal-app' && needs.changes.outputs.terminal-app == 'true') ||
+      (matrix.service == 'rag-chain' && needs.changes.outputs.rag-chain == 'true')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
