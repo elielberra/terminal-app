@@ -178,7 +178,7 @@ These constraints exist by design — do not work around them:
 - **AppArmor**: Only a whitelist of executables is permitted (`apparmor/terminal-app`). Any new command needed in scripts must be added to this profile and the profile reloaded
 - **Read-only containers**: No runtime file writes except tmpfs mounts (GPG dir) and the socket volume
 - **No root**: `sudo` is disabled; the Go binary uses `setcap` for `setuid`/`setgid` only
-- **No outbound TCP**: iptables rules (`iptables-rules.sh`) block all outbound internet traffic from the terminal-app container
+- **No outbound TCP**: iptables rules (`iptables-rules.sh`) block all outbound internet traffic from the terminal-app container. It's idempotent by comment tag (flushes any stale rule before adding the current one) since container IPs are reassigned on every restart; `prod-restart.sh` calls it at the end of every run, not just at boot
 
 When adding new commands or scripts, check `apparmor/terminal-app` — new executables need an explicit allow rule.
 
@@ -243,6 +243,7 @@ Runs on an AWS EC2 instance (Debian, ARM64). `docker-compose-prod.yaml` pulls th
 3. Records the current local image ID for `elober/terminal-app:latest` and `elober/rag-chain:latest`
 4. Brings up containers with `docker-compose-prod.yaml up -d --pull always` (detached, pulls the latest images, no live mounts, read-only, port 443)
 5. Compares each service's image ID before/after; if a service's image actually changed, removes the superseded image (`docker rmi`) so old images don't pile up on disk. If nothing changed, nothing is pruned.
+6. Re-runs `iptables-rules.sh` — container IPs are reassigned on every restart, so the outbound-block firewall rule (see Security Constraints) must be reapplied each time, not just at boot.
 
 The Go binary is cross-compiled for ARM64 in `terminal-app/Dockerfile.prod`'s builder stage.
 
@@ -258,7 +259,7 @@ The Go binary is cross-compiled for ARM64 in `terminal-app/Dockerfile.prod`'s bu
 - **Elastic IP** (`eip.tf`) — the existing allocation is only *looked up* and associated, never managed as a resource, so an apply/destroy can never release it.
 - **IAM role + instance profile** (`iam.tf`) — scoped to exactly `ssm:GetParameter`/`GetParameters` on the app's own SSM path. Nothing else.
 - **SSM Parameter Store secrets** (`ssm.tf`) — five `SecureString` parameters under `/terminal-app/*` (env files, Tor hidden-service keys/hostname), bootstrapped as empty placeholders with `lifecycle { ignore_changes = [value] }`. **Real values are inserted by hand with `aws ssm put-parameter`, never through a `.tf`/`.tfvars` file** — anything Terraform manages as a resource value ends up in plaintext state, so secrets are deliberately routed around it.
-- **`user_data` boot script** (`templates/user-data.sh.tftpl`) — runs once at first boot: installs Docker/git/Tor/certbot, fetches secrets from SSM, restores the Tor hidden-service keys and asserts the resulting `.onion` matches the expected one, waits for the EIP to attach before running certbot (standalone authenticator, since nginx only binds `:80` on loopback), wires up the certbot renewal hooks + `certbot.timer`, starts the compose stack, builds the rag-chain vector store (`docker exec -w /rag-chain rag-chain python -m app.vector_store.vector_store build` — the store is derived data, regenerated from `rag-chain/data/eliel.txt`, never backed up/restored), and installs a `terminal-app.service` systemd unit so `prod-restart.sh` + `iptables-rules.sh` re-run on every reboot.
+- **`user_data` boot script** (`templates/user-data.sh.tftpl`) — runs once at first boot: installs Docker/git/Tor/certbot, fetches secrets from SSM, restores the Tor hidden-service keys and asserts the resulting `.onion` matches the expected one, waits for the EIP to attach before running certbot (standalone authenticator, since nginx only binds `:80` on loopback), wires up the certbot renewal hooks + `certbot.timer`, starts the compose stack, builds the rag-chain vector store (`docker exec -w /rag-chain rag-chain python -m app.vector_store.vector_store build` — the store is derived data, regenerated from `rag-chain/data/eliel.txt`, never backed up/restored), and installs a `terminal-app.service` systemd unit so `prod-restart.sh` (which itself re-runs `iptables-rules.sh`) re-runs on every reboot.
 - **Monitoring** (`route53.tf`, `cloudwatch.tf`, `sns.tf`) — Route 53 HTTPS health check, a CloudWatch alarm on it, and an SNS topic emailing `berraeliel@gmail.com` on ALARM/OK transitions.
 
 ### Running it
