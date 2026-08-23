@@ -62,9 +62,13 @@ The `terminal-app` and `rag-chain` containers communicate through a **Unix socke
 ---
 
 ## Deployment
-Every service in the terminal-app runs inside its own **Docker container**. The **Go backend** and the **Nginx proxy** are all containerized. The entire application is deployed and managed using **Docker Compose**, which handles service orchestration, networking, and environment configuration automatically.
+Every service in the terminal-app runs inside its own **Docker container**. The **Go backend**, the **RAG chain**, and the **Nginx proxy** are all containerized, and the whole stack is orchestrated with **Docker Compose**, which handles networking and environment configuration automatically.
 
-A Bash script simplifies the deployment process for both development and production environments. In production, the app runs on an EC2 instance, where the script automatically sets up and launches all required services.
+Deployment splits into two independent concerns:
+
+**Infrastructure.** The production server is an AWS EC2 instance provisioned entirely with **Terraform** — the instance itself, networking, IAM, and secrets storage. A single boot script installs Docker, clones the repo, restores secrets, configures the Tor hidden service, issues and auto-renews the SSL certificate, and starts the stack, so a fresh host comes up fully working with no manual steps. This is applied by hand, not by CI, since it changes the server itself rather than the app running on it.
+
+**Application.** Shipping a new version of the app is handled by **GitHub Actions**. On every push to `main`, CI builds Docker images for the Go backend and the RAG chain, pushes them to Docker Hub, then connects to the EC2 instance and restarts the stack with the new images. Infrastructure and application deploys are deliberately decoupled: the server only needs to be re-provisioned when its own setup changes, while new app versions ship independently, several times a week if needed.
 
 ---
 
