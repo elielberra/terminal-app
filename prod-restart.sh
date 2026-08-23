@@ -33,3 +33,6 @@ if [ -n "$OLD_RAG_CHAIN_ID" ] && [ "$OLD_RAG_CHAIN_ID" != "$NEW_RAG_CHAIN_ID" ];
   echo "🧹 Pruning superseded rag-chain image ($OLD_RAG_CHAIN_ID)"
   docker rmi "$OLD_RAG_CHAIN_ID"
 fi
+
+# Container IPs are reassigned on every restart, so the firewall rule must be reapplied
+bash "$(dirname "$0")/iptables-rules.sh"
