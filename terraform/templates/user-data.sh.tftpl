@@ -92,7 +92,7 @@ RENEWAL_CONF=/etc/letsencrypt/renewal/${domain_name}.conf
 sed -i 's/^authenticator = .*/authenticator = standalone/' "$RENEWAL_CONF"
 cat >> "$RENEWAL_CONF" <<EOF
 pre_hook = cd $REPO_DIR && docker compose -f docker-compose-prod.yaml down
-post_hook = cd $REPO_DIR && bash prod-restart.sh && bash iptables-rules.sh
+post_hook = cd $REPO_DIR && bash prod-restart.sh
 EOF
 systemctl enable --now certbot.timer
 
@@ -104,7 +104,6 @@ install -d -m 0700 -o 1001 -g 1001 "$REPO_DIR/rag-chain/store"
 ##### 10. Start the stack #####
 cd "$REPO_DIR"
 bash prod-restart.sh
-bash iptables-rules.sh
 
 ##### 11. Build the vector store #####
 if [ ! -f "$REPO_DIR/rag-chain/store/store_embeddings.npy" ]; then
@@ -124,7 +123,6 @@ Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=$REPO_DIR
 ExecStart=/bin/bash prod-restart.sh
-ExecStartPost=/bin/bash iptables-rules.sh
 
 [Install]
 WantedBy=multi-user.target
