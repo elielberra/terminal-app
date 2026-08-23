@@ -26,8 +26,9 @@ garak/*.json
 .claude/settings.local.json
 
 # Terraform
-terraform/.terraform/
-terraform/*.tfstate
-terraform/*.tfstate.*
-terraform/*.tfvars
-terraform/.terraform.lock.hcl
+terraform/**/.terraform/
+terraform/**/*.tfstate
+terraform/**/*.tfstate.*
+terraform/**/*.tfvars
+terraform/**/*.auto.tfvars
+!terraform/**/*.tfvars.example
