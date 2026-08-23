@@ -1,0 +1,135 @@
+#!/bin/bash
+# Rendered by Terraform (templates/user-data.sh.tftpl). Runs once, as root, at
+# first boot. Braced expansions are Terraform's; shell ones need doubled $$.
+set -euxo pipefail
+exec > >(tee -a /var/log/user-data.log) 2>&1
+
+REPO_DIR=/home/admin/terminal-app
+AWS="aws --region ${aws_region}"
+
+ssm_get() {
+  $AWS ssm get-parameter --name "$1" --with-decryption --query Parameter.Value --output text
+}
+
+##### 1. Packages #####
+export DEBIAN_FRONTEND=noninteractive
+apt-get update -y
+apt-get install -y ca-certificates curl gnupg git awscli apparmor apparmor-utils tor certbot
+
+##### 2. Docker #####
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+chmod a+r /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
+  > /etc/apt/sources.list.d/docker.list
+apt-get update -y
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+systemctl enable --now docker
+usermod -aG docker admin
+
+##### 3. CI deploy key #####
+install -d -m 0700 -o admin -g admin /home/admin/.ssh
+echo "${ci_deploy_public_key}" >> /home/admin/.ssh/authorized_keys
+sort -u -o /home/admin/.ssh/authorized_keys /home/admin/.ssh/authorized_keys
+chmod 0600 /home/admin/.ssh/authorized_keys
+chown admin:admin /home/admin/.ssh/authorized_keys
+
+##### 4. Clone #####
+git clone https://github.com/elielberra/terminal-app.git "$REPO_DIR"
+chown -R admin:admin "$REPO_DIR"
+
+##### 5. Secrets #####
+install -m 0600 -o admin -g admin /dev/null "$REPO_DIR/terminal-app/.env.prod"
+ssm_get "${ssm_env_prod}" > "$REPO_DIR/terminal-app/.env.prod"
+install -m 0600 -o admin -g admin /dev/null "$REPO_DIR/rag-chain/.env"
+ssm_get "${ssm_rag_chain_env}" > "$REPO_DIR/rag-chain/.env"
+
+##### 6. Tor hidden service #####
+# Port 80 matches the 127.0.0.1:80:80 nginx bind in docker-compose-prod.yaml.
+cat > /etc/tor/torrc <<'EOF'
+HiddenServiceDir /var/lib/tor/hidden_service/
+HiddenServicePort 80 127.0.0.1:80
+EOF
+
+install -d -m 0700 -o debian-tor -g debian-tor /var/lib/tor/hidden_service
+ssm_get "${ssm_tor_secret_key}" | base64 -d > /var/lib/tor/hidden_service/hs_ed25519_secret_key
+ssm_get "${ssm_tor_public_key}" | base64 -d > /var/lib/tor/hidden_service/hs_ed25519_public_key
+ssm_get "${ssm_tor_hostname}" | tr -d '[:space:]' > /var/lib/tor/hidden_service/hostname
+chown -R debian-tor:debian-tor /var/lib/tor/hidden_service
+chmod 0600 /var/lib/tor/hidden_service/*
+
+systemctl enable --now tor
+sleep 10
+ACTUAL_ONION=$(tr -d '[:space:]' < /var/lib/tor/hidden_service/hostname)
+if [ "$ACTUAL_ONION" != "${expected_onion}" ]; then
+  echo "FATAL: onion address is $ACTUAL_ONION, expected ${expected_onion}" >&2
+  exit 1
+fi
+
+##### 7. Wait for the Elastic IP #####
+# Terraform associates the EIP after launch; certbot's HTTP-01 challenge would
+# hit the wrong address if it ran first.
+for _ in $(seq 1 60); do
+  TOKEN=$(curl -sf -X PUT http://169.254.169.254/latest/api/token \
+    -H "X-aws-ec2-metadata-token-ttl-seconds: 300")
+  CURRENT_IP=$(curl -sf -H "X-aws-ec2-metadata-token: $TOKEN" \
+    http://169.254.169.254/latest/meta-data/public-ipv4 || true)
+  [ "$CURRENT_IP" = "${expected_public_ip}" ] && break
+  sleep 5
+done
+if [ "$CURRENT_IP" != "${expected_public_ip}" ]; then
+  echo "FATAL: public IP is $CURRENT_IP, expected ${expected_public_ip}" >&2
+  exit 1
+fi
+
+##### 8. TLS certificate + auto-renewal #####
+# Standalone works because compose binds :80 on loopback only, leaving the
+# public :80 free for the ACME challenge.
+certbot certonly --standalone --non-interactive --agree-tos \
+  -m "${alert_email}" -d "${domain_name}" -d "www.${domain_name}"
+
+RENEWAL_CONF=/etc/letsencrypt/renewal/${domain_name}.conf
+sed -i 's/^authenticator = .*/authenticator = standalone/' "$RENEWAL_CONF"
+cat >> "$RENEWAL_CONF" <<EOF
+pre_hook = cd $REPO_DIR && docker compose -f docker-compose-prod.yaml down
+post_hook = cd $REPO_DIR && bash prod-restart.sh && bash iptables-rules.sh
+EOF
+systemctl enable --now certbot.timer
+
+##### 9. rag-chain store directory #####
+# Gitignored, so the clone did not create it. Docker would otherwise make it
+# root-owned 0755, which the container's uid-1001 process cannot write.
+install -d -m 0700 -o 1001 -g 1001 "$REPO_DIR/rag-chain/store"
+
+##### 10. Start the stack #####
+cd "$REPO_DIR"
+bash prod-restart.sh
+bash iptables-rules.sh
+
+##### 11. Build the vector store #####
+if [ ! -f "$REPO_DIR/rag-chain/store/store_embeddings.npy" ]; then
+  docker exec -w /rag-chain rag-chain python -m app.vector_store.vector_store build
+fi
+
+##### 12. Survive reboots #####
+# Neither the compose file nor iptables-rules.sh is wired to boot today.
+cat > /etc/systemd/system/terminal-app.service <<EOF
+[Unit]
+Description=terminal-app stack
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=$REPO_DIR
+ExecStart=/bin/bash prod-restart.sh
+ExecStartPost=/bin/bash iptables-rules.sh
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl enable terminal-app.service
+
+echo "user-data completed successfully"
