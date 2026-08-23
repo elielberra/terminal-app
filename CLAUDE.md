@@ -34,7 +34,7 @@ terminal-app/
 │       └── utils/         # Gemini client, IP geolocation
 ├── nginx/                 # nginx.conf.dev / nginx.conf.prod
 ├── apparmor/terminal-app  # AppArmor security profile
-├── terraform/             # AWS monitoring: Route 53 health check, CloudWatch alarm, SNS email alert
+├── terraform/             # Provisions the prod EC2 host + AWS monitoring (S3 remote state)
 ├── .github/workflows/     # CI/CD: ci-cd.yml (build, push, deploy)
 ├── docker-compose-dev.yaml
 ├── docker-compose-prod.yaml
@@ -211,7 +211,7 @@ Never run `git add`, `git commit`, or `git push` unless explicitly told to in th
 
 ## Sensitive Files — Do Not Access
 
-Claude must never read, cat, grep into, or otherwise open: `.env` / `.env.*` files (e.g. `rag-chain/.env`, `terminal-app/.env.prod`), or Terraform state/vars files (`terraform/*.tfvars`, `terraform/*.tfstate*`, `terraform/.terraform/`). These hold live secrets (API keys, AWS resource details). Work around them — e.g. reference `.env-dummy` for expected keys instead of the real file — and ask the user directly if their contents are needed.
+Claude must never read, cat, grep into, or otherwise open: `.env` / `.env.*` files (e.g. `rag-chain/.env`, `terminal-app/.env.prod`), or Terraform state/vars files anywhere under `terraform/` — including `terraform/bootstrap/` — (`terraform/**/*.tfvars`, `terraform/**/*.tfstate*`, `terraform/**/.terraform/`). These hold live secrets (API keys, AWS resource details). Work around them — e.g. reference `.env-dummy` for expected keys instead of the real file — and ask the user directly if their contents are needed.
 
 ---
 
@@ -248,9 +248,24 @@ The Go binary is cross-compiled for ARM64 in `terminal-app/Dockerfile.prod`'s bu
 
 ---
 
-## Infrastructure Monitoring (Terraform)
+## Infrastructure (Terraform)
 
-`terraform/` provisions AWS-side monitoring for elielberra.com, independent of the app deploy: a Route 53 HTTPS health check, a CloudWatch alarm on that health check's status, and an SNS topic emailing `berraeliel@gmail.com` on ALARM/OK transitions. Not applied by CI — run manually (`terraform init && terraform apply`) with AWS credentials that can manage Route 53/CloudWatch/SNS. See `terraform/README.md`.
+`terraform/` provisions the entire prod EC2 host, plus AWS-side monitoring for elielberra.com. **Applied manually by Eli, never by CI** — CI only deploys new app versions to an already-provisioned host (see CI/CD above). Single environment (prod only), flat root module, S3 remote state with native locking (no DynamoDB).
+
+### What it creates
+- **EC2 instance** (`ec2.tf`) — `t4g.small`, latest Debian 13 arm64 via a `most_recent` AMI data source (pinned against surprise replacement with `lifecycle { ignore_changes = [ami] }`), encrypted gp3 root volume, IMDSv2 required.
+- **Security group** (`security-group.tf`) — 22/80/443 open to `0.0.0.0/0` (22 stays open for GitHub Actions deploys), all outbound.
+- **Elastic IP** (`eip.tf`) — the existing allocation is only *looked up* and associated, never managed as a resource, so an apply/destroy can never release it.
+- **IAM role + instance profile** (`iam.tf`) — scoped to exactly `ssm:GetParameter`/`GetParameters` on the app's own SSM path. Nothing else.
+- **SSM Parameter Store secrets** (`ssm.tf`) — five `SecureString` parameters under `/terminal-app/*` (env files, Tor hidden-service keys/hostname), bootstrapped as empty placeholders with `lifecycle { ignore_changes = [value] }`. **Real values are inserted by hand with `aws ssm put-parameter`, never through a `.tf`/`.tfvars` file** — anything Terraform manages as a resource value ends up in plaintext state, so secrets are deliberately routed around it.
+- **`user_data` boot script** (`templates/user-data.sh.tftpl`) — runs once at first boot: installs Docker/git/Tor/certbot, fetches secrets from SSM, restores the Tor hidden-service keys and asserts the resulting `.onion` matches the expected one, waits for the EIP to attach before running certbot (standalone authenticator, since nginx only binds `:80` on loopback), wires up the certbot renewal hooks + `certbot.timer`, starts the compose stack, builds the rag-chain vector store (`docker exec -w /rag-chain rag-chain python -m app.vector_store.vector_store build` — the store is derived data, regenerated from `rag-chain/data/eliel.txt`, never backed up/restored), and installs a `terminal-app.service` systemd unit so `prod-restart.sh` + `iptables-rules.sh` re-run on every reboot.
+- **Monitoring** (`route53.tf`, `cloudwatch.tf`, `sns.tf`) — Route 53 HTTPS health check, a CloudWatch alarm on it, and an SNS topic emailing `berraeliel@gmail.com` on ALARM/OK transitions.
+
+### Running it
+- `terraform/bootstrap/` is a one-off, separately-applied module that creates the S3 state bucket (local state, self-hosting problem solved by being outside the backend it creates).
+- `terraform/terraform.tfvars` (gitignored) holds only non-secret values — see `terraform/terraform.tfvars.example`.
+- Replacing the instance (new AMI, changed `user_data`, etc.) only needs `terraform apply` against the existing state — the SSM parameters and IAM role persist across instance replacements, and the vector store rebuilds itself on every fresh boot.
+- See `terraform/README.md` for the full command sequence.
 
 ---
 

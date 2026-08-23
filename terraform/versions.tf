@@ -1,5 +1,6 @@
 terraform {
-  required_version = ">= 1.5"
+  # 1.11+ required for S3 native state locking (use_lockfile) in backend.tf.
+  required_version = ">= 1.11"
 
   required_providers {
     aws = {
@@ -7,10 +8,4 @@ terraform {
       version = "~> 5.0"
     }
   }
-}
-
-provider "aws" {
-  # Route 53 health check CloudWatch metrics only exist in us-east-1,
-  # regardless of which region the monitored endpoint is in.
-  region = "us-east-1"
 }
