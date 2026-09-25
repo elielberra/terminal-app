@@ -29,6 +29,10 @@ locals {
       name        = "/terminal-app/tor-hs-hostname"
       description = "The .onion hostname"
     }
+    cloudflare_tunnel_credentials = {
+      name        = "/terminal-app/cloudflare-tunnel-credentials"
+      description = "Contents of the cloudflared tunnel credentials JSON file (from `cloudflared tunnel create`)"
+    }
   }
 }
 

@@ -15,8 +15,8 @@ output "instance_id" {
 }
 
 output "public_ip" {
-  description = "The associated Elastic IP."
-  value       = aws_eip_association.app.public_ip
+  description = "The instance's (dynamic, non-Elastic) public IP. Only used for SSH/CI now — web traffic arrives via Cloudflare Tunnel."
+  value       = aws_instance.app.public_ip
 }
 
 output "public_dns" {
