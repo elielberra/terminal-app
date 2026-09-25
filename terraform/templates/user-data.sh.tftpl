@@ -17,8 +17,7 @@ apt-get update -y
 apt-get install -y ca-certificates curl gnupg git awscli apparmor apparmor-utils tor
 
 ##### 1b. cloudflared #####
-# Direct arm64 .deb rather than Cloudflare's apt repo: the repo only tracks a
-# handful of Debian/Ubuntu codenames and lags new releases (e.g. no trixie).
+# Direct .deb, not Cloudflare's apt repo: it lags new Debian codenames (no trixie yet).
 curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64.deb \
   -o /tmp/cloudflared.deb
 dpkg -i /tmp/cloudflared.deb
@@ -75,9 +74,7 @@ if [ "$ACTUAL_ONION" != "${expected_onion}" ]; then
 fi
 
 ##### 7. Cloudflare Tunnel #####
-# Terminates public traffic (HTTP/HTTPS + TLS) at Cloudflare's edge; the
-# tunnel carries it to nginx on 127.0.0.1:80. No inbound 80/443, no EIP,
-# no certbot.
+# Replaces inbound 80/443 + the EIP + certbot: Cloudflare terminates TLS and tunnels to nginx.
 install -d -m 0700 /etc/cloudflared
 ssm_get "${ssm_cf_tunnel_creds}" > /etc/cloudflared/${cloudflare_tunnel_id}.json
 chmod 0600 /etc/cloudflared/${cloudflare_tunnel_id}.json

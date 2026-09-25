@@ -1,6 +1,4 @@
-# Replaces the console-created "launch-wizard-2" group. Web traffic no longer
-# reaches the instance directly (cloudflared makes an outbound-only tunnel to
-# Cloudflare's edge), so only SSH stays open.
+# Only SSH is open; web traffic arrives via an outbound-only Cloudflare Tunnel.
 resource "aws_security_group" "app" {
   name        = "terminal-app-sg"
   description = "terminal-app: SSH only (web traffic arrives via Cloudflare Tunnel)"
