@@ -38,12 +38,13 @@ resource "aws_instance" "app" {
     alert_email          = var.alert_email
     ci_deploy_public_key = var.ci_deploy_public_key
     expected_onion       = var.onion_hostname
-    expected_public_ip   = data.aws_eip.app.public_ip
     ssm_env_prod         = aws_ssm_parameter.secret["env_prod"].name
     ssm_rag_chain_env    = aws_ssm_parameter.secret["rag_chain_env"].name
     ssm_tor_secret_key   = aws_ssm_parameter.secret["tor_hs_secret_key"].name
     ssm_tor_public_key   = aws_ssm_parameter.secret["tor_hs_public_key"].name
     ssm_tor_hostname     = aws_ssm_parameter.secret["tor_hs_hostname"].name
+    cloudflare_tunnel_id = var.cloudflare_tunnel_id
+    ssm_cf_tunnel_creds  = aws_ssm_parameter.secret["cloudflare_tunnel_credentials"].name
   })
 
   # A newly published Debian AMI must never silently destroy prod. Bump

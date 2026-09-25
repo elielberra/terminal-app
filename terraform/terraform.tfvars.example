@@ -9,6 +9,7 @@ ssh_public_key = "ssh-rsa AAAA... admin@example"
 # Public half of the CI deploy keypair (matches the EC2_SSH_KEY GitHub secret).
 ci_deploy_public_key = "ssh-ed25519 AAAA... github-actions-deploy"
 
-# Existing Elastic IP to re-associate. It is looked up, never managed, so an
-# apply or destroy can't release it.
-eip_allocation_id = "eipalloc-xxxxxxxxxxxxxxxxx"
+# UUID of the cloudflared tunnel (from `cloudflared tunnel create <name>`).
+# Not secret. The tunnel's credentials JSON goes into the
+# cloudflare_tunnel_credentials SSM parameter instead (`aws ssm put-parameter`).
+cloudflare_tunnel_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
