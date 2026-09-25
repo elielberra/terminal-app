@@ -14,7 +14,14 @@ ssm_get() {
 ##### 1. Packages #####
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
-apt-get install -y ca-certificates curl gnupg git awscli apparmor apparmor-utils tor certbot
+apt-get install -y ca-certificates curl gnupg git awscli apparmor apparmor-utils tor
+
+##### 1b. cloudflared #####
+# Direct .deb, not Cloudflare's apt repo: it lags new Debian codenames (no trixie yet).
+curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64.deb \
+  -o /tmp/cloudflared.deb
+dpkg -i /tmp/cloudflared.deb
+rm -f /tmp/cloudflared.deb
 
 ##### 2. Docker #####
 install -m 0755 -d /etc/apt/keyrings
@@ -66,51 +73,41 @@ if [ "$ACTUAL_ONION" != "${expected_onion}" ]; then
   exit 1
 fi
 
-##### 7. Wait for the Elastic IP #####
-# Terraform associates the EIP after launch; certbot's HTTP-01 challenge would
-# hit the wrong address if it ran first.
-for _ in $(seq 1 60); do
-  TOKEN=$(curl -sf -X PUT http://169.254.169.254/latest/api/token \
-    -H "X-aws-ec2-metadata-token-ttl-seconds: 300")
-  CURRENT_IP=$(curl -sf -H "X-aws-ec2-metadata-token: $TOKEN" \
-    http://169.254.169.254/latest/meta-data/public-ipv4 || true)
-  [ "$CURRENT_IP" = "${expected_public_ip}" ] && break
-  sleep 5
-done
-if [ "$CURRENT_IP" != "${expected_public_ip}" ]; then
-  echo "FATAL: public IP is $CURRENT_IP, expected ${expected_public_ip}" >&2
-  exit 1
-fi
+##### 7. Cloudflare Tunnel #####
+# Replaces inbound 80/443 + the EIP + certbot: Cloudflare terminates TLS and tunnels to nginx.
+install -d -m 0700 /etc/cloudflared
+ssm_get "${ssm_cf_tunnel_creds}" > /etc/cloudflared/${cloudflare_tunnel_id}.json
+chmod 0600 /etc/cloudflared/${cloudflare_tunnel_id}.json
 
-##### 8. TLS certificate + auto-renewal #####
-# Standalone works because compose binds :80 on loopback only, leaving the
-# public :80 free for the ACME challenge.
-certbot certonly --standalone --non-interactive --agree-tos \
-  -m "${alert_email}" -d "${domain_name}" -d "www.${domain_name}"
-
-RENEWAL_CONF=/etc/letsencrypt/renewal/${domain_name}.conf
-sed -i 's/^authenticator = .*/authenticator = standalone/' "$RENEWAL_CONF"
-cat >> "$RENEWAL_CONF" <<EOF
-pre_hook = cd $REPO_DIR && docker compose -f docker-compose-prod.yaml down
-post_hook = cd $REPO_DIR && bash prod-restart.sh
+cat > /etc/cloudflared/config.yml <<EOF
+tunnel: ${cloudflare_tunnel_id}
+credentials-file: /etc/cloudflared/${cloudflare_tunnel_id}.json
+ingress:
+  - hostname: ${domain_name}
+    service: http://localhost:80
+  - hostname: www.${domain_name}
+    service: http://localhost:80
+  - service: http_status:404
 EOF
-systemctl enable --now certbot.timer
 
-##### 9. rag-chain store directory #####
+cloudflared service install
+systemctl enable --now cloudflared
+
+##### 8. rag-chain store directory #####
 # Gitignored, so the clone did not create it. Docker would otherwise make it
 # root-owned 0755, which the container's uid-1001 process cannot write.
 install -d -m 0700 -o 1001 -g 1001 "$REPO_DIR/rag-chain/store"
 
-##### 10. Start the stack #####
+##### 9. Start the stack #####
 cd "$REPO_DIR"
 bash prod-restart.sh
 
-##### 11. Build the vector store #####
+##### 10. Build the vector store #####
 if [ ! -f "$REPO_DIR/rag-chain/store/store_embeddings.npy" ]; then
   docker exec -w /rag-chain rag-chain python -m app.vector_store.vector_store build
 fi
 
-##### 12. Survive reboots #####
+##### 11. Survive reboots #####
 # Neither the compose file nor iptables-rules.sh is wired to boot today.
 cat > /etc/systemd/system/terminal-app.service <<EOF
 [Unit]

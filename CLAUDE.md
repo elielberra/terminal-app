@@ -7,7 +7,7 @@
 Three main services, all containerized via Docker Compose:
 1. **terminal-app** — Go WebSocket server + PTY + static frontend (xterm.js) + Bash scripts
 2. **rag-chain** — Python FastAPI microservice powering the AI chatbot
-3. **nginx** — Reverse proxy (HTTP dev / HTTPS+Tor prod)
+3. **nginx** — Reverse proxy (HTTP dev / prod: plain HTTP behind Cloudflare Tunnel + Tor, no public TLS listener)
 
 ---
 
@@ -199,7 +199,7 @@ The frontend is served directly by the Go HTTP server (`http.FileServer`). No bu
 
 ## Code Style
 
-Avoid comments unless strictly necessary. When one is warranted, keep it to a single short line explaining *what*/*why*, not *how*.
+Avoid code comments at all costs. On the rare occasion one is truly unavoidable, keep it to a single short line explaining *why*, never *what* or *how*.
 
 PR descriptions: simple, high-level, concrete, and short — a few bullets on what/why, not an exhaustive walkthrough.
 
@@ -241,7 +241,7 @@ Runs on an AWS EC2 instance (Debian, ARM64). `docker-compose-prod.yaml` pulls th
 1. Links `apparmor/terminal-app` to `/etc/apparmor.d/`
 2. Reloads AppArmor
 3. Records the current local image ID for `elober/terminal-app:latest` and `elober/rag-chain:latest`
-4. Brings up containers with `docker-compose-prod.yaml up -d --pull always` (detached, pulls the latest images, no live mounts, read-only, port 443)
+4. Brings up containers with `docker-compose-prod.yaml up -d --pull always` (detached, pulls the latest images, no live mounts, read-only, nginx bound to `127.0.0.1:80` only — reached via Cloudflare Tunnel, not exposed publicly)
 5. Compares each service's image ID before/after; if a service's image actually changed, removes the superseded image (`docker rmi`) so old images don't pile up on disk. If nothing changed, nothing is pruned.
 6. Re-runs `iptables-rules.sh` — container IPs are reassigned on every restart, so the outbound-block firewall rule (see Security Constraints) must be reapplied each time, not just at boot.
 
@@ -255,12 +255,11 @@ The Go binary is cross-compiled for ARM64 in `terminal-app/Dockerfile.prod`'s bu
 
 ### What it creates
 - **EC2 instance** (`ec2.tf`) — `t4g.small`, latest Debian 13 arm64 via a `most_recent` AMI data source (pinned against surprise replacement with `lifecycle { ignore_changes = [ami] }`), encrypted gp3 root volume, IMDSv2 required.
-- **Security group** (`security-group.tf`) — 22/80/443 open to `0.0.0.0/0` (22 stays open for GitHub Actions deploys), all outbound.
-- **Elastic IP** (`eip.tf`) — the existing allocation is only *looked up* and associated, never managed as a resource, so an apply/destroy can never release it.
+- **Security group** (`security-group.tf`) — only 22 open to `0.0.0.0/0` (for admin SSH and GitHub Actions deploys), all outbound. No inbound 80/443: web traffic reaches nginx via an outbound-only **Cloudflare Tunnel** (`cloudflared`), not a public listener, so there's no Elastic IP and no certbot — Cloudflare terminates TLS at its edge and `cloudflared` forwards to nginx on `127.0.0.1:80`. SSH still relies on the instance's regular (non-Elastic) public IP, which can change if the instance stops/starts — update the `EC2_HOST` GitHub secret if that happens.
 - **IAM role + instance profile** (`iam.tf`) — scoped to exactly `ssm:GetParameter`/`GetParameters` on the app's own SSM path. Nothing else.
-- **SSM Parameter Store secrets** (`ssm.tf`) — five `SecureString` parameters under `/terminal-app/*` (env files, Tor hidden-service keys/hostname), bootstrapped as empty placeholders with `lifecycle { ignore_changes = [value] }`. **Real values are inserted by hand with `aws ssm put-parameter`, never through a `.tf`/`.tfvars` file** — anything Terraform manages as a resource value ends up in plaintext state, so secrets are deliberately routed around it.
-- **`user_data` boot script** (`templates/user-data.sh.tftpl`) — runs once at first boot: installs Docker/git/Tor/certbot, fetches secrets from SSM, restores the Tor hidden-service keys and asserts the resulting `.onion` matches the expected one, waits for the EIP to attach before running certbot (standalone authenticator, since nginx only binds `:80` on loopback), wires up the certbot renewal hooks + `certbot.timer`, starts the compose stack, builds the rag-chain vector store (`docker exec -w /rag-chain rag-chain python -m app.vector_store.vector_store build` — the store is derived data, regenerated from `rag-chain/data/eliel.txt`, never backed up/restored), and installs a `terminal-app.service` systemd unit so `prod-restart.sh` (which itself re-runs `iptables-rules.sh`) re-runs on every reboot.
-- **Monitoring** (`route53.tf`, `cloudwatch.tf`, `sns.tf`) — Route 53 HTTPS health check, a CloudWatch alarm on it, and an SNS topic emailing `berraeliel@gmail.com` on ALARM/OK transitions.
+- **SSM Parameter Store secrets** (`ssm.tf`) — six `SecureString` parameters under `/terminal-app/*` (env files, Tor hidden-service keys/hostname, cloudflared tunnel credentials JSON), bootstrapped as empty placeholders with `lifecycle { ignore_changes = [value] }`. **Real values are inserted by hand with `aws ssm put-parameter`, never through a `.tf`/`.tfvars` file** — anything Terraform manages as a resource value ends up in plaintext state, so secrets are deliberately routed around it. The tunnel's UUID itself (not secret) is the `cloudflare_tunnel_id` variable.
+- **`user_data` boot script** (`templates/user-data.sh.tftpl`) — runs once at first boot: installs Docker/git/Tor/cloudflared, fetches secrets from SSM, restores the Tor hidden-service keys and asserts the resulting `.onion` matches the expected one, writes `/etc/cloudflared/config.yml` + the tunnel credentials and enables `cloudflared` as a systemd service (routes `elielberra.com`/`www.elielberra.com` to nginx on `127.0.0.1:80`), starts the compose stack, builds the rag-chain vector store (`docker exec -w /rag-chain rag-chain python -m app.vector_store.vector_store build` — the store is derived data, regenerated from `rag-chain/data/eliel.txt`, never backed up/restored), and installs a `terminal-app.service` systemd unit so `prod-restart.sh` (which itself re-runs `iptables-rules.sh`) re-runs on every reboot.
+- **Monitoring** (`route53.tf`, `cloudwatch.tf`, `sns.tf`) — Route 53 HTTPS health check against the public domain (now resolves through Cloudflare's edge, not the origin directly), a CloudWatch alarm on it, and an SNS topic emailing `berraeliel@gmail.com` on ALARM/OK transitions.
 
 ### Running it
 - `terraform/bootstrap/` is a one-off, separately-applied module that creates the S3 state bucket (local state, self-hosting problem solved by being outside the backend it creates).
