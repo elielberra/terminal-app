@@ -26,13 +26,13 @@ variable "ci_deploy_public_key" {
   type        = string
 }
 
-variable "eip_allocation_id" {
-  description = "Allocation ID of the existing Elastic IP to re-associate (not managed by Terraform, so it can never be released by an apply/destroy)."
-  type        = string
-}
-
 variable "onion_hostname" {
   description = "Expected .onion hostname, used by user_data to assert the restored Tor keys produced the right address."
   type        = string
   default     = "varayg7x6dwre6i5hbcyoxa5zi3t766lnlszvqawhmi6hdfx4c4dyxqd.onion"
+}
+
+variable "cloudflare_tunnel_id" {
+  description = "UUID of the cloudflared tunnel (from `cloudflared tunnel create`). Not secret — the tunnel's secret lives in the cloudflare_tunnel_credentials SSM parameter."
+  type        = string
 }
