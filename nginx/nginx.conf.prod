@@ -1,6 +1,10 @@
 events {}
 
 http {
+    # All three server_names now share one listening socket (:80), so their
+    # hash table must fit the 56-char .onion address too.
+    server_names_hash_bucket_size 128;
+
     server {
         listen 80;
         server_name www.elielberra.com;
