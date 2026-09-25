@@ -199,7 +199,7 @@ The frontend is served directly by the Go HTTP server (`http.FileServer`). No bu
 
 ## Code Style
 
-Avoid comments unless strictly necessary. When one is warranted, keep it to a single short line explaining *what*/*why*, not *how*.
+Avoid code comments at all costs. On the rare occasion one is truly unavoidable, keep it to a single short line explaining *why*, never *what* or *how*.
 
 PR descriptions: simple, high-level, concrete, and short — a few bullets on what/why, not an exhaustive walkthrough.
 
