@@ -36,3 +36,9 @@ variable "cloudflare_tunnel_id" {
   description = "UUID of the cloudflared tunnel (from `cloudflared tunnel create`). Not secret — the tunnel's secret lives in the cloudflare_tunnel_credentials SSM parameter."
   type        = string
 }
+
+variable "github_repo" {
+  description = "owner/repo used to update the EC2_HOST secret via the gh CLI when the instance's public IP changes. Not secret."
+  type        = string
+  default     = "elielberra/terminal-app"
+}
