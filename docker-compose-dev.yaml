@@ -1,6 +1,9 @@
 services:
   nginx:
     image: nginx:1.29.1
+    restart: on-failure
+    depends_on:
+      - terminal-app
     ports:
       - "80:80"
     volumes:
