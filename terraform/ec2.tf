@@ -58,7 +58,7 @@ resource "aws_instance" "app" {
   }
 }
 
-# No Elastic IP, so keep the CI deploy secret synced to the instance's current IP.
+# No Elastic IP, so keep the CI deploy secret and the local ssh config synced to the instance's current address.
 resource "terraform_data" "ec2_host_secret" {
   triggers_replace = {
     public_ip = aws_instance.app.public_ip
@@ -66,5 +66,12 @@ resource "terraform_data" "ec2_host_secret" {
 
   provisioner "local-exec" {
     command = "gh secret set EC2_HOST --repo ${var.github_repo} --body '${aws_instance.app.public_ip}'"
+  }
+
+  provisioner "local-exec" {
+    on_failure = continue
+    command    = <<-EOT
+      sed -i '/^Host terminal-app$/,/^Host /s|^\([[:space:]]*HostName\).*|\1 ${aws_instance.app.public_dns}|' "$HOME/.ssh/config"
+    EOT
   }
 }
