@@ -37,6 +37,11 @@ variable "cloudflare_tunnel_id" {
   type        = string
 }
 
+variable "cloudflare_zone_id" {
+  description = "ID of the elielberra.com Cloudflare zone (dashboard → Overview → API). Not secret."
+  type        = string
+}
+
 variable "github_repo" {
   description = "owner/repo used to update the EC2_HOST secret via the gh CLI when the instance's public IP changes. Not secret."
   type        = string
