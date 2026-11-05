@@ -17,6 +17,8 @@ terraform plan
 terraform apply
 ```
 
+The Cloudflare provider reads its API token from the `CLOUDFLARE_API_TOKEN` env var (scope: Zone Settings → Edit on the zone), never from a `.tf`/`.tfvars` file. It manages only the zone's minimum TLS version (1.2).
+
 After `apply`, check the inbox for `var.alert_email` and click the SNS subscription confirmation link — no alerts are delivered until that's confirmed.
 
 ## Variables

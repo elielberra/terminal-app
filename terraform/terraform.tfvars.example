@@ -13,3 +13,6 @@ ci_deploy_public_key = "ssh-ed25519 AAAA... github-actions-deploy"
 # Not secret. The tunnel's credentials JSON goes into the
 # cloudflare_tunnel_credentials SSM parameter instead (`aws ssm put-parameter`).
 cloudflare_tunnel_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+# ID of the elielberra.com Cloudflare zone (dashboard → Overview → API). Not secret.
+cloudflare_zone_id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
