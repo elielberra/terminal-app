@@ -8,6 +8,7 @@ docker compose -f docker-compose-dev.yaml down --remove-orphans
 
 # Build the Go App
 cd terminal-app
+rm -f terminal-app
 if ! go build -o terminal-app main.go; then
   echo "❌ Failed to build Go App. Aborting."
   exit 1
