@@ -27,11 +27,11 @@ terminal-app/
 ├── rag-chain/             # Python microservice
 │   ├── main.py            # Uvicorn entry point (Unix socket or TCP)
 │   └── app/
-│       ├── api/server.py  # FastAPI routes: /ask /locate /conversation
+│       ├── api/server.py  # FastAPI routes: /ask /conversation
 │       ├── rag/chain.py   # LangGraph RAG pipeline (retrieve → generate)
 │       ├── db/store.py    # SQLite persistence (conversations table)
 │       ├── vector_store/  # NumPy embeddings + cosine similarity search
-│       └── utils/         # Gemini client, IP geolocation
+│       └── utils/         # Gemini client
 ├── nginx/                 # nginx.conf.dev / nginx.conf.prod
 ├── apparmor/terminal-app  # AppArmor security profile
 ├── terraform/             # Provisions the prod EC2 host + AWS monitoring (S3 remote state)
@@ -87,9 +87,8 @@ docker compose -f docker-compose-dev.yaml logs -f rag-chain
 
 `terminal-app/main.go` listens on port 8080. On `/ws`:
 1. Extracts user language from `Accept-Language` header → sets `USER_LANG` env var
-2. Extracts user IP from `X-Real-IP` or remote address → sets `USER_IP`
-3. Spawns `/bin/rbash --rcfile /home/web-user/.bashrc -i` as `web-user` (UID 1001)
-4. Creates a PTY; bidirectional relay between PTY output and WebSocket binary frames
+2. Spawns `/bin/rbash --rcfile /home/web-user/.bashrc -i` as `web-user` (UID 1001)
+3. Creates a PTY; bidirectional relay between PTY output and WebSocket binary frames
 5. Resize messages from the client are JSON: `{"type":"resize","cols":N,"rows":N}`
 
 ### Signal Protocol (Bash → Frontend)
@@ -113,7 +112,6 @@ Bash scripts emit special string signals that `signalHandler.js` intercepts. The
 terminal-app ↔ rag-chain communicate via **Unix socket** at `/sockets/rag.sock` (Docker named volume `rag_sock`). No TCP exposure, not even on the internal Docker network.
 
 `chatbot.sh` uses `curl --unix-socket /sockets/rag.sock`:
-- `GET  http://localhost/locate?ip=<ip>` — geolocate user
 - `POST http://localhost/ask` — send question, get AI answer
 - `POST http://localhost/conversation` — save full conversation on exit
 
@@ -136,8 +134,6 @@ Schema:
 CREATE TABLE conversations (
     session_id TEXT      PRIMARY KEY,
     content    TEXT      NOT NULL,
-    ip         TEXT,
-    location   TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 ```

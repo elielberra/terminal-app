@@ -43,17 +43,15 @@ Anonymous users connect via WebSocket and get a PTY running `/bin/rbash` as `web
 - The `/ask` and `/conversation` endpoints receive data from the terminal. Is input validated/length-limited in `api/server.py`?
 - Could a user craft a question that causes the RAG chain to consume excessive resources (prompt injection, very long input)?
 - Is there any rate limiting on the socket endpoints? Can a user spam `/ask` to exhaust the Google API quota or cause a DoS?
-- Does `/locate` return data that is later displayed in the terminal? Could it contain terminal escape sequences (ANSI injection)?
 
 ### LLM / chatbot security
 - Does the Gemini system prompt in `rag/chain.py` robustly refuse to reveal its instructions or act outside its scope?
 - Can prompt injection via crafted questions leak the injected CV context?
 - Is the session_id generated in `chatbot.sh` collision-resistant? Could one user overwrite another's conversation record?
-- Conversations include user IP and location — is this data protected appropriately?
 
 ### Network isolation
 - The terminal-app container should have no outbound internet access. Do any new scripts try to make network calls (wget, curl to external URLs, etc.)?
-- The rag-chain is allowed outbound access (needs Google API and ip-api.com). Are those the only external endpoints it contacts?
+- The rag-chain is allowed outbound access (needs Google API). Are those the only external endpoints it contacts?
 - Does `nginx.conf` restrict methods and paths sufficiently? Could an attacker craft a request that bypasses the WebSocket proxy and hits the Go server directly?
 
 ### Container & filesystem hardening
