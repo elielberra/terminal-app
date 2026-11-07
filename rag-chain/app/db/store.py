@@ -7,8 +7,6 @@ _SCHEMA = """
     CREATE TABLE IF NOT EXISTS conversations (
         session_id TEXT      PRIMARY KEY,
         content    TEXT      NOT NULL,
-        ip         TEXT,
-        location   TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 """
@@ -21,16 +19,16 @@ def init_db():
         con.execute(_SCHEMA)
         con.commit()
 
-def upsert_message(session_id: str, content: str, ip: str = None, location: str = None):
+def upsert_message(session_id: str, content: str):
     with _conn() as con:
         con.execute(_SCHEMA)
         con.execute(
             """
-            INSERT INTO conversations (session_id, content, ip, location)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO conversations (session_id, content)
+            VALUES (?, ?)
             ON CONFLICT(session_id) DO UPDATE SET
                 content = content || excluded.content
             """,
-            (session_id, content, ip, location),
+            (session_id, content),
         )
         con.commit()
