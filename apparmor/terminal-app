@@ -19,6 +19,7 @@ profile terminal-app flags=(attach_disconnected) {
   # shared libraries
   /lib/**                                 mr,
   /usr/lib/**                             mr,
+  /usr/share/terminfo/**                  r,
 
   # terminals
   /dev/ptmx                               rw,

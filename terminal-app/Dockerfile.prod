@@ -1,4 +1,4 @@
-FROM golang:1.23-bookworm as builder
+FROM golang:1.27.3-trixie@sha256:af1bfc2614ebb1dbd31af514b78740fd678850e76498762b425ecee4c5c6ea80 AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY main.go ./
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o terminal-app main.go
 
-FROM debian:bookworm
+FROM debian:trixie@sha256:9c6e381421d0f48d1b8133e573f33c185ee16cbf505eda9c4a8a4791b25ea8a6
 
 WORKDIR /app
 
