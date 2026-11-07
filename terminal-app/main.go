@@ -30,6 +30,8 @@ type wsCfg struct {
 	AllowedOrigins []string
 }
 
+const maxMessageBytes = 4096
+
 const (
 	SPANISH userLanguage = "ES"
 	ENGLISH userLanguage = "EN"
@@ -100,6 +102,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	userLanguage := getUserLanguage(r)
 	defer conn.Close()
+	conn.SetReadLimit(maxMessageBytes)
 
 	cmd := exec.Command(
 		"/bin/rbash",
