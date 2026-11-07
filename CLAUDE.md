@@ -202,7 +202,7 @@ PR descriptions: simple, high-level, concrete, and short — a few bullets on wh
 
 ## Git Operations
 
-Never run `git add`, `git commit`, or `git push` unless explicitly told to in that turn. A request that merely implies it ("create a PR", "ship this", "merge it") is NOT authorization — do everything else, then stop and ask before the git-mutating part.
+Never run `git add`, `git commit`, or `git push` unless explicitly told to in that turn.
 
 ---
 
@@ -264,9 +264,3 @@ The Go binary is cross-compiled for ARM64 in `terminal-app/Dockerfile.prod`'s bu
 - `terraform/terraform.tfvars` (gitignored) holds only non-secret values — see `terraform/terraform.tfvars.example`.
 - Replacing the instance (new AMI, changed `user_data`, etc.) only needs `terraform apply` against the existing state — the SSM parameters and IAM role persist across instance replacements, and the vector store rebuilds itself on every fresh boot.
 - See `terraform/README.md` for the full command sequence.
-
----
-
-## Garak (LLM Security Testing)
-
-`garak/` contains configuration and results for [Garak](https://github.com/NVIDIA/garak) LLM probe tests, used to test jailbreak resistance of the chatbot. Not part of the main app — ignore when working on features.

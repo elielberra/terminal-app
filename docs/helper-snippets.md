@@ -1,6 +1,6 @@
 # Helper Snippets
 
-Ad-hoc commands for local development and production maintenance. These are manual, one-off notes — day-to-day dev and deploy workflows are documented in [SETUP-DEV.md](SETUP-DEV.md), [CLAUDE.md](CLAUDE.md), and `terraform/README.md`.
+Ad-hoc commands for local development and production maintenance. These are manual, one-off notes — day-to-day dev and deploy workflows are documented in [SETUP-DEV.md](SETUP-DEV.md), [CLAUDE.md](../CLAUDE.md), and `terraform/README.md`.
 
 ## Index
 1. [Local Development](#local-development)
