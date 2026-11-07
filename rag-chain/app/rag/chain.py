@@ -1,9 +1,12 @@
 from typing import TypedDict
+from google.genai import types
 from langgraph.graph import StateGraph, END
 from app.vector_store import vector_store as vs
 from app.utils.google_api import get_client
 import sys
 import traceback
+
+MAX_OUTPUT_TOKENS = 600
 
 class RAGState(TypedDict):
     question: str
@@ -71,7 +74,11 @@ def generate(state: RAGState) -> RAGState:
             f"Question:\n{state['question']}\n\n"
             "Answer:"
         )
-        resp = client.models.generate_content(model="gemini-2.5-flash-lite", contents=prompt)
+        resp = client.models.generate_content(
+            model="gemini-2.5-flash-lite",
+            contents=prompt,
+            config=types.GenerateContentConfig(max_output_tokens=MAX_OUTPUT_TOKENS),
+        )
         answer_text = (resp.text or "").strip()
     except Exception as e:
         traceback.print_exc(file=sys.stderr)
