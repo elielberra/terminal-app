@@ -26,20 +26,6 @@ if ! sudo apparmor_parser -r -W /etc/apparmor.d/terminal-app; then
   exit 1
 fi
 
-# Open new Chromw Window with terminal-app URL
-# Run in background so docker compose stays attached and shows logs
-# Wait 1 second for the container to run 
-# (sleep 2 && google-chrome --new-window http://localhost) &
-(
-  for i in {1..30}; do
-    if curl -s -o /dev/null -w "%{http_code}" http://localhost | grep -q 200; then
-      (sleep 0.5 && google-chrome --new-window http://localhost) &
-      break
-    fi
-    sleep 1
-  done
-) &
-
 # Spawn new container
 if ! docker compose -f docker-compose-dev.yaml up --build; then
   echo "❌ Failed to spawn terminal-app container. Aborting."
