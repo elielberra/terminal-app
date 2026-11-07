@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: nginx:1.30.6@sha256:42c68eab6f7e22611786a9fe1d1c019e275c50185bd54b8f75dc2b9184322703
+    image: nginx:1.31.7@sha256:8632b3314d74c61f0e27f59055bab13f7793b988c94c090154d867bc29e0f39b
     ports:
       - "127.0.0.1:80:80"
     volumes:
