@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from app.rag.chain import build_app
 from app.db.store import init_db, upsert_message
 
@@ -8,7 +8,7 @@ rag = build_app()
 init_db()
 
 class AskRequest(BaseModel):
-    question: str
+    question: str = Field(min_length=1, max_length=500)
     session_id: str | None = None
 
 class AskResponse(BaseModel):
@@ -17,7 +17,7 @@ class AskResponse(BaseModel):
 
 class ConversationRequest(BaseModel):
     session_id: str
-    content: str
+    content: str = Field(min_length=1, max_length=10000)
 
 @app.post("/ask", response_model=AskResponse)
 def ask(req: AskRequest):
