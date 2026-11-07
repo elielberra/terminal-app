@@ -75,8 +75,6 @@ declare -A SERVER_ERROR_TXT=(
   [ES]=${SERVER_ERROR_ES}
 )
 
-MAX_INPUT_LENGTH=500
-
 SESSION_ID="$$${RANDOM}${RANDOM}"
 
 clear
@@ -84,9 +82,7 @@ echo -e "${INTERACTIVE_CHATBOT_TXT[$USER_LANG]}" | fmt -w $(tput cols)
 
 while true; do
   echo -ne "${YELLOW}${YOU_TXT[$USER_LANG]}:${RESET} "
-  read -r user_input
-  user_input="${user_input//[![:print:]]/}"
-  user_input="${user_input:0:$MAX_INPUT_LENGTH}"
+  read user_input
   if [[ -z "${user_input// }" ]]; then
     continue
   elif [[ "${user_input,,}" == "exit" || "${user_input,,}" == "salir" ]]; then
@@ -107,8 +103,7 @@ while true; do
     continue
   fi
   answer=$(echo "$response" | jq -r '.answer')
-  answer="${answer//[![:print:]$'\n']/}"
-  printf '%b%s\n' "${BLUE}Eliel:${RESET} " "$answer" | fmt -w "$(tput cols)"
+  echo -e "${BLUE}Eliel:${RESET} $answer" | fmt -w "$(tput cols)"
   exchange="${YOU_TXT[$USER_LANG]}: ${user_input}
 Eliel: ${answer}
 "
