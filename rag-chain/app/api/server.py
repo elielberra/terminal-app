@@ -1,7 +1,5 @@
-import re
-
 from fastapi import FastAPI
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 from app.rag.chain import build_app
 from app.db.store import init_db, upsert_message
 
@@ -9,24 +7,16 @@ app = FastAPI()
 rag = build_app()
 init_db()
 
-CONTROL_CHARS = re.compile(r"[\x00-\x08\x0b-\x1f\x7f-\x9f]")
-
-class SanitizedModel(BaseModel):
-    @field_validator("*", mode="before")
-    @classmethod
-    def strip_control(cls, value):
-        return CONTROL_CHARS.sub("", value) if isinstance(value, str) else value
-
-class AskRequest(SanitizedModel):
+class AskRequest(BaseModel):
     question: str = Field(min_length=1, max_length=500)
-    session_id: str | None = Field(default=None, max_length=64)
+    session_id: str | None = None
 
 class AskResponse(BaseModel):
     answer: str
     error: bool
 
-class ConversationRequest(SanitizedModel):
-    session_id: str = Field(min_length=1, max_length=64, pattern=r"^[0-9]+$")
+class ConversationRequest(BaseModel):
+    session_id: str
     content: str = Field(min_length=1, max_length=10000)
 
 @app.post("/ask", response_model=AskResponse)
