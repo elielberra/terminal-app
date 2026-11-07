@@ -1,0 +1,11 @@
+[project]
+name = "rag-chain"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [
+    "numpy==2.5.4",
+    "langgraph==1.2.20",
+    "google-genai==3.0.0",
+    "fastapi==0.162.2",
+    "uvicorn==0.54.0",
+]
