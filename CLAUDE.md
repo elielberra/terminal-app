@@ -26,6 +26,7 @@ terminal-app/
 │       └── ...
 ├── rag-chain/             # Python microservice
 │   ├── main.py            # Uvicorn entry point (Unix socket or TCP)
+│   ├── pyproject.toml     # Dependencies (managed with uv; uv.lock is the lockfile)
 │   └── app/
 │       ├── api/server.py  # FastAPI routes: /ask /conversation
 │       ├── rag/chain.py   # LangGraph RAG pipeline (retrieve → generate)
