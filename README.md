@@ -57,7 +57,7 @@ The `terminal-app` and `rag-chain` containers communicate through a **Unix socke
 ---
 
 ## Nginx Proxy
-**Nginx** works as a reverse proxy that connects the frontend and backend. It serves the static files, forwards WebSocket traffic, and manages HTTPS connections with SSL certificates.
+**Nginx** works as a reverse proxy that connects the frontend and backend. It serves the static files, forwards WebSocket traffic, and adds strict security headers to every response. HTTPS is handled by Cloudflare before the traffic reaches Nginx.
 
 ---
 
@@ -66,7 +66,7 @@ Every service in the terminal-app runs inside its own **Docker container**. The 
 
 Deployment splits into two independent concerns:
 
-**Infrastructure.** The production server is an AWS EC2 instance provisioned entirely with **Terraform** — the instance itself, networking, IAM, and secrets storage. A single boot script installs Docker, clones the repo, restores secrets, configures the Tor hidden service, issues and auto-renews the SSL certificate, and starts the stack, so a fresh host comes up fully working with no manual steps. This is applied by hand, not by CI, since it changes the server itself rather than the app running on it.
+**Infrastructure.** The production server is an AWS EC2 instance provisioned entirely with **Terraform** — the instance itself, networking, IAM, and secrets storage. A single boot script installs Docker, clones the repo, restores secrets, configures the Tor hidden service, connects the Cloudflare Tunnel, and starts the stack, so a fresh host comes up fully working with no manual steps. This is applied by hand, not by CI, since it changes the server itself rather than the app running on it.
 
 **Application.** Shipping a new version of the app is handled by **GitHub Actions**. On every push to `main`, CI builds Docker images for the Go backend and the RAG chain, pushes them to Docker Hub, then connects to the EC2 instance and restarts the stack with the new images. Infrastructure and application deploys are deliberately decoupled: the server only needs to be re-provisioned when its own setup changes, while new app versions ship independently, several times a week if needed.
 
@@ -87,10 +87,17 @@ The terminal runs under <a href="https://www.gnu.org/software/bash/manual/html_n
 ### Garak
 The AI copilot is tested against prompt injection and jailbreak attacks using <a href="https://github.com/NVIDIA/garak" target="_blank">Garak</a>, an open-source LLM vulnerability scanner developed by NVIDIA. It sends adversarial probes covering DAN jailbreaks, role-play persona hijacks, latent injection hidden inside retrieved documents, and system prompt extraction attempts. Each run produces a hit log with the exact prompt and model output for every successful attack, which directly informs the system prompt rules to harden the model against those specific weaknesses.
 
+### Security Testing
+As part of hardening the infrastructure, the server is put through several security scans that look for weak points and potential vulnerabilities before anyone else finds them. <a href="https://www.tenable.com/products/nessus" target="_blank">Nessus</a> and <a href="https://www.openvas.org/" target="_blank">OpenVAS</a> scan the host for open ports, outdated software, misconfigurations, and known CVEs, while <a href="https://github.com/sullo/nikto" target="_blank">Nikto</a> focuses on the web server itself, probing for dangerous files, insecure headers, and common web vulnerabilities. Each report is reviewed and the findings are fixed, turning every scan into another layer of protection.  
+On top of these manual tests, GitHub runs automated checks on the repository. **Dependabot** watches the project dependencies and raises an alert whenever one of them has a known vulnerability, and **code scanning** analyzes the source code on every change to catch insecure patterns before they ever reach production.
+
 ### Networking
 The terminal-app is enclosed within a private internal network that has no direct access to the internet. This isolation ensures that even if someone tries to exploit the system from within the terminal, there is no route to reach external servers or services.  
 In front of the application sits an **Nginx proxy**, which acts as the only entry and exit point. It filters all traffic, routes only the allowed requests, and adds another layer of protection between the user and the backend. This setup minimizes exposure and keeps the internal components completely unreachable from the outside world.
 This setup is probably overkill since the network is already private, but additional iptables rules are also in place to block any outgoing traffic to the external internet, ensuring that nothing inside the container can ever reach outside.
+
+### Cloudflare
+All the clear-web traffic goes through <a href="https://www.cloudflare.com/" target="_blank">Cloudflare</a> before it ever touches the server. Cloudflare handles HTTPS with modern TLS and forces browsers to always use a secure connection. Instead of opening web ports to the internet, a **Cloudflare Tunnel** creates an outbound-only connection from the server to Cloudflare, so the server has no public web entry point and its real IP stays hidden. This means attackers cannot hit the server directly, they first have to get through Cloudflare's network, which also absorbs DDoS attacks and malicious traffic along the way.
 
 ---
 
